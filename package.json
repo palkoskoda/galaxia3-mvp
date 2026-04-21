@@ -3,6 +3,9 @@
   "version": "3.0.0",
   "description": "Galaxia Obedy 3.0 - Stavový model pre plánovanie dodávok obedov",
   "private": true,
+  "engines": {
+    "node": "20.11.0"
+  },
   "workspaces": [
     "backend",
     "frontend"
