@@ -43,8 +43,8 @@ const authLimiter = rateLimit({
   max: 10,
   message: { success: false, error: 'Too many authentication attempts.' },
 });
-app.use('/api/auth/login', authLimiter as any);
-app.use('/api/auth/register', authLimiter as any);
+app.use('/api/auth/login', (req, res, next) => authLimiter(req, res, next));
+app.use('/api/auth/register', (req, res, next) => authLimiter(req, res, next));
 
 // General middleware
 app.use(compression());

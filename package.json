@@ -17,7 +17,8 @@
     "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
     "db:migrate": "cd backend && npm run db:migrate",
     "db:seed": "cd backend && npm run db:seed",
-    "start": "cd backend && npm start"
+    "start": "cd backend && npm start",
+    "typecheck": "cd backend && npx tsc --noEmit && cd ../frontend && npx tsc --noEmit"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
