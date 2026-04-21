@@ -4,11 +4,11 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import rateLimit from 'express-rate-limit';
 import path from 'path';
 
 import { initDatabase } from './db';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
+import { rateLimiter } from './middleware/rateLimiter';
 
 // Routes
 import authRoutes from './routes/auth';
@@ -30,22 +30,22 @@ app.use(cors({
 }));
 
 // Rate limiting
-app.use('/api/', rateLimit({
+app.use('/api/', rateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: { success: false, error: 'Too many requests, please try again later.' },
+  max: 100,
+  message: 'Too many requests, please try again later.'
 }));
 
 // Stricter rate limit for auth endpoints
-app.use('/api/auth/login', rateLimit({
+app.use('/api/auth/login', rateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 10,
-  message: { success: false, error: 'Too many authentication attempts.' },
+  message: 'Too many authentication attempts.'
 }));
-app.use('/api/auth/register', rateLimit({
+app.use('/api/auth/register', rateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 10,
-  message: { success: false, error: 'Too many authentication attempts.' },
+  message: 'Too many authentication attempts.'
 }));
 
 // General middleware
