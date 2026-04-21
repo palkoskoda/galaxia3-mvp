@@ -30,12 +30,11 @@ app.use(cors({
 }));
 
 // Rate limiting
-const limiter = rateLimit({
+app.use('/api/', rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message: { success: false, error: 'Too many requests, please try again later.' },
-});
-app.use('/api/', limiter);
+}));
 
 // Stricter rate limit for auth endpoints - apply directly without storing in variable
 app.use('/api/auth/login', rateLimit({
