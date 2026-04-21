@@ -37,14 +37,17 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// Stricter rate limit for auth endpoints
-const authLimiter = rateLimit({
+// Stricter rate limit for auth endpoints - apply directly without storing in variable
+app.use('/api/auth/login', rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
   message: { success: false, error: 'Too many authentication attempts.' },
-});
-app.use('/api/auth/login', (req, res, next) => authLimiter(req, res, next));
-app.use('/api/auth/register', (req, res, next) => authLimiter(req, res, next));
+}));
+app.use('/api/auth/register', rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { success: false, error: 'Too many authentication attempts.' },
+}));
 
 // General middleware
 app.use(compression());
