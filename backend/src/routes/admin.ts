@@ -291,7 +291,7 @@ router.get('/users', authenticate, authorize('admin'), async (req: Request, res:
       params
     );
 
-    const users = result.rows.map(user => ({
+    const users = result.rows.map((user: any) => ({
       ...user,
       isActive: user.is_active === 1,
     }));
@@ -362,7 +362,7 @@ router.put('/users/:id', authenticate, authorize('admin'), async (req: Request, 
 
     const user = {
       ...result.rows[0],
-      isActive: result.rows[0].is_active === 1,
+      isActive: (result.rows[0] as any).is_active === 1,
     };
 
     const response: ApiResponse<User> = {

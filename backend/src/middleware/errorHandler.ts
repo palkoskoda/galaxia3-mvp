@@ -29,7 +29,8 @@ export const errorHandler = (
   }
 
   // PostgreSQL errors
-  if (err.code && err.code.startsWith('23')) {
+  const errWithCode = err as Error & { code?: string };
+  if (errWithCode.code && errWithCode.code.startsWith('23')) {
     res.status(409).json({
       success: false,
       error: 'Database constraint violation',

@@ -5,6 +5,7 @@ import compression from 'compression';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
 
 import { initDatabase } from './db';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
@@ -66,6 +67,19 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/plan', planRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  const staticPath = path.join(__dirname, '../../frontend/dist');
+  app.use(express.static(staticPath) as any);
+  
+  // Serve index.html for all non-API routes (SPA support)
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api/')) {
+      res.sendFile(path.join(staticPath, 'index.html'));
+    }
+  });
+}
 
 // Error handling
 app.use(notFoundHandler);
