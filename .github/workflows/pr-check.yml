@@ -1,0 +1,40 @@
+name: PR Check - Test Before Merge
+
+on:
+  pull_request:
+    branches: [ master, main ]
+  push:
+    branches-ignore: [ master, main ]  # Testuj aj feature branches
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js (same as Render)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.11.0'
+    
+    - name: Install dependencies (Render style)
+      run: |
+        npm ci
+        cd backend && npm ci
+        cd ../frontend && npm ci
+    
+    - name: TypeScript check (strict)
+      run: |
+        cd backend && npx tsc --noEmit --strict
+        cd ../frontend && npx tsc --noEmit --strict
+    
+    - name: Build test
+      run: |
+        cd backend && npm run build
+        cd ../frontend && npm run build
+    
+    - name: Test start
+      run: |
+        cd backend
+        timeout 10s npm start || true
