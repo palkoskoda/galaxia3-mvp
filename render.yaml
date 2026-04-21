@@ -1,19 +1,15 @@
 services:
   - type: web
     name: galaxia3-mvp
-    env: node
-    buildCommand: |
-      npm install
-      cd backend && npm install && npm run build
-      cd ../frontend && npm install && npm run build
-    startCommand: cd backend && node dist/index.js
+    env: docker
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
       - key: JWT_SECRET
-        value: fa0f58a76285e2af3799ef6f48e424e5
+        generateValue: true
       - key: DATABASE_URL
         value: /tmp/galaxia3.db
       - key: CORS_ORIGIN

@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  galaxia3:
+    build: .
+    ports:
+      - "3000:10000"
+    environment:
+      - NODE_ENV=production
+      - JWT_SECRET=test-secret-key
+      - DATABASE_URL=/tmp/galaxia3.db
+      - CORS_ORIGIN=http://localhost:3000
+    volumes:
+      - /tmp/galaxia3-data:/tmp
