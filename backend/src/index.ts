@@ -30,7 +30,6 @@ app.use(cors({
 }));
 
 // Rate limiting
-// @ts-ignore - express-rate-limit type incompatibility
 app.use('/api/', rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
@@ -38,13 +37,11 @@ app.use('/api/', rateLimit({
 }));
 
 // Stricter rate limit for auth endpoints
-// @ts-ignore - express-rate-limit type incompatibility
 app.use('/api/auth/login', rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
   message: { success: false, error: 'Too many authentication attempts.' },
 }));
-// @ts-ignore - express-rate-limit type incompatibility
 app.use('/api/auth/register', rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,

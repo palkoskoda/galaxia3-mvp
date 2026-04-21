@@ -1,4 +1,4 @@
-name: CI - Test & Build
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,11 +7,13 @@ on:
     branches: [ master, main ]
 
 jobs:
-  test:
+  # Job 1: TypeScript & Build Check
+  typecheck:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -19,11 +21,14 @@ jobs:
         node-version: '20'
         cache: 'npm'
     
-    - name: Install dependencies
-      run: |
-        npm ci
-        cd backend && npm ci
-        cd ../frontend && npm ci
+    - name: Install root dependencies
+      run: npm ci
+    
+    - name: Install backend dependencies
+      run: cd backend && npm ci
+    
+    - name: Install frontend dependencies
+      run: cd frontend && npm ci
     
     - name: Type check backend
       run: cd backend && npx tsc --noEmit
@@ -31,15 +36,20 @@ jobs:
     - name: Type check frontend
       run: cd frontend && npx tsc --noEmit
     
-    - name: Build test
-      run: npm run build
+    - name: Build backend
+      run: cd backend && npm run build
+    
+    - name: Build frontend
+      run: cd frontend && npm run build
 
+  # Job 2: Docker Build & Test
   docker:
     runs-on: ubuntu-latest
-    needs: test
+    needs: typecheck
     
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
@@ -53,15 +63,47 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
     
-    - name: Test Docker image
+    - name: Test Docker container
       run: |
-        docker run -d -p 3000:10000 \
+        docker run -d \
+          --name galaxia3-test \
+          -p 3000:10000 \
           -e NODE_ENV=production \
-          -e JWT_SECRET=test-secret \
+          -e JWT_SECRET=test-secret-key-12345 \
           -e DATABASE_URL=/tmp/galaxia3.db \
           -e CORS_ORIGIN=http://localhost:3000 \
-          --name galaxia3-test \
           galaxia3:test
-        sleep 5
-        curl -f http://localhost:3000/health || exit 1
+        
+        echo "⏳ Waiting for container to start..."
+        sleep 10
+        
+        echo "🧪 Testing health endpoint..."
+        curl -f http://localhost:3000/health || (docker logs galaxia3-test && exit 1)
+        
+        echo "✅ Docker test passed!"
         docker stop galaxia3-test
+        docker rm galaxia3-test
+
+  # Job 3: Deploy to Render (only on master)
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [typecheck, docker]
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Deploy to Render
+      env:
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+        RENDER_SERVICE_ID: srv-d7jogqiqqhas73d4q05g
+      run: |
+        echo "🚀 Triggering Render deployment..."
+        curl -X POST \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Content-Type: application/json" \
+          https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys \
+          -d '{"clearCache": true}'
+        
+        echo "✅ Deploy triggered!"

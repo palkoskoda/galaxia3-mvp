@@ -1,7 +1,7 @@
 services:
   - type: web
     name: galaxia3-mvp
-    env: docker
+    runtime: docker
     dockerfilePath: ./Dockerfile
     envVars:
       - key: NODE_ENV
@@ -14,3 +14,5 @@ services:
         value: /tmp/galaxia3.db
       - key: CORS_ORIGIN
         value: https://galaxia3-mvp.onrender.com
+    healthCheckPath: /health
+    autoDeploy: false  # Manual deploy only after CI passes
