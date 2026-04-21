@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: galaxia3-mvp
+    env: node
+    buildCommand: cd backend && npm install && npm run build && cd ../frontend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        value: /tmp/galaxia3.db
+      - key: CORS_ORIGIN
+        value: https://galaxia3-mvp.onrender.com
