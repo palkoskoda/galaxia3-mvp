@@ -4,10 +4,9 @@ services:
     runtime: node
     plan: free
     buildCommand: |
-      npm ci &&
-      cd backend && npm ci && npm run build &&
-      cd ../frontend && npm ci && npm run build
-    startCommand: cd backend && npm start
+      npm install --legacy-peer-deps &&
+      npm run build
+    startCommand: npm start
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV

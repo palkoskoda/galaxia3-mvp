@@ -57,7 +57,7 @@ app.use('/api/admin', adminRoutes);
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   const staticPath = path.join(__dirname, '../../frontend/dist');
-  app.use(express.static(staticPath) as any);
+  app.use(express.static(staticPath) as express.RequestHandler);
   
   // Serve index.html for all non-API routes (SPA support)
   app.get('*', (req, res) => {
