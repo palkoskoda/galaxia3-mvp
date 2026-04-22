@@ -23,6 +23,7 @@ export interface MenuItem {
   description?: string;
   price: number;
   allergens: string[];
+  category?: string;
   deadlineType: 'standard' | 'express';
   isActive: boolean;
   createdAt: string;

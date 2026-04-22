@@ -4,7 +4,6 @@ import { useAuthStore } from '../stores/authStore'
 import { formatDateWithDay, formatDateShort } from '@/utils/date'
 import { Calendar, Package, Euro, MapPin, Edit, AlertCircle, CheckCircle } from 'lucide-react'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
 export default function MyPlanPage() {

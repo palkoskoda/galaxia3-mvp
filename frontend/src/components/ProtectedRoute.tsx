@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
-  const { isAuthenticated, user, token } = useAuthStore()
+  const { isAuthenticated, user } = useAuthStore()
 
   // Check if we have a token but auth state hasn't been initialized yet
   const hasToken = !!localStorage.getItem('galaxia_token')

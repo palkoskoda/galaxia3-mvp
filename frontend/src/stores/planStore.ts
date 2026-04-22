@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { planApi, menuApi } from '../services/api';
-import type { MenuPlan, MyPlan, DeliveryPlanItem, DailyMenuWithSelection } from '../types';
+import type { MenuPlan, MyPlan, DeliveryPlanItem } from '../types';
 import toast from 'react-hot-toast';
 
 interface PlanState {

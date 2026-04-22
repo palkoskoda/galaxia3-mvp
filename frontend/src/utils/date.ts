@@ -1,4 +1,4 @@
-import { format, parseISO, isAfter, isBefore, isSameDay } from 'date-fns';
+import { format, parseISO, isBefore, isSameDay } from 'date-fns';
 import { sk } from 'date-fns/locale';
 
 export const formatDate = (date: string | Date, formatStr: string = 'd. MMMM yyyy'): string => {

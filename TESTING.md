@@ -4,122 +4,148 @@
 
 ---
 
-## 🎯 Nový workflow (efektívny)
+## 🎯 Rýchly štart
 
+```bash
+# Pred každým pushom (POVINNÉ):
+./test-local.sh
 ```
-Napíš kód
-    ↓
-Spusti: ./test-local.ps1
-    ↓
-Ak prejde → git commit → git push
-    ↓
-GitHub Actions overí
-    ↓
-Deploy na Render
-    ↓
-✅ Hotovo (bez prekvapení)
-```
+
+Ak prejde → `git push origin main`
+
+---
+
+## 📋 Čo test kontroluje
+
+1. ✅ **Node.js verzia** — upozorní ak nesedí s Render
+2. ✅ **Dependencies** — nainštaluje ak chýbajú
+3. ✅ **TypeScript check (backend)** — `tsc --noEmit`
+4. ✅ **TypeScript check (frontend)** — `tsc --noEmit`
+5. ✅ **Build test** — `npm run build` (backend + frontend)
+6. ✅ **Docker build** — ak je Docker nainštalovaný
+7. ✅ **Build outputs** — overí že `dist/` existuje
 
 ---
 
 ## 🛠️ Inštalácia
 
-### Windows:
-```powershell
-# Nainštaluj Docker Desktop
-# https://www.docker.com/products/docker-desktop
+### Požiadavky
+- Node.js (odporúčané 20.11.0, funguje aj ≥18)
+- npm ≥ 9.0.0
+- Git
+- Docker (voliteľné, pre 100% istotu)
 
-# Nainštaluj PowerShell 7+
-# https://github.com/PowerShell/PowerShell/releases
-```
-
-### Linux/Mac:
+### Inštalácia Docker (voliteľné)
 ```bash
-# Nainštaluj Docker
-sudo apt-get install docker.io  # Ubuntu/Debian
-brew install docker             # Mac
+# Ubuntu/Debian/WSL
+sudo apt-get update
+sudo apt-get install docker.io
+
+# Alebo cez Docker Desktop pre Windows/WSL
 ```
 
 ---
 
 ## 🧪 Použitie
 
-### **Pred každým pushom (POVINNÉ):**
+### Hlavný test script
 
-```powershell
-# Windows
-.\test-local.ps1
-
-# Linux/Mac
+```bash
+# WSL / Linux / Mac
 ./test-local.sh
+
+# Windows (PowerShell 7+)
+./test-local.ps1
 ```
 
-**Čo to robí:**
-1. ✅ Kontroluje Node.js verziu (20.11.0)
-2. ✅ TypeScript check (strict mode)
-3. ✅ Build test (backend + frontend)
-4. ✅ Docker build test (rovnaké ako Render)
+### Vývojový server
+
+```bash
+# Spusti backend + frontend naraz
+npm run dev
+
+# Backend: http://localhost:3000
+# Frontend: http://localhost:5173
+# Health:   http://localhost:3000/health
+```
+
+### Docker (produkčné prostredie)
+
+```bash
+# Spusti celú app lokálne
+docker-compose up --build
+
+# App beží na: http://localhost:3000
+```
 
 ---
 
-## 🚨 Čo robiť keď test zlyhá
+## 🚨 Riešenie problémov
 
-### Chyba: "TypeScript errors"
-```
-Riešenie:
-1. Pozri červený výstup
-2. Oprav chybu v kóde
-3. Spusti test znova
-```
-
-### Chyba: "Docker build failed"
-```
-Riešenie:
-1. Skontroluj či Docker beží
-2. Pozri chybu v logu
-3. Oprav a skús znova
-```
-
-### Chyba: "Node version mismatch"
-```
-Riešenie:
+### "Node version mismatch"
+```bash
 # Nainštaluj správnu verziu cez nvm
 nvm install 20.11.0
 nvm use 20.11.0
 ```
 
+### "TypeScript errors"
+```bash
+# Pozri červený výstup
+# Oprav chybu v kóde
+# Spusti test znova
+./test-local.sh
+```
+
+### "Docker build failed"
+```bash
+# Skontroluj či Docker beží
+sudo systemctl start docker
+
+# Pozri chybu v logu
+# Oprav a skús znova
+```
+
+### "Build failed"
+```bash
+# Vymaž node_modules a znova
+rm -rf node_modules backend/node_modules frontend/node_modules
+npm install
+./test-local.sh
+```
+
 ---
 
-## 📊 Porovnanie (pred vs teraz)
+## 📊 Workflow
 
-| | Predtým | Teraz |
-|---|---|---|
-| **Čas odhalenia chyby** | 5-10 minút na Render | 30 sekúnd lokálne |
-| **Počet pokusov** | 15+ neúspešných deployov | 1 pokus, istota |
-| **Efektivita** | Nízka | Vysoká |
-| **Stres** | Vysoký | Nulový |
+```
+Napíš kód
+    ↓
+./test-local.sh
+    ↓
+Ak prejde → git add . → git commit → git push origin main
+    ↓
+GitHub Actions overí
+    ↓
+Render deploy automaticky
+    ↓
+✅ Hotovo (bez prekvapení)
+```
 
 ---
 
-## 🔧 Automatické testy
+## 🔧 GitHub Actions
 
-### Lokálne (pre-commit):
-- Spustí sa automaticky pri `git commit`
-- Zabráni commitu ak testy neprejdú
-
-### GitHub (CI/CD):
-- Spustí sa pri PR
-- Musí prejsť pred mergom
-
-### Render:
-- Až po úspešnom GitHub CI
-- Žiadne prekvapenia
+Automaticky spustené pri push do `main`:
+- TypeScript check
+- Build test
+- Render deploy (ak CI prejde)
 
 ---
 
 ## 💡 Tipy
 
-1. **VŽDY** spusti test pred pushom
+1. **VŽDY** spusti `./test-local.sh` pred pushom
 2. **Nikdy** neignoruj TypeScript chyby
 3. **Používaj** rovnakú Node verziu ako Render (20.11.0)
 4. **Testuj** v Dockeri pre 100% istotu

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { menuApi, adminApi } from '../../services/api'
+import { menuApi } from '../../services/api'
 import { Plus, Edit2, Trash2, Calendar, BookOpen, X } from 'lucide-react'
 import LoadingSpinner from '../../components/LoadingSpinner'
 import toast from 'react-hot-toast'
@@ -349,7 +349,7 @@ function AddMenuItemModal({ onClose, onSuccess }: { onClose: () => void; onSucce
             <select 
               className="input"
               value={formData.deadlineType}
-              onChange={e => setFormData({...formData, deadlineType: e.target.value})}
+              onChange={e => setFormData({...formData, deadlineType: e.target.value as 'standard' | 'express'})}
             >
               <option value="standard">Štandard (deň pred)</option>
               <option value="express">Expres (ráno)</option>
@@ -453,7 +453,7 @@ function EditMenuItemModal({ item, onClose, onSuccess }: { item: MenuItem; onClo
             <select 
               className="input"
               value={formData.deadlineType}
-              onChange={e => setFormData({...formData, deadlineType: e.target.value})}
+              onChange={e => setFormData({...formData, deadlineType: e.target.value as 'standard' | 'express'})}
             >
               <option value="standard">Štandard (deň pred)</option>
               <option value="express">Expres (ráno)</option>

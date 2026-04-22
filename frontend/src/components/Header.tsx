@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
-import { Calendar, History, User, LogOut, Menu as MenuIcon, ChefHat, Users, ClipboardList } from 'lucide-react'
+import { User, LogOut, Menu as MenuIcon, ChefHat, ClipboardList } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Header() {
