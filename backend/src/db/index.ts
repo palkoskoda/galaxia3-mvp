@@ -35,23 +35,29 @@ export const initDatabase = async (): Promise<void> => {
       await createPostgresTables();
       await ensureDemoUsers();
     } else {
-      // SQLite fallback
-      const { Database } = await import('sqlite3');
-      const { open } = await import('sqlite');
-      const path = await import('path');
-      
-      const DB_PATH = process.env.SQLITE_PATH || path.join(process.cwd(), 'galaxia3.db');
-      
-      sqliteDb = await open({
-        filename: DB_PATH,
-        driver: Database,
-      });
+      // SQLite fallback - only if sqlite3 is available
+      try {
+        const { Database } = await import('sqlite3');
+        const { open } = await import('sqlite');
+        const path = await import('path');
+        
+        const DB_PATH = process.env.SQLITE_PATH || path.join(process.cwd(), 'galaxia3.db');
+        
+        sqliteDb = await open({
+          filename: DB_PATH,
+          driver: Database,
+        });
 
-      await sqliteDb.run('PRAGMA foreign_keys = ON');
-      await createSQLiteTables();
-      await ensureDemoUsers();
+        await sqliteDb.run('PRAGMA foreign_keys = ON');
+        await createSQLiteTables();
+        await ensureDemoUsers();
 
-      console.log('✅ SQLite database connected:', DB_PATH);
+        console.log('✅ SQLite database connected:', DB_PATH);
+      } catch (sqliteError) {
+        console.error('❌ SQLite not available:', sqliteError);
+        console.error('💡 Set DATABASE_URL to use PostgreSQL');
+        process.exit(1);
+      }
     }
   } catch (error) {
     console.error('❌ Database connection failed:', error);
