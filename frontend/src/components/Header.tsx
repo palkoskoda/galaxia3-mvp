@@ -1,12 +1,40 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import { User, LogOut, Menu as MenuIcon, ChefHat, ClipboardList } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Header() {
   const { user, isAuthenticated, logout } = useAuthStore()
   const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [adminMenuOpen, setAdminMenuOpen] = useState(false)
+  const closeTimerRef = useRef<number | null>(null)
+
+  const openAdminMenu = () => {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+    setAdminMenuOpen(true)
+  }
+
+  const scheduleCloseAdminMenu = () => {
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current)
+    }
+    closeTimerRef.current = window.setTimeout(() => {
+      setAdminMenuOpen(false)
+      closeTimerRef.current = null
+    }, 140)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current)
+      }
+    }
+  }, [])
 
   const handleLogout = () => {
     logout()
@@ -56,41 +84,58 @@ export default function Header() {
 
                 {/* Admin links */}
                 {isStaff && (
-                  <div className="relative group">
-                    <button className="text-primary-600 hover:text-primary-700 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                  <div
+                    className="relative"
+                    onMouseEnter={openAdminMenu}
+                    onMouseLeave={scheduleCloseAdminMenu}
+                  >
+                    <button
+                      className="text-primary-600 hover:text-primary-700 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                      onClick={() => setAdminMenuOpen((v) => !v)}
+                    >
                       <ClipboardList className="w-4 h-4 mr-1" />
                       Admin
                     </button>
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block z-50">
-                      {isAdmin && (
-                        <>
+
+                    {adminMenuOpen && (
+                      <>
+                        <div className="absolute right-0 top-full h-3 w-48 z-40" />
+                        <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-100">
+                          {isAdmin && (
+                            <>
+                              <Link
+                                to="/admin"
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={() => setAdminMenuOpen(false)}
+                              >
+                                Dashboard
+                              </Link>
+                              <Link
+                                to="/admin/menu"
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={() => setAdminMenuOpen(false)}
+                              >
+                                Správa menu
+                              </Link>
+                              <Link
+                                to="/admin/pouzivatelia"
+                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                onClick={() => setAdminMenuOpen(false)}
+                              >
+                                Používatelia
+                              </Link>
+                            </>
+                          )}
                           <Link
-                            to="/admin"
+                            to="/admin/suviska"
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setAdminMenuOpen(false)}
                           >
-                            Dashboard
+                            Denná súpiska
                           </Link>
-                          <Link
-                            to="/admin/menu"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            Správa menu
-                          </Link>
-                          <Link
-                            to="/admin/pouzivatelia"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            Používatelia
-                          </Link>
-                        </>
-                      )}
-                      <Link
-                        to="/admin/suviska"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Denná súpiska
-                      </Link>
-                    </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
 
