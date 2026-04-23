@@ -3,6 +3,7 @@
     "target": "ES2020",
     "module": "NodeNext",
     "lib": ["ES2020"],
+    "types": ["node"],
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": false,
@@ -14,8 +15,7 @@
     "resolveJsonModule": true,
     "declaration": false,
     "sourceMap": false,
-    "moduleResolution": "NodeNext",
-
+    "moduleResolution": "NodeNext"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

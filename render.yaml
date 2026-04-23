@@ -5,6 +5,9 @@ services:
     plan: free
     buildCommand: |
       npm install --legacy-peer-deps &&
+      cd backend && npm install --legacy-peer-deps &&
+      cd ../frontend && npm install --legacy-peer-deps &&
+      cd .. &&
       npm run build
     startCommand: npm start
     healthCheckPath: /health
