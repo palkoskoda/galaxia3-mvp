@@ -39,6 +39,12 @@ if [ ! -f "frontend/dist/index.html" ]; then
 fi
 echo -e "${GREEN}   ✅ All build outputs present${NC}"
 
+# Step 3: Verify production start and healthcheck
+echo ""
+echo -e "${YELLOW}🚀 Step 3: Production start check...${NC}"
+bash scripts/render-start-check.sh
+echo -e "${GREEN}   ✅ Production start passed${NC}"
+
 echo ""
 echo -e "${GREEN}✅ BUILD CHECK PASSED!${NC}"
 echo -e "You can safely push to GitHub."

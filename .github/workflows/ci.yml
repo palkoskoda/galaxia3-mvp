@@ -28,6 +28,4 @@ jobs:
         npm run build
     
     - name: Test start
-      run: |
-        cd backend
-        timeout 5s npm start || true
+      run: bash scripts/render-start-check.sh
