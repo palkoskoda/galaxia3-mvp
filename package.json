@@ -1,0 +1,36 @@
+{
+  "name": "galaxia3",
+  "version": "3.0.0",
+  "description": "Galaxia Obedy 3.0 - Stavový model pre plánovanie dodávok obedov",
+  "private": true,
+  "engines": {
+    "node": "20.11.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run install:subapps && npm run build:backend && npm run build:frontend",
+    "render:build": "NODE_ENV=production npm install --legacy-peer-deps && NODE_ENV=production npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "install:subapps": "npm install --prefix backend --legacy-peer-deps --include=dev && npm install --prefix frontend --legacy-peer-deps --include=dev",
+    "install:all": "npm install && npm run install:subapps",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:seed": "cd backend && npm run db:seed",
+    "start": "cd backend && npm start",
+    "typecheck": "cd backend && npx tsc --noEmit && cd ../frontend && npx tsc --noEmit"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "restaurant",
+    "lunch",
+    "delivery",
+    "planning",
+    "state-model"
+  ],
+  "author": "Galaxia Team",
+  "license": "MIT"
+}

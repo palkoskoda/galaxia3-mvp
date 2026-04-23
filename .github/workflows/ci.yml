@@ -1,0 +1,31 @@
+name: CI - Build Check
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.11.0'
+        cache: 'npm'
+    
+    - name: Render-equivalent build
+      env:
+        NODE_ENV: production
+      run: |
+        npm install --legacy-peer-deps
+        npm run build
+    
+    - name: Test start
+      run: bash scripts/render-start-check.sh

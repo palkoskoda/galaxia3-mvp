@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: galaxia3-mvp
+    runtime: node
+    plan: free
+    buildCommand: |
+      npm install --legacy-peer-deps &&
+      cd backend && npm install --legacy-peer-deps &&
+      cd ../frontend && npm install --legacy-peer-deps &&
+      cd .. &&
+      npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 20.11.0
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        value: /tmp/galaxia3.db
+      - key: CORS_ORIGIN
+        value: https://galaxia3-mvp.onrender.com
