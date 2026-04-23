@@ -26,6 +26,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=10000
 ENV DATABASE_URL=/tmp/galaxia3.db
+ENV NODE_PATH=/app/backend/node_modules
 
 # Copy built backend and its node_modules
 COPY --from=builder /app/backend/dist ./backend/dist
