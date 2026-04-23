@@ -4,7 +4,8 @@ import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
-const isPostgres = process.env.DATABASE_URL?.startsWith('postgres') || process.env.PGHOST !== undefined;
+const isPostgres = process.env.DATABASE_URL?.startsWith('postgres') || 
+  (process.env.PGHOST !== undefined && process.env.PGHOST !== '');
 
 let pool: Pool | null = null;
 

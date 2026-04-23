@@ -24,6 +24,26 @@ services:
         fromDatabase:
           name: galaxia3-db
           property: connectionString
+      - key: PGHOST
+        fromDatabase:
+          name: galaxia3-db
+          property: host
+      - key: PGPORT
+        fromDatabase:
+          name: galaxia3-db
+          property: port
+      - key: PGDATABASE
+        fromDatabase:
+          name: galaxia3-db
+          property: database
+      - key: PGUSER
+        fromDatabase:
+          name: galaxia3-db
+          property: user
+      - key: PGPASSWORD
+        fromDatabase:
+          name: galaxia3-db
+          property: password
       - key: CORS_ORIGIN
         value: https://galaxia3-mvp.onrender.com
 
