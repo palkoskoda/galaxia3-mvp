@@ -9,7 +9,12 @@ services:
       cd ../frontend && npm install --legacy-peer-deps &&
       cd .. &&
       npm run build
-    startCommand: npm start
+    startCommand: |
+      if [ ! -f /tmp/galaxia3.db ]; then
+        echo "Initializing database..."
+        node backend/dist/scripts/seed.js
+      fi
+      npm start
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
