@@ -445,4 +445,43 @@ router.put('/settings', authenticate, authorize('admin'), async (req: Request, r
   }
 });
 
+// POST /api/admin/sync-menu - Sync menu data from menu-data.json
+router.post('/sync-menu', authenticate, authorize('admin'), async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { execSync } = require('child_process');
+    const path = require('path');
+    
+    const scriptPath = path.join(__dirname, '..', 'scripts', 'sync-menu-data.js');
+    
+    try {
+      const result = execSync(`node "${scriptPath}"`, { 
+        encoding: 'utf8',
+        cwd: path.join(__dirname, '..', '..')
+      });
+      
+      const response: ApiResponse<{ message: string; output: string }> = {
+        success: true,
+        data: {
+          message: 'Menu data synced successfully',
+          output: result,
+        },
+      };
+      
+      res.json(response);
+    } catch (execError: any) {
+      const response: ApiResponse<{ message: string; error: string }> = {
+        success: false,
+        data: {
+          message: 'Sync failed',
+          error: execError.stderr || execError.message,
+        },
+      };
+      
+      res.status(500).json(response);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
