@@ -140,28 +140,4 @@ export const adminApi = {
     api.put<ApiResponse<{ message: string }>>('/admin/settings', settings),
 };
 
-// ===== CUSTOMER SERVICE =====
-export const customerServiceApi = {
-  searchUsers: (query: string) =>
-    api.get<ApiResponse<User[]>>(`/admin/customer-service/search`, { params: { query } }),
-  
-  getUserDetail: (userId: string) =>
-    api.get<ApiResponse<any>>(`/admin/customer-service/user/${userId}`),
-  
-  resetPassword: (userId: string, password?: string) =>
-    api.put<ApiResponse<{ message: string; temporaryPassword: string }>>(`/admin/customer-service/user/${userId}/reset-password`, { password }),
-  
-  updatePlan: (planId: string, quantity: number) =>
-    api.put<ApiResponse<{ message: string }>>(`/admin/customer-service/plan/${planId}`, { quantity }),
-  
-  cancelPlan: (planId: string) =>
-    api.delete<ApiResponse<{ message: string }>>(`/admin/customer-service/plan/${planId}`),
-  
-  createOrder: (userId: string, data: { dailyMenuId: string; quantity: number }) =>
-    api.post<ApiResponse<{ message: string }>>(`/admin/customer-service/user/${userId}/create-order`, data),
-  
-  getTodayOrders: () =>
-    api.get<ApiResponse<any[]>>('/admin/customer-service/today-orders'),
-};
-
 export default api;

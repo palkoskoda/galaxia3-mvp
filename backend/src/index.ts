@@ -16,7 +16,6 @@ import menuRoutes from './routes/menu';
 import planRoutes from './routes/plan';
 import historyRoutes from './routes/history';
 import adminRoutes from './routes/admin';
-import adminCustomerServiceRoutes from './routes/admin-customer-service';
 
 dotenv.config();
 
@@ -66,7 +65,6 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/plan', planRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/admin', adminCustomerServiceRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

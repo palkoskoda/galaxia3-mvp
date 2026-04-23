@@ -26,15 +26,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=10000
 ENV DATABASE_URL=/tmp/galaxia3.db
-ENV MENU_DATA_PATH=/app/backend/menu-data.json
 
 # Copy built backend and its node_modules
 COPY --from=builder /app/backend/dist ./backend/dist
 COPY --from=builder /app/backend/node_modules ./backend/node_modules
 COPY --from=builder /app/backend/package*.json ./backend/
-
-# Copy menu-data.json for import script
-COPY --from=builder /app/backend/menu-data.json ./backend/menu-data.json
 
 # Copy built frontend
 COPY --from=builder /app/frontend/dist ./frontend/dist

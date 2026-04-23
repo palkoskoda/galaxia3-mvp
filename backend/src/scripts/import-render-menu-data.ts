@@ -14,27 +14,13 @@ const loadPayload = (): { sourceName: string; payload: RenderPayload } => {
     };
   }
 
-  // Try multiple fallback paths for different environments
-  const possiblePaths = [
-    process.env.MENU_DATA_PATH,
-    path.join(process.cwd(), 'backend', 'menu-data.json'),      // Docker /app
-    path.join(process.cwd(), 'menu-data.json'),                   // backend dir
-    path.join(process.cwd(), '../database/menu-data.json'),       // monorepo root
-  ].filter(Boolean) as string[];
+  const filePath = process.env.MENU_DATA_PATH
+    ? path.resolve(process.env.MENU_DATA_PATH)
+    : path.join(process.cwd(), '../database/menu-data.json');
 
-  let filePath: string | null = null;
-  for (const p of possiblePaths) {
-    const resolved = path.resolve(p);
-    if (fs.existsSync(resolved)) {
-      filePath = resolved;
-      break;
-    }
-  }
-
-  if (!filePath) {
+  if (!fs.existsSync(filePath)) {
     throw new Error(
-      `Missing render payload. Set MENU_DATA_JSON or MENU_DATA_PATH, or create one of:\n` +
-      possiblePaths.map(p => `  - ${path.resolve(p)}`).join('\n')
+      `Missing render payload. Set MENU_DATA_JSON or create ${filePath}.`
     );
   }
 

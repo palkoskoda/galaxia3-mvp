@@ -10,8 +10,7 @@
     "test": "vitest",
     "lint": "eslint src --ext .ts",
     "db:seed": "tsx src/scripts/seed.ts",
-    "db:import-render": "tsx src/scripts/import-render-menu-data.ts",
-    "db:sync-menu": "tsx src/scripts/sync-menu-data.ts"
+    "db:import-render": "tsx src/scripts/import-render-menu-data.ts"
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
