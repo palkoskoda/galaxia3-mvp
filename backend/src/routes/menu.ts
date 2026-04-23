@@ -68,11 +68,12 @@ router.post('/items', authenticate, authorize('admin'), async (req: Request, res
   try {
     const validated = createMenuItemSchema.parse(req.body);
 
+    const itemId = `mi-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const result = await query<MenuItem>(
       `INSERT INTO menu_items (id, name, description, price, allergens, deadline_type)
-       VALUES (lower(hex(randomblob(16))), $1, $2, $3, $4, $5)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [validated.name, validated.description, validated.price, JSON.stringify(validated.allergens || []), validated.deadlineType || 'standard']
+      [itemId, validated.name, validated.description, validated.price, JSON.stringify(validated.allergens || []), validated.deadlineType || 'standard']
     );
 
     const item = {
@@ -351,11 +352,12 @@ router.post('/daily', authenticate, authorize('admin'), async (req: Request, res
       }
     }
 
+    const dailyMenuId = `dm-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     const result = await query<DailyMenu>(
       `INSERT INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp, max_quantity)
-       VALUES (lower(hex(randomblob(16))), $1, $2, $3, $4, $5)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [validated.date, validated.menuItemId, validated.menuSlot, deadlineTimestamp, validated.maxQuantity]
+      [dailyMenuId, validated.date, validated.menuItemId, validated.menuSlot, deadlineTimestamp, validated.maxQuantity]
     );
 
     const response: ApiResponse<DailyMenu> = {
