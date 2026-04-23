@@ -19,41 +19,16 @@ NC='\033[0m' # No Color
 echo -e "${YELLOW}Node.js: $(node --version)${NC}"
 echo ""
 
-# Step 1: Clean install (like Render does)
-echo -e "${YELLOW}📦 Step 1: Clean npm install...${NC}"
-rm -rf node_modules backend/node_modules frontend/node_modules
-npm ci 2>&1 | grep -v "npm WARN" || true
-echo -e "${GREEN}   ✅ Root dependencies installed${NC}"
+# Step 1: Run the same command Render runs, with Render's production env.
+echo -e "${YELLOW}📦 Step 1: Render-equivalent build...${NC}"
+echo "Command: NODE_ENV=production npm install --legacy-peer-deps && NODE_ENV=production npm run build"
+NODE_ENV=production npm install --legacy-peer-deps
+NODE_ENV=production npm run build
+echo -e "${GREEN}   ✅ Render-equivalent build passed${NC}"
 
-# Step 2: Backend build
+# Step 2: Verify dist folders exist
 echo ""
-echo -e "${YELLOW}🔧 Step 2: Backend build...${NC}"
-cd backend
-npm ci 2>&1 | grep -v "npm WARN" || true
-npm run build
-if [ $? -ne 0 ]; then
-    echo -e "${RED}   ❌ Backend build failed!${NC}"
-    exit 1
-fi
-echo -e "${GREEN}   ✅ Backend built successfully${NC}"
-cd ..
-
-# Step 3: Frontend build
-echo ""
-echo -e "${YELLOW}🎨 Step 3: Frontend build...${NC}"
-cd frontend
-npm ci 2>&1 | grep -v "npm WARN" || true
-npm run build
-if [ $? -ne 0 ]; then
-    echo -e "${RED}   ❌ Frontend build failed!${NC}"
-    exit 1
-fi
-echo -e "${GREEN}   ✅ Frontend built successfully${NC}"
-cd ..
-
-# Step 4: Verify dist folders exist
-echo ""
-echo -e "${YELLOW}📁 Step 4: Verify build outputs...${NC}"
+echo -e "${YELLOW}📁 Step 2: Verify build outputs...${NC}"
 if [ ! -f "backend/dist/index.js" ]; then
     echo -e "${RED}   ❌ backend/dist/index.js not found${NC}"
     exit 1
