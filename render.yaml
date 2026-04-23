@@ -9,12 +9,7 @@ services:
       cd ../frontend && npm install --legacy-peer-deps &&
       cd .. &&
       npm run build
-    startCommand: |
-      if [ ! -f /tmp/galaxia3.db ]; then
-        echo "Initializing database..."
-        node backend/dist/scripts/seed.js
-      fi
-      npm start
+    startCommand: npm start
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
@@ -26,6 +21,14 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: DATABASE_URL
-        value: /tmp/galaxia3.db
+        fromDatabase:
+          name: galaxia3-db
+          property: connectionString
       - key: CORS_ORIGIN
         value: https://galaxia3-mvp.onrender.com
+
+databases:
+  - name: galaxia3-db
+    plan: free
+    databaseName: galaxia3
+    user: galaxia3

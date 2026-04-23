@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { initDatabase, query } from '../db';
 
+const isPostgres = process.env.DATABASE_URL?.startsWith('postgres');
+
 interface MenuDataDay {
   date: string;
   day_of_week: string;
@@ -82,28 +84,24 @@ const syncMenuData = async () => {
   console.log(`📊 Found ${menuData.length} days of menu data`);
 
   // Calculate date offset to shift historical data to current week
-  // Find the first Monday in the data and align it to current week's Monday
   const firstDataDate = new Date(menuData[0].date);
   const today = new Date();
   const currentMonday = new Date(today);
-  currentMonday.setDate(today.getDate() - today.getDay() + 1); // Monday of current week
+  currentMonday.setDate(today.getDate() - today.getDay() + 1);
   
   const daysOffset = Math.floor((currentMonday.getTime() - firstDataDate.getTime()) / (1000 * 60 * 60 * 24));
   console.log(`📅 Shifting dates by ${daysOffset} days to align with current week`);
 
-  // Track created items to avoid duplicates
   const createdMenuItems = new Set<string>();
   let menuItemsCount = 0;
   let dailyMenuCount = 0;
 
   for (const day of menuData) {
-    // Shift date to current timeframe
     const originalDate = new Date(day.date);
     const shiftedDate = new Date(originalDate);
     shiftedDate.setDate(originalDate.getDate() + daysOffset);
     const date = shiftedDate.toISOString().split('T')[0];
 
-    // Calculate deadline (day before at 14:30)
     const deadline = new Date(date);
     deadline.setDate(deadline.getDate() - 1);
     deadline.setHours(14, 30, 0, 0);
@@ -113,45 +111,103 @@ const syncMenuData = async () => {
     if (day.soup && day.soup.name) {
       const soupId = generateId('mi', day.soup.name);
       if (!createdMenuItems.has(soupId)) {
-        await query(
-          `INSERT OR REPLACE INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
-           VALUES (?, ?, ?, ?, ?, ?, 1)`,
-          [soupId, day.soup.name, 'Polievka', 2.50, JSON.stringify(parseAllergens(day.soup.allergens)), 'standard']
-        );
+        if (isPostgres) {
+          await query(
+            `INSERT INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
+             VALUES ($1, $2, $3, $4, $5, $6, 1)
+             ON CONFLICT(id) DO UPDATE SET
+               name = EXCLUDED.name,
+               description = EXCLUDED.description,
+               price = EXCLUDED.price,
+               allergens = EXCLUDED.allergens,
+               deadline_type = EXCLUDED.deadline_type,
+               is_active = 1,
+               updated_at = NOW()`,
+            [soupId, day.soup.name, 'Polievka', 2.50, JSON.stringify(parseAllergens(day.soup.allergens)), 'standard']
+          );
+        } else {
+          await query(
+            `INSERT OR REPLACE INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
+             VALUES (?, ?, ?, ?, ?, ?, 1)`,
+            [soupId, day.soup.name, 'Polievka', 2.50, JSON.stringify(parseAllergens(day.soup.allergens)), 'standard']
+          );
+        }
         createdMenuItems.add(soupId);
         menuItemsCount++;
       }
 
       const dailyId = generateId('dm', date, 'soup', soupId);
-      await query(
-        `INSERT OR REPLACE INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
-         VALUES (?, ?, ?, ?, ?)`,
-        [dailyId, date, soupId, 'Soup', deadlineStr]
-      );
+      if (isPostgres) {
+        await query(
+          `INSERT INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
+           VALUES ($1, $2, $3, $4, $5)
+           ON CONFLICT(id) DO UPDATE SET
+             date = EXCLUDED.date,
+             menu_item_id = EXCLUDED.menu_item_id,
+             menu_slot = EXCLUDED.menu_slot,
+             deadline_timestamp = EXCLUDED.deadline_timestamp`,
+          [dailyId, date, soupId, 'Soup', deadlineStr]
+        );
+      } else {
+        await query(
+          `INSERT OR REPLACE INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
+           VALUES (?, ?, ?, ?, ?)`,
+          [dailyId, date, soupId, 'Soup', deadlineStr]
+        );
+      }
       dailyMenuCount++;
     }
 
-    // Process meals (A, B, C, D)
+    // Process meals
     for (const meal of day.meals) {
       const mealId = generateId('mi', meal.name);
       if (!createdMenuItems.has(mealId)) {
         const description = [meal.details, meal.weight].filter(Boolean).join(' | ');
-        await query(
-          `INSERT OR REPLACE INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
-           VALUES (?, ?, ?, ?, ?, ?, 1)`,
-          [mealId, meal.name, description || null, 6.50, JSON.stringify(parseAllergens(meal.allergens)), 'standard']
-        );
+        if (isPostgres) {
+          await query(
+            `INSERT INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
+             VALUES ($1, $2, $3, $4, $5, $6, 1)
+             ON CONFLICT(id) DO UPDATE SET
+               name = EXCLUDED.name,
+               description = EXCLUDED.description,
+               price = EXCLUDED.price,
+               allergens = EXCLUDED.allergens,
+               deadline_type = EXCLUDED.deadline_type,
+               is_active = 1,
+               updated_at = NOW()`,
+            [mealId, meal.name, description || null, 6.50, JSON.stringify(parseAllergens(meal.allergens)), 'standard']
+          );
+        } else {
+          await query(
+            `INSERT OR REPLACE INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
+             VALUES (?, ?, ?, ?, ?, ?, 1)`,
+            [mealId, meal.name, description || null, 6.50, JSON.stringify(parseAllergens(meal.allergens)), 'standard']
+          );
+        }
         createdMenuItems.add(mealId);
         menuItemsCount++;
       }
 
       const slot = meal.option === 'A' ? 'MenuA' : meal.option === 'B' ? 'MenuB' : 'Special';
       const dailyId = generateId('dm', date, slot, mealId);
-      await query(
-        `INSERT OR REPLACE INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
-         VALUES (?, ?, ?, ?, ?)`,
-        [dailyId, date, mealId, slot, deadlineStr]
-      );
+      if (isPostgres) {
+        await query(
+          `INSERT INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
+           VALUES ($1, $2, $3, $4, $5)
+           ON CONFLICT(id) DO UPDATE SET
+             date = EXCLUDED.date,
+             menu_item_id = EXCLUDED.menu_item_id,
+             menu_slot = EXCLUDED.menu_slot,
+             deadline_timestamp = EXCLUDED.deadline_timestamp`,
+          [dailyId, date, mealId, slot, deadlineStr]
+        );
+      } else {
+        await query(
+          `INSERT OR REPLACE INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
+           VALUES (?, ?, ?, ?, ?)`,
+          [dailyId, date, mealId, slot, deadlineStr]
+        );
+      }
       dailyMenuCount++;
     }
   }

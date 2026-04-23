@@ -207,16 +207,22 @@ export default function AdminUsers() {
                   Hľadať
                 </button>
               </form>
-              <select
-                value={roleFilter}
-                onChange={(e) => setRoleFilter(e.target.value)}
-                className="input w-full sm:w-48"
-              >
-                <option value="">Všetky role</option>
-                <option value="customer">Zákazníci</option>
-                <option value="staff">Personál</option>
-                <option value="admin">Administrátori</option>
-              </select>
+              <div className="relative w-full sm:w-48">
+                <select
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                  className="input w-full cursor-pointer"
+                  style={{ 
+                    position: 'relative',
+                    zIndex: 10 
+                  }}
+                >
+                  <option value="">Všetky role</option>
+                  <option value="customer">Zákazníci</option>
+                  <option value="staff">Personál</option>
+                  <option value="admin">Administrátori</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
