@@ -140,4 +140,53 @@ export const adminApi = {
     api.put<ApiResponse<{ message: string }>>('/admin/settings', settings),
 };
 
+// ===== CUSTOMER SERVICE (Admin) =====
+export const customerServiceApi = {
+  searchUsers: (query: string) =>
+    api.get<ApiResponse<User[]>>(`/admin/customer-service/search?query=${encodeURIComponent(query)}`),
+  
+  getUserDetail: (userId: string) =>
+    api.get<ApiResponse<{
+      user: User & { isActive: boolean };
+      currentPlans: Array<{
+        planId: string;
+        quantity: number;
+        date: string;
+        menuSlot: string;
+        menuItem: { name: string; price: number };
+        isEditable: boolean;
+      }>;
+      history: Array<{
+        date: string;
+        items: Array<{ itemName: string; quantity: number; price: number }>;
+        totalPrice: number;
+      }>;
+    }>>(`/admin/customer-service/user/${userId}`),
+  
+  resetPassword: (userId: string, password?: string) =>
+    api.put<ApiResponse<{ message: string; temporaryPassword: string }>>(`/admin/customer-service/user/${userId}/reset-password`, { password }),
+  
+  updatePlan: (planId: string, quantity: number) =>
+    api.put<ApiResponse<{ message: string; quantity: number }>>(`/admin/customer-service/plan/${planId}`, { quantity }),
+  
+  cancelPlan: (planId: string) =>
+    api.delete<ApiResponse<{ message: string; cancelledDate: string }>>(`/admin/customer-service/plan/${planId}`),
+  
+  createOrder: (userId: string, dailyMenuId: string, quantity: number) =>
+    api.post<ApiResponse<{ message: string; planId: string; quantity: number }>>(`/admin/customer-service/user/${userId}/create-order`, { dailyMenuId, quantity }),
+  
+  getTodayOrders: () =>
+    api.get<ApiResponse<Array<{
+      userId: string;
+      userName: string;
+      userPhone: string;
+      userAddress: string;
+      menuItemName: string;
+      quantity: number;
+      menuSlot: string;
+      deadlineTimestamp: string;
+      isEditable: boolean;
+    }>>>(`/admin/customer-service/today-orders`),
+};
+
 export default api;
