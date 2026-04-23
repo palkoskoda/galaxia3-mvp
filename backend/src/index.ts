@@ -21,11 +21,23 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const allowedOrigins = [
+  process.env.CORS_ORIGIN,
+  'https://galaxia3-mvp.onrender.com',
+  'http://localhost:5173',
+].filter(Boolean);
 
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
   credentials: true,
 }));
 
@@ -79,7 +91,7 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log(`🚀 Galaxia Obedy 3.0 Backend running on port ${PORT}`);
       console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 CORS enabled for: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`);
+      console.log(`🔗 CORS enabled for: ${allowedOrigins.join(', ')}`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

@@ -2,6 +2,7 @@ import { Database } from 'sqlite3';
 import { open } from 'sqlite';
 import dotenv from 'dotenv';
 import path from 'path';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -22,11 +23,41 @@ export const initDatabase = async (): Promise<void> => {
 
     // Create tables if they don't exist
     await createTables();
+    await ensureDemoUsers();
 
     console.log('✅ SQLite database connected:', DB_PATH);
   } catch (error) {
     console.error('❌ Database connection failed:', error);
     process.exit(1);
+  }
+};
+
+const ensureDemoUsers = async () => {
+  const passwordHash = await bcrypt.hash('password123', 10);
+  const demoUsers = [
+    { id: 'admin-001', email: 'admin@galaxia.sk', firstName: 'Admin', lastName: 'Galaxia', phone: '+421900000001', address: 'Hlavná 1, Bratislava', role: 'admin' },
+    { id: 'staff-001', email: 'kuchar@galaxia.sk', firstName: 'Ján', lastName: 'Kuchár', phone: '+421900000002', address: 'Kuchynská 5, Bratislava', role: 'staff' },
+    { id: 'staff-002', email: 'rozvoz@galaxia.sk', firstName: 'Peter', lastName: 'Rozvoz', phone: '+421900000003', address: 'Rozvozová 10, Bratislava', role: 'staff' },
+    { id: 'user-001', email: 'klient1@example.com', firstName: 'Mária', lastName: 'Nováková', phone: '+421911111111', address: 'Nováková 15, Bratislava', role: 'customer' },
+    { id: 'user-002', email: 'klient2@example.com', firstName: 'Jozef', lastName: 'Kováč', phone: '+421922222222', address: 'Kováčska 22, Bratislava', role: 'customer' },
+    { id: 'user-003', email: 'klient3@example.com', firstName: 'Anna', lastName: 'Horváthová', phone: '+421933333333', address: 'Horváthova 8, Bratislava', role: 'customer' },
+  ];
+
+  for (const user of demoUsers) {
+    await db.run(
+      `INSERT INTO users (id, email, password_hash, first_name, last_name, phone, address, role, is_active)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)
+       ON CONFLICT(email) DO UPDATE SET
+         password_hash = excluded.password_hash,
+         first_name = excluded.first_name,
+         last_name = excluded.last_name,
+         phone = excluded.phone,
+         address = excluded.address,
+         role = excluded.role,
+         is_active = 1,
+         updated_at = datetime("now")`,
+      [user.id, user.email, passwordHash, user.firstName, user.lastName, user.phone, user.address, user.role]
+    );
   }
 };
 
