@@ -14,10 +14,19 @@ let sqliteDb: any = null;
 
 export const initDatabase = async (): Promise<void> => {
   try {
+    console.log('🔍 Database config check:');
+    console.log('  DATABASE_URL:', process.env.DATABASE_URL ? 'set' : 'not set');
+    console.log('  PGHOST:', process.env.PGHOST ? 'set' : 'not set');
+    console.log('  PGUSER:', process.env.PGUSER ? 'set' : 'not set');
+    console.log('  PGDATABASE:', process.env.PGDATABASE ? 'set' : 'not set');
+    console.log('  isPostgres:', isPostgres);
+    
     if (isPostgres) {
       // PostgreSQL
       const connectionString = process.env.DATABASE_URL || 
         (process.env.PGHOST ? `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT || 5432}/${process.env.PGDATABASE}` : undefined);
+      
+      console.log('  Connection string:', connectionString ? 'built' : 'missing');
       
       if (!connectionString) {
         throw new Error('PostgreSQL configured but no connection string available');
