@@ -33,7 +33,7 @@ app.use(cors({
 // For now, basic security is handled by helmet and CORS
 
 // General middleware
-app.use(compression() as express.RequestHandler);
+app.use(compression() as unknown as express.RequestHandler);
 app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
