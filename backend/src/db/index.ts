@@ -138,6 +138,26 @@ const createTables = async () => {
     )
   `);
 
+  // Raw payload used by render/import workflows
+  await db.run(`
+    CREATE TABLE IF NOT EXISTS render_menu_data (
+      id TEXT PRIMARY KEY,
+      source_name TEXT NOT NULL,
+      payload_json TEXT NOT NULL,
+      imported_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // One-shot import markers to prevent re-running bootstrap imports
+  await db.run(`
+    CREATE TABLE IF NOT EXISTS import_markers (
+      import_key TEXT PRIMARY KEY,
+      source_name TEXT NOT NULL,
+      checksum TEXT,
+      imported_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
   // Delivery settings table
   await db.run(`
     CREATE TABLE IF NOT EXISTS delivery_settings (
@@ -155,6 +175,8 @@ const createTables = async () => {
   await db.run('CREATE INDEX IF NOT EXISTS idx_delivery_plan_daily ON delivery_plan_items(daily_menu_id)');
   await db.run('CREATE INDEX IF NOT EXISTS idx_order_history_user ON order_history(user_id)');
   await db.run('CREATE INDEX IF NOT EXISTS idx_order_history_date ON order_history(date)');
+  await db.run('CREATE INDEX IF NOT EXISTS idx_render_menu_data_source ON render_menu_data(source_name)');
+  await db.run('CREATE INDEX IF NOT EXISTS idx_import_markers_source ON import_markers(source_name)');
 };
 
 // Query helper that mimics pg's interface
