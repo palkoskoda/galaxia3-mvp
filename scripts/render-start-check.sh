@@ -13,10 +13,13 @@ npm start &
 server_pid=$!
 
 cleanup() {
-  if kill -0 "${server_pid}" 2>/dev/null; then
-    kill "${server_pid}" 2>/dev/null || true
-    wait "${server_pid}" 2>/dev/null || true
+  local children
+  children="$(pgrep -P "${server_pid}" 2>/dev/null || true)"
+  if [ -n "${children}" ]; then
+    kill ${children} 2>/dev/null || true
   fi
+  kill "${server_pid}" 2>/dev/null || true
+  wait "${server_pid}" 2>/dev/null || true
 }
 trap cleanup EXIT
 
