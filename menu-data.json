@@ -1,0 +1,4340 @@
+[
+  {
+    "date": "2024-09-09",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 37 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Zeleninová s cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Grilované kuracie prsia na cukete a šampiňónoch, jasmínová ryža",
+        "details": null,
+        "weight": "120/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Zbojnícke mäso so syrom, ryža",
+        "details": "stehno",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce buchty na pare",
+        "details": "plnené ovocným džemom, posyp kakao, maslo",
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný kurací rezeň v sézame, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7,11"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-09-10",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 37 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hŕstková",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Chilli con carne",
+        "details": "hovädzie",
+        "weight": "130/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Pečená bravčová krkovička, dusená kapusta, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce šišky s čučoriedkovým lekvárom",
+        "details": null,
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Plnený bravčový závitok, tarhoňa",
+        "details": "karé, syr, kápia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-09-11",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 37 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s mäsom a rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie mleté mäsko s karfiólovou ryžou",
+        "details": "čerst.farebná paprika",
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Labužnícke kuracie stehno, pučené maslové zemiaky",
+        "details": "orav. slanina, syr",
+        "weight": "240/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Špenátové halušky s nivovo-šunkovou omáčkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčová sekaná, zemiakový šalát s majonézou",
+        "details": "plece",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ananásový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-09-12",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 37 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Boršč",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Jemne pikantné morčacie soté, ryža",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Frankfurtské hovädzie mäsko, domáca parená knedľa",
+        "details": "párky, smotana",
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce smažené pirôžky",
+        "details": "plnené slivkovým lekvárom a makom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Rizoto s bravčovým mäskom",
+        "details": "stehno, syr",
+        "weight": "440 g",
+        "allergens": "1,7,9"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-09-13",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 37 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Fazuľová so širokými rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Opekané kur. prsia podávané s dus.brokolicou, baby mrkvou, pečené zemiaky",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "110/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Držky na paprike, domáca parená knedľa",
+        "details": null,
+        "weight": "170/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Grilovaný kurací plátok, smotanová omáčka, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-09-16",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 38.xlsx",
+    "soup": {
+      "name": "Kelová so zeleninou a cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Trhané kuracie mäsko na mede, Natural ryža",
+        "details": null,
+        "weight": "130/220 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Macerovaný stehený steak, ryža",
+        "details": "vykostené kuracie stehno",
+        "weight": "150/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Špagety Bolognese",
+        "details": "bravčové, syr",
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót broskyňový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-09-17",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 38.xlsx",
+    "soup": {
+      "name": "Fazuľová kyslá",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečený kurací rezeň v cornflakes, zelerovo-zemiakovo pyré",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,3,7,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kura ,,ako kačka\", dusená červená kapusta, domáca parená knedľa",
+        "details": null,
+        "weight": "240/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Mliečna ryža s čokoládou a horúcim lesným ovocím",
+        "details": null,
+        "weight": "350 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčové rezančeky na zelených fazuľkách, tarhoňa",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-09-18",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 38.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie na kari s jablkami, ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Grilovaný kurací plátok, dusená zelenina, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce dukátové buchtičky s vanilkovým krémom",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový karbonátok, paradajková omáčka, zemiaková kaša",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-09-19",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 38.xlsx",
+    "soup": {
+      "name": "Guľášová",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Mrkvové morčacie fašírky, pečené zemiaky",
+        "details": null,
+        "weight": "140/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovädzie varené, kôprová omáčka, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Granadiersky pochod, cvikľa",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Živánska pochúťka",
+        "details": "bravčové, údená klobása, oravská slanina",
+        "weight": "400 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-09-20",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 38.xlsx",
+    "soup": {
+      "name": "Zeleninová s mrveničkou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Bravčová panenka vo víne a mede, ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr so šunkou, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Bryndzové halušky so slaninkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Kura na paprike, cestovina",
+        "details": "smotana",
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paprikovo-uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-09-23",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 39 DN,BS,DU.xlsx",
+    "soup": {
+      "name": "Cesnaková so syrom",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie stehno s mrkvou a hráškom, jasmínová ryža",
+        "details": null,
+        "weight": "240/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Bravčový pivný guľáš, cestovina",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce buchty na pare",
+        "details": "plnené ovocným džemom, posyp kakao, maslo",
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný kurací rezeň v cestíčku, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkovo-paprikový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-09-24",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 39 DN,BS,DU.xlsx",
+    "soup": {
+      "name": "Hŕstková",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Hovädzie karbonátky so syrom, zemiakovo-zeleninové pyré",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,3,7,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovárske kuracie prsia, ryža, domáca čalamáda",
+        "details": "šunka, syr, broskyňa",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Restovaná bravčová pečeň, ryža, uhorka",
+        "details": null,
+        "weight": "170/200 g",
+        "allergens": "1,1"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Segedínsky guľáš, domáca parená knedľa",
+        "details": "bravčové",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-09-25",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 39 DN,BS,DU.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie roládky so šunkou a syrom, ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Bravčové soté na oravskej slaninke a horčici, tarhoňa",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,3,10"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce pečené buchty",
+        "details": "plnené makom a slivkovým lekvárom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Grilované kuracie stehno, varené maslové zemiaky s vňaťou",
+        "details": null,
+        "weight": "240/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-09-26",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 39 DN,BS,DU.xlsx",
+    "soup": {
+      "name": "Pardajková s kapustou",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Morčacie mäsko s brokolicou v smotanovej omáčke, celozrnné cestoviny",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Mexický guľáš, ryža",
+        "details": "hovädzie, syr",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Špenátové lasagne",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaná plnená bravčová kapsa, zemiaková kaša",
+        "details": "karé, syr, oravská slanina",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-09-27",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 39 DN,BS,DU.xlsx",
+    "soup": {
+      "name": "Hráškovo-zeleninová s cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kurací perkelt s celozrnnými haluškami",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný karfiol, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "170/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Ryžový nákyp s ovocím",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací plátok, nivová omáčka, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-09-30",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 40 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Francúzska",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Tortilla plnená kuracím mäskom a zeleninou",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracia ,,čína\", ryža",
+        "details": "prsia",
+        "weight": "130/200 g",
+        "allergens": "1,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Hrachový prívarok, údená krkovička, chlieb",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót jablkovo-slivkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-10-01",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 40 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Šošovicová kyslá s párkom",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Hovädzie soté s brusnicami, pečené zemiaky",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Gazdovské kuracie stehno na kyslej kapuste, varené maslové zemiaky",
+        "details": null,
+        "weight": "240/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce šišky s ovocným džemom",
+        "details": null,
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bratislavské bravčové pliecko, cestovina",
+        "details": "koreňová zelenina, smotana",
+        "weight": "130/240 g",
+        "allergens": "1,3,7,9"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-02",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 40 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečený kurací rezeň v cornflakes, ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracie prsia ,,bambino\", ryža",
+        "details": "prsia, tavený syr, kukurica",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce dukátové buchtičky s vanilkovým krémom",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčová sekaná, zemiakový šalát s majonézou",
+        "details": "plece",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-03",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 40 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Kapustnica",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Jemne pikantné morčacie mäsko, jasmínová ryža",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Sviečková na smotane, domáca parená knedľa",
+        "details": "hovädzie",
+        "weight": "120/180 g",
+        "allergens": "1,3,7,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Žemľovka s ovocím a čokoládovým krémom",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Kuracie mäsko a pečeň z jedného pekáča, ryža",
+        "details": "prsia",
+        "weight": "180/200 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-04",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 40 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hríbová s mrveničkou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé na zeleninke, zemiakovo-brokolicové pyré",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "110/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Strapačky s kyslou kapustou a oravskou slaninkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčové soté ,,Carton\", ryža",
+        "details": "čerstvá kápia, smotana",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2024-10-07",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 41  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Kelová so zeleninou a krúpami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kur. karbonátky so zelerom, jasmínová ryža",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1,3,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Bravčové soté na šampiňónoch, tarhoňa",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Tagliatelle s kuracím mäskom, cherry paradajkami a bazalkovým pestom",
+        "details": "prsia",
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný kurací rezeň v sézame, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7,11"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-08",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 41  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hrachová s párkom",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Morčacie kocky na zeleno, batatovo-zemiakové pyré",
+        "details": "čerstvá paprika, hrášok",
+        "weight": "130/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Pečená bravčová krkovička, dusená kapusta, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce palacinky s čokoládou",
+        "details": "plnené ovocným džemom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací plátok, volské oko, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-09",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 41  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s mäsom a rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kurací šalát s hokkaido tekvicou a mozzarellou, ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Morčacie soté v syrovej omáčke, špenátové halušky",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce langoše",
+        "details": "syr, kečup",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": ",,Kmotrov rezeň\", šťuchané maslové zemiaky",
+        "details": "karé, syr, šapiňóny",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-10",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 41  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Kulajda s hubami a vajíčkom",
+      "allergens": "1,3,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé na zeleninke s kari omáčkou, pečené zemiaky",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovädzí tokáň na červenom víne, tarhoňa",
+        "details": null,
+        "weight": "130/180 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Bryndzové halušky so slaninkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Kuracie stehno v sviečkovej omáčke, domáca parená knedľa",
+        "details": null,
+        "weight": "240/180 g",
+        "allergens": "1,3,7,9"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-11",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 41  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Brokolicovo-zeleninová s cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie soté s hlivou ustricovou, celozrnné cestoviny",
+        "details": "prsia, smotana",
+        "weight": "120/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr so šunkou, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Fliačky s hlávkovou kapustou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný bravčový plátok, milánska omáčka, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-10-14",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 42 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Paradajková s cestovinou",
+      "allergens": "1,3"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Citrusovo-bylinkové kuracie stehno, jasmínová ryža",
+        "details": null,
+        "weight": "240/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Jemne pikantný br. guľáš na farebných paprikách, cestovina",
+        "details": "stehno, čerst. paprika",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce parené buchty",
+        "details": "plnené ovocným džemom, posyp kakao, maslo",
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Černohorský kurací rezeň, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-15",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 42 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Šošovicová s párkom",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Hovädzie ragú na zelenine, ryža",
+        "details": "baby mrkva, brokolica",
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Grilované kuracie prsia, šunková omáčka, šťuchané maslové zemiaky",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce pečené buchty",
+        "details": "plnené slivkovým lekvárom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Segedínsky guľáš, domáca parená knedľa",
+        "details": "bravčové plece",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Červená repa",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-16",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 42 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kung Pao kuracie prsia podávané s ryžou",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,8"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kura na paprike, domáce maslové halušky",
+        "details": "vykostené stehno, smotana",
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce palacinky s karamelom",
+        "details": "plnené čučoriedkovým lekvárom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Moskovský bravčový rezeň, zemiaková kaša",
+        "details": "karé, syr, majonéza",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-17",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 42 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Boršč",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Ázijské morčacie mäso so zelenými fazuľkami, pečené zemiaky",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovädzie varené, paradajková omáčka, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Mliečna ryža s čokoládou a horúcim lesným ovocím",
+        "details": null,
+        "weight": "350 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodná kuracia rolka, ryža",
+        "details": "prsia, syr, Niva",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-18",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 42 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Jesenná zeleninová s mrveničkou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie prsia prekladané mozzarellou a paradajkami, ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážané rybie filé, šmykľavý šalát",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,3,4,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Rizoto s kuracím mäskom",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,9"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný bravčový plátok, nivová omáčka, tarhoňa",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-21",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 43 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Francúzska",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie na kari s jablkami, natural ryža",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Mexické kuracie soté, ryža",
+        "details": "prsia",
+        "weight": "130/240 g",
+        "allergens": "1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Fazuľový prívarok, pečená klobása, chlieb",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-10-22",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 43 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hŕstková",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Chilli con carne, ryža",
+        "details": "hovädzie",
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Pečené kuracie stehno, kuracia plnka, zemiaková kaša",
+        "details": null,
+        "weight": "240/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce langoše",
+        "details": "syr, kečup",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Debrecínsky bravčový guľáš, domáca parená knedľa",
+        "details": "stehno, párky",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót broskyňový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-23",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 43 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečený kur. rezeň v cornflakes, 1/2 ryža 1/2 Coleslaw šalát",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracie soté na šampiňónoch, ryža",
+        "details": "prsia",
+        "weight": "130/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce dukátové buchtičky s vanilkovým krémom",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčový rezeň ,,z mlyna\", zemiaková kaša",
+        "details": "karé, kyslá smotana",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-24",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 43 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Guľášová",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Mrkvové morčacie fašírky, pečené zemiaky",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Burgunské hovädzie kocky, tarhoňa",
+        "details": "koreňová zelenina, červené víno",
+        "weight": "130/240 g",
+        "allergens": "1,3,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce palacinky s tvarohom a ovocím",
+        "details": null,
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Mletý rezeň so syrom, zemiakový šalát s majonézou",
+        "details": "bravčové",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-25",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 43 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Krúpová so zeleninou",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé zapekané s brokolicou a syrom, zemiakovo-cvikľové pyré",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný karfiol, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "170/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Držky na paprike, domáca parená knedľa",
+        "details": null,
+        "weight": "170/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Pečená bravčová krkovička, strapačky s kyslou kapustou",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový s kyslou smotanou",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-28",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 44 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Rascová s vajíčkom",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rizoto s kuracím mäskom a olivami",
+        "details": "Arborio, stonkový zeler, čerstvá paprika",
+        "weight": "130/230 g",
+        "allergens": "1,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Zbojnícke mäso so syrom, ryža",
+        "details": "bravčové stehno",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce parené buchty",
+        "details": "plnené ovocným džemom, posyp kakao, maslo",
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Obrátený kurací rezeň, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-29",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 44 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Sedliacka fazuľová",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Špagety s mäsovými guličkami v paradajkovej omáčke",
+        "details": "hovädzie",
+        "weight": "130/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kura ,,ako kačka\", dusená červená kapusta, domáca parená knedľa",
+        "details": null,
+        "weight": "240/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Šošovicový prívarok, špekačka, volské oko, chlieb",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčové soté na slaninke, 1/2 ryža 1/2 opekané zemiaky",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-10-30",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 44 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Dusené morčacie mäsko, hokkaido omáčka, pečené zemiaky",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": ",,Detvianska nátura\", zemiaková placka",
+        "details": "bravčové plece",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Bryndzové halušky so slaninkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Zapekané kuracie prsia v smotanovej omáčke, ryža",
+        "details": "syr, horčica",
+        "weight": "120/200 g",
+        "allergens": "1,7,10"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-10-31",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 44 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Paradajková s kapustou",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečené kuracie prsia s bylinkovým maslom, jasmínová ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovädzie varené, kôprová omáčka, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Žemľovka s ovocím a čokoládovým krémom",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C",
+      "D"
+    ]
+  },
+  {
+    "date": "2024-11-04",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 45  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Brokolicová krémová",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Trhané kuracie mäsko na mede, natural ryža",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Bravčové karé na spôsob stroganov, ryža",
+        "details": "šampiňóny, smotana",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáca viedenská parená buchta vo vanilkovom kréme",
+        "details": "plnená slivkovým lekvárom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný kurací rezeň v cestíčku, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "A"
+    ]
+  },
+  {
+    "date": "2024-11-05",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 45  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Šošovicová kyslá s párkom",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Bolonské špagety s hov. mäskom",
+        "details": "parmezán, čerst. paradajky, mrkva, stopkový zeler",
+        "weight": "130/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Pečené kur. stehno s dijónskou smotanovou omáčkou, domáca parená knedľa",
+        "details": null,
+        "weight": "240/180 g",
+        "allergens": "1,3,7,10"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce plnené langoše",
+        "details": "šunka, syr, kečup",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčový guľáš na víne, cestovina",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-11-06",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 45  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Morčacia sekaná, zemiakové pyré",
+        "details": "celozrnné pečivo, horčica",
+        "weight": "130/230 g",
+        "allergens": "1,3,7,10"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracie prsia na ázijský spôsob, ryža",
+        "details": "čerstvá paprika, cibuľka, med",
+        "weight": "130/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Fliačky s hlávkovou kapustou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčová krkovička na cibuli, pučené maslové zemiaky",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-11-07",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 45  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Kapustnica",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečený kurací rezeň v cornflakes, fit zemiakový šalát",
+        "details": "prsia, biely jogurt",
+        "weight": "120/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Mexický guľáš, ryža",
+        "details": "hovädzie",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Mliečna ryža s čokoládou a horúcim lesným ovocím",
+        "details": null,
+        "weight": "350 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": ",,Kmotrov rezeň\", varené zemiaky s cibuľou",
+        "details": "karé, syr, šampiňóny",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót broskyňový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-11-08",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 45  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hríbová s mrveničkou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie mäsko v pomarančovej omáčke, jasmínová ryža",
+        "details": "prsia, sézam",
+        "weight": "120/230 g",
+        "allergens": "1,11"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr so šunkou, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Špenátový prívarok, špekačka, volské oko, pečené zemiaky",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Kura na smotane, domáce maslové halušky",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-11-11",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 46 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Zeleninová s cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Hovädzie chilli so zeleninou, ryža",
+        "details": "paprika, fazuľové struky",
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracia ,,čína\", ryža",
+        "details": "prsia",
+        "weight": "130/200 g",
+        "allergens": "1,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": ",,Rezance dvojboj\"",
+        "details": "tvarohové a s hlávkovou kapustou",
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "A"
+    ]
+  },
+  {
+    "date": "2024-11-12",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 46 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Fazuľová kyslá",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie roládky so syrom a pórom, ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Rizoto s kuracím mäskom",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Žemľovka s ovocím a vanilkovým krémom",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Pečená bravčová krkovička, dusená kapusta, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Cvikľový šalát",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-11-13",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 46 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé zapekané s paradajkou a syrom, zemiakové pyré",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Morčacie soté v syrovej omáčke, špenátové halušky",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Granadiersky pochod, cvikľa",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Pečené kuracie stehno, varené zemiaky s cibuľou",
+        "details": null,
+        "weight": "240/240 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-11-14",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 46 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Boršč",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Tortilla plnená medovým morčacím mäskom a zeleninou",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Sviečková na smotane, domáca parená knedľa",
+        "details": "hovädzie",
+        "weight": "120/180 g",
+        "allergens": "1,3,7,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce smažené pirôžky",
+        "details": "plnené slivkovým lekvárom a makom",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Mletý rezeň so syrom, zemiakový šalát s majonézou",
+        "details": "bravčové",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-11-15",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 46 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Šampiňónová krémová",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kur. rezančeky s olivami, suš. paradajkami a pórom, jasmínová ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný karfiol, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "170/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Restovaná bravčová pečeň, ryža",
+        "details": null,
+        "weight": "170/200 g",
+        "allergens": "1,1"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací rezeň, šunková omáčka, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-11-18",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 47 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Francúzska",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kura na paprike, celozrnné halušky",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Poľovnícky bravčový guľáš, cestovina",
+        "details": "stehno, suchá saláma",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Tagliatelle s hubovo-smotanovou omáčkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Obrátený kurací rezeň, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót marhuľový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-11-19",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 47 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hrachová s párkom",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečené rybie filé v syrovom cestíčku, zemiakové pyré",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,3,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracie prsia ,,bambino\", ryža",
+        "details": "syr, kukurica",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce langoše",
+        "details": "syr, kečup",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Segedínsky guľáš, domáca parená knedľa",
+        "details": "bravčové",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-11-20",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 47 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie soté s hlivou ustricovou, ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Gazdovské kurča na červenom víne, zemiaková kaša",
+        "details": "šampiňóny, mrkva",
+        "weight": "240/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce buchty na pare",
+        "details": "plnené ovocným džemom, posyp kakao, maslo",
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bratislavské rizoto",
+        "details": "bravčové stehno, tarhoňa",
+        "weight": "440 g",
+        "allergens": "1,3,9"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-11-21",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 47 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Guľášová",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Morčacie stehno na kari, ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovädzí tokáň na víne, ryža",
+        "details": "čerstvá paprika, koreňová zelenina",
+        "weight": "130/200 g",
+        "allergens": "1,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Halušky s kyslou kapustou a oravskou slaninkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Plnená paprika, paradajková omáčka, domáca parená knedľa",
+        "details": "bravčové",
+        "weight": "170/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2024-11-22",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 47 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hráškovo-zeleninová s cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Citrusovo-bylinkové kuracie stehno, jasmínová ryža",
+        "details": null,
+        "weight": "240/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "110/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Držky na paprike, domáca parená knedľa",
+        "details": null,
+        "weight": "170/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný bravčový rezeň na rasci, tarhoňa",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Červená repa",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-11-25",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 48  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Krúpová so zeleninou",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie soté s tofu a hráškom, Natural ryža",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1,6"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Bravčová pivovarská pochúťka, cestovina",
+        "details": "rezančeky zo stehna",
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce pečené buchty",
+        "details": "plnené slivkovým lekvárom",
+        "weight": "450 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný kurací rezeň v sézame, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7,11"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-11-26",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 48  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Šošovicová kyslá",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Hovädzie rezančeky dusené na víne, celozrnné cestoviny",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kura ,,ako kačka\", dusená červená kapusta, domáca parená knedľa",
+        "details": null,
+        "weight": "240/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Ryžový nákyp s ovocím",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": ",,Rozlietaný\" bravčový vtáčik, tarhoňa",
+        "details": "stehno, párky, vajíčko, uhorka",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-11-27",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 48  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie karbonátky so zelerom, ryža, šalát s olivami",
+        "details": "čín.kapusta, paradajky",
+        "weight": "130/230 g",
+        "allergens": "1,3,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Čevab-čiči, varené zemiaky, horčica, cibuľa",
+        "details": "bravčové",
+        "weight": "150/240 g",
+        "allergens": "1,1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Penne s morčacím mäskom v syrovej omáčke",
+        "details": "stehno",
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Kuracie soté s baby mrkvou a brokolicou, ryža",
+        "details": "prsia",
+        "weight": "130/200 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-11-28",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 48  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Paradajková s cestovinou",
+      "allergens": "1,3"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Cuketové špagety s kuracím mäskom a cherry paradajkami",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovädzie varené, kôprová omáčka, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce palacinky plnené tvarohom a ovocím",
+        "details": null,
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčová fašírka, zemiakový šmykľavý šalát",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-11-29",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 48  DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Zeleninová s cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé na zelenike s kari omáčkou, jasmínová ryža",
+        "details": null,
+        "weight": "120/200 g",
+        "allergens": "1,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr so šunkou, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Bryndzové halušky so slaninkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Hovárske kuracie prsia, ryža",
+        "details": "šunka, syr, broskyňa",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Červená repa",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-12-02",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 49 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Cesnaková",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Ázijský cestovinový šalát",
+        "details": "kuracie prsia, čerstvá farebná paprika, kukurica, sézam",
+        "weight": "130/230 g",
+        "allergens": "1,3,11"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracie rezančeky na smotane so zeleninou, ryža",
+        "details": "prsia",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce buchty na pare",
+        "details": "plnené slivkovým lekvárom, posyp kakao, maslo",
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň v cestíčku, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-12-03",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 49 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hŕstková",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečené syrovo-rybacie fašírky, opekané zemiaky",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1,3,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kurací paprikáš, domáce maslové halušky",
+        "details": "vykostené stehno, smotana",
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Zemiakový prívarok, bravčový perkelt, chlieb",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Moravský vrabec, dusená kapusta, domáca parená knedľa",
+        "details": "bravčové",
+        "weight": "150/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2024-12-04",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 49 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s mäsom a rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Hovädzie varené mäsko, chrenová omáčka, cestovina",
+        "details": null,
+        "weight": "130/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Pečené kuracie stehno, ryža",
+        "details": null,
+        "weight": "240/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Špenátový prívarok, špekačka, varené vajíčko, maslové zemiaky",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový karbonátok, paradajková omáčka, zemiaková kaša",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót marhuľový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-12-05",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 49 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Fazuľová sladká",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Krémové cvikľové rizoto s morčacím mäskom",
+        "details": "Arborio, parmezán, stonkový zeler",
+        "weight": "120/230 g",
+        "allergens": "1,7,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Mexický guľáš, ryža",
+        "details": "hovädzie",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce šišky s ovocným džemom",
+        "details": null,
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": ",,Cisársky rezeň\", šťuchané maslové zemiaky",
+        "details": "karé, šampiňóny, syr, majonéza, kečup",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-12-06",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 49 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Zeleninová s mrveničkou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečený kurací rezeň v cornflakes, jasmínová ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný karfiol, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "170/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce dukátové buchtičky s vanilkovým krémom",
+        "details": null,
+        "weight": "500 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Grilované kuracie prsia, brokolicovo-smotanová omáčka, ryža",
+        "details": null,
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C",
+      "D"
+    ]
+  },
+  {
+    "date": "2024-12-09",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 50 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Brokolicová so zeleninou a cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie soté s nivovo-zeleninovou omáčkou, ryža",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1,7,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Zbojnícke mäso so syrom, ryža",
+        "details": "bravčové",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáca viedenská parená buchta vo vanilkovom kréme",
+        "details": "plnené slivkovým lekvárom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný kurací rezeň, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-12-10",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 50 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Fazuľová kyslá",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Chilli con carne, ryža",
+        "details": "hovädzie",
+        "weight": "130/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Labužnícke kuracie stehno, varené zemiaky s cibuľou",
+        "details": "oravská slanina, syr",
+        "weight": "240/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Špagety Bolognese",
+        "details": "bravčové, syr",
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Debrecínsky bravčový guľáš, cestovina",
+        "details": "párky",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-12-11",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 50 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie kung pao, basmati ryža",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1,8,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": ",,Detvianska nátura\", zemiaková placka",
+        "details": "bravčové",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Lasagne s mletým mäsom",
+        "details": "bravčové",
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací plátok na hubách, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B"
+    ]
+  },
+  {
+    "date": "2024-12-12",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 50 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Kapustnica",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Trhané morčacie mäsko na mede, jasmínová ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Karlovarský guľáš, domáce maslové halušky",
+        "details": "hovädzie, smotana",
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce smažené pirôžky",
+        "details": "plnené makom a slivkovým lekvárom",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Plnená paprika, paradajková omáčka, domáca parená knedľa",
+        "details": "bravčové",
+        "weight": "170/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2024-12-13",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 50 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Francúzska",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé zapekané s mozzarellou a paradajkou, zemiakové pyré",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "110/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Zemiakové šúľance",
+        "details": "posyp opražená strúhanka, vanilkový cukor, maslo",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčové soté na červenom víne, tarhoňa",
+        "details": "stehno",
+        "weight": "120/240 g",
+        "allergens": "1,3"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-12-16",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 51 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Zeleninová s mrveničkou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Morčací stroganov, cestovina",
+        "details": "stehno",
+        "weight": "130/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Dusené bravčové soté, zemiaková kaša",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Mliečna ryža s čokoládou a horúcim lesným ovocím",
+        "details": null,
+        "weight": "350 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací rezeň, šunková omáčka, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2024-12-17",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 51 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Pečený kurací rezeň v cornflakes, zemiakové pyré",
+        "details": "prsia",
+        "weight": "130/230 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Pečené kuracie stehno, ryža",
+        "details": null,
+        "weight": "240/200 g",
+        "allergens": "1"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce palacinky s karamelom",
+        "details": "plnené ovocným džemom",
+        "weight": "400 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Segedínsky guľáš, domáca parená knedľa",
+        "details": "bravčové",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-12-18",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 51 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Vianočná kapustnica",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": false,
+        "name": "Hov. sviečková, dubákovo-šampiňonová omáčka, 1/2 ryža 1/2 opekané zemiaky",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Vyprážané rybie filé, zemiakový šalát s majonézou",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,3,4,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň, zemiakový šalát s majonézou",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": null,
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2024-12-19",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 51 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Frankfurtská s párkom",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie roládky so syrom a pórom, ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Burgunské hovädzie kocky, tarhoňa",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Fliačky s hlávkovou kapustou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Kurací rezeň ,,z mlyna\", zemiaková kaša",
+        "details": "prsia, kyslá smotana",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D",
+      "D"
+    ]
+  },
+  {
+    "date": "2024-12-20",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 51 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Brokolicovo-karfiolová s cestovinou",
+      "allergens": "1,3"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie na kari s jablkami, jasmínová ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "110/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce langoše",
+        "details": "syr, kečup",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčový plátok zapekaný so syrom a šampiňónmi, ryža",
+        "details": "karé",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Červená repa",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B",
+      "D"
+    ]
+  },
+  {
+    "date": "2025-01-02",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 1 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Zeleninová s cestovinou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": false,
+        "name": "Bravčový perkelt, cestovina",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací plátok, maslová omáčka, ryža",
+        "details": "prsia",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "A"
+    ]
+  },
+  {
+    "date": "2025-01-03",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 1 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Šošovicová kyslá",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": false,
+        "name": "Vyprážaný syr, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "110/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Bryndzové halušky so slaninkou",
+        "details": null,
+        "weight": "440 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Bravčový plátok zapekaný so syrom a paradajkou, ryža",
+        "details": "karé",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2025-06-02",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 23 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Krúpová so zeleninou",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Prírodný kurací plátok, brokolicová ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Kuracie kúsky v krémovo-horčicovej omáčke, ryža",
+        "details": "prsia",
+        "weight": "130/200 g",
+        "allergens": "1,7,10"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Rizoto s bravčovým mäskom",
+        "details": "stehno",
+        "weight": "440 g",
+        "allergens": "1,9"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný bravčový rezeň, zemiaková kaša",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,3,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "B",
+      "B"
+    ]
+  },
+  {
+    "date": "2025-06-03",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 23 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Fazuľová kyslá",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Bravčová panenka vo víne a mede, basmati ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Segedínsky guľáš, domáca parená knedľa",
+        "details": "bravčové",
+        "weight": "130/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce dukátové buchtičky s vanilkovým krémom",
+        "details": null,
+        "weight": "450 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací rezeň, syrová omáčka, pučené maslové zemiaky",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "MIX šalát z čerstvej zeleniny",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D",
+      "D"
+    ]
+  },
+  {
+    "date": "2025-06-04",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 23 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Slepačí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé zapekané s karfiolom a syrom, zemiakovo-zelerové pyré",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,4,7,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Labužnícke kuracie stehno, varené zemiaky s cibuľou",
+        "details": "oravská slanina, syr",
+        "weight": "240/240 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Zemiakové šúľance",
+        "details": "posyp mak, vanilkový cukor, maslo",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčové soté s baby mrkvou, ryža",
+        "details": "karé",
+        "weight": "130/200 g",
+        "allergens": "1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót jahodový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "C"
+    ]
+  },
+  {
+    "date": "2025-06-05",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 23 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Kapustnica",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie roládky so syrom a pórom, jasmínová ryža",
+        "details": "prsia",
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Burgundské hovädzie kocky, tarhoňa",
+        "details": "koreňová zelenina, červené víno",
+        "weight": "130/240 g",
+        "allergens": "1,3,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáca viedenská parená buchta vo vanilkovom kréme",
+        "details": "plnená slivkovým lekvárom",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Čevab-čiči, cibuľa, horčica, varené zemiaky",
+        "details": "bravčové",
+        "weight": "150/240 g",
+        "allergens": "1,1"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalát uhorkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2025-06-06",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 23 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Krémová šampiňónová",
+      "allergens": "1,7"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Bolonské špagety s hovädzím mäskom",
+        "details": "lúpané paradajky, stopkový zeler, syr",
+        "weight": "350 g",
+        "allergens": "1,3,7,9"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný syr so šunkou, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "130/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Držky na paprike, domáca parená knedľa",
+        "details": null,
+        "weight": "170/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Hovárske kuracie prsia, ryža",
+        "details": "šunka, syr, broskyňa",
+        "weight": "120/200 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Červená repa",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": [
+      "D"
+    ]
+  },
+  {
+    "date": "2025-06-09",
+    "day_of_week": "Pondelok",
+    "source_file": "JL GALAXIA rozvoz 24 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Francúzska",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kurací stroganov, ryža",
+        "details": "prsia",
+        "weight": "130/220 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Zbojnícke mäso so syrom, ryža",
+        "details": "bravčové stehno",
+        "weight": "130/200 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce pečené buchty",
+        "details": "plnené slivkovým lekvárom",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Vyprážaný kurací rezeň v sézame, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,3,7,11"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kyslá uhorka",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2025-06-10",
+    "day_of_week": "Utorok",
+    "source_file": "JL GALAXIA rozvoz 24 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hrachová s párkom",
+      "allergens": "1"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Hovädzie chilli so zeleninou, ryža troch farieb",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Pečená bravčová krkovička, strapačky s kyslou kapustou",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,3"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce smažené pirôžky",
+        "details": "plnené makom a slivkovým lekvárom",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Kuracia ,,čína\", ryža",
+        "details": "prsia",
+        "weight": "130/200 g",
+        "allergens": "1,8"
+      }
+    ],
+    "daily_extra": {
+      "name": "Šalaát paradajkový",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2025-06-11",
+    "day_of_week": "Streda",
+    "source_file": "JL GALAXIA rozvoz 24 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hovädzí vývar s rezancami",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Kuracie prsia s cuketou, hubami a sézamom, basmati ryža",
+        "details": null,
+        "weight": "120/230 g",
+        "allergens": "1,11"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Zaprávané kuracie stehno, sviečková omáčka, cestovina",
+        "details": null,
+        "weight": "240/240 g",
+        "allergens": "1,3,7,9"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Restovaná bravčová pečeň, ryža",
+        "details": null,
+        "weight": "170/200 g",
+        "allergens": "1,1"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Bravčový guľáš, šťuchané maslové zemiaky",
+        "details": "stehno",
+        "weight": "130/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Červená repa",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2025-06-12",
+    "day_of_week": "Štvrtok",
+    "source_file": "JL GALAXIA rozvoz 24 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Boršč",
+      "allergens": "1,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Morčacie stehno na kari, ryža",
+        "details": "šampiňóny, čerstvá paprika, kokosové mlieko",
+        "weight": "120/230 g",
+        "allergens": "1,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Hovädzie varené, kôprová omáčka, domáca parená knedľa",
+        "details": null,
+        "weight": "120/180 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Domáce palacinky s karamelom",
+        "details": "plnené čučoriedkovým džemom",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Prírodný kurací plátok, šunková omáčka, zemiaková kaša",
+        "details": "prsia",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Kompót ovocný kokteil",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  },
+  {
+    "date": "2025-06-13",
+    "day_of_week": "Piatok",
+    "source_file": "JL GALAXIA rozvoz 24 DN,BS,DUD.xlsx",
+    "soup": {
+      "name": "Hríbová s mrveničkou",
+      "allergens": "1,3,9"
+    },
+    "meals": [
+      {
+        "option": "A",
+        "is_fit": true,
+        "name": "Rybie filé, dusená zelenina, pyré z červenej repy a zemiakov",
+        "details": null,
+        "weight": "120/240 g",
+        "allergens": "1,4,7"
+      },
+      {
+        "option": "B",
+        "is_fit": false,
+        "name": "Vyprážaný karfiol, varené zemiaky, tatárska omáčka",
+        "details": null,
+        "weight": "170/240 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "C",
+        "is_fit": false,
+        "name": "Zemiakové slivkové pirohy",
+        "details": "posyp mak, vanilkový cukor, maslo",
+        "weight": "350 g",
+        "allergens": "1,3,7"
+      },
+      {
+        "option": "D",
+        "is_fit": false,
+        "name": "Obrátený bravčový rezeň, šťuchané maslové zemiaky",
+        "details": "karé",
+        "weight": "120/240 g",
+        "allergens": "1,7"
+      }
+    ],
+    "daily_extra": {
+      "name": "Domáca čalamáda",
+      "price": "0,50 €",
+      "weight": "120 g"
+    },
+    "user_choice": null
+  }
+]
