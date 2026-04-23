@@ -56,6 +56,7 @@ export interface DeliveryPlanItem {
   dailyMenuId: string;
   dailyMenu: DailyMenu;
   quantity: number;
+  deliveryAddress?: string;
   lastUpdated: Date;
 }
 
@@ -146,6 +147,10 @@ export interface DailyMenuWithSelection extends DailyMenu {
 export interface SetSelectionRequest {
   dailyMenuId: string;
   quantity: number;
+}
+
+export interface UpdatePlanDeliveryAddressRequest {
+  deliveryAddress?: string;
 }
 
 // Admin

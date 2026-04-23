@@ -84,6 +84,7 @@ router.get('/customer-service/user/:userId', authenticate, authorize('admin', 's
       `SELECT 
          dpi.id as plan_id,
          dpi.quantity,
+         dpi.delivery_address,
          dpi.last_updated,
          dm.id as daily_menu_id,
          dm.date,
@@ -130,6 +131,7 @@ router.get('/customer-service/user/:userId', authenticate, authorize('admin', 's
         currentPlans: currentPlans.rows.map(row => ({
           planId: row.plan_id,
           quantity: row.quantity,
+          deliveryAddress: row.delivery_address,
           lastUpdated: row.last_updated,
           dailyMenuId: row.daily_menu_id,
           date: row.date,
@@ -201,7 +203,7 @@ router.put('/customer-service/user/:userId/reset-password', authenticate, author
 router.put('/customer-service/plan/:planId', authenticate, authorize('admin', 'staff'), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const planId = req.params.planId;
-    const { quantity } = req.body;
+    const { quantity, deliveryAddress } = req.body;
 
     if (quantity === undefined || quantity < 0) {
       return res.status(400).json({
@@ -257,14 +259,14 @@ router.put('/customer-service/plan/:planId', authenticate, authorize('admin', 's
       // Upraviť množstvo
       await query(
         `UPDATE delivery_plan_items 
-         SET quantity = ?, last_updated = datetime('now') 
+         SET quantity = ?, delivery_address = COALESCE(?, delivery_address), last_updated = datetime('now') 
          WHERE id = ?`,
-        [quantity, planId]
+        [quantity, deliveryAddress ?? null, planId]
       );
 
-      const response: ApiResponse<{ message: string; quantity: number }> = {
+      const response: ApiResponse<{ message: string; quantity: number; deliveryAddress?: string }> = {
         success: true,
-        data: { message: 'Objednávka bola upravená', quantity },
+        data: { message: 'Objednávka bola upravená', quantity, deliveryAddress },
       };
       res.json(response);
     }
@@ -332,7 +334,7 @@ router.delete('/customer-service/plan/:planId', authenticate, authorize('admin',
 router.post('/customer-service/user/:userId/create-order', authenticate, authorize('admin', 'staff'), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.params.userId;
-    const { dailyMenuId, quantity } = req.body;
+    const { dailyMenuId, quantity, deliveryAddress } = req.body;
 
     if (!dailyMenuId || !quantity || quantity < 1) {
       return res.status(400).json({
@@ -368,25 +370,26 @@ router.post('/customer-service/user/:userId/create-order', authenticate, authori
       // Update existing
       await query(
         `UPDATE delivery_plan_items 
-         SET quantity = quantity + ?, last_updated = datetime('now') 
+         SET quantity = quantity + ?, delivery_address = COALESCE(?, delivery_address), last_updated = datetime('now') 
          WHERE id = ?`,
-        [quantity, planId]
+        [quantity, deliveryAddress ?? null, planId]
       );
     } else {
       // Insert new
       await query(
-        `INSERT INTO delivery_plan_items (id, user_id, daily_menu_id, quantity, last_updated)
-         VALUES (?, ?, ?, ?, datetime('now'))`,
-        [planId, userId, dailyMenuId, quantity]
+        `INSERT INTO delivery_plan_items (id, user_id, daily_menu_id, quantity, delivery_address, last_updated)
+         VALUES (?, ?, ?, ?, ?, datetime('now'))`,
+        [planId, userId, dailyMenuId, quantity, deliveryAddress ?? null]
       );
     }
 
-    const response: ApiResponse<{ message: string; planId: string; quantity: number }> = {
+    const response: ApiResponse<{ message: string; planId: string; quantity: number; deliveryAddress?: string }> = {
       success: true,
       data: {
         message: 'Objednávka bola vytvorená',
         planId,
         quantity,
+        deliveryAddress,
       },
     };
 
@@ -406,7 +409,7 @@ router.get('/customer-service/today-orders', authenticate, authorize('admin', 's
          u.id as user_id,
          u.first_name || ' ' || u.last_name as user_name,
          u.phone as user_phone,
-         u.address as user_address,
+         COALESCE(dpi.delivery_address, u.address) as user_address,
          mi.name as menu_item_name,
          dpi.quantity,
          dm.menu_slot,

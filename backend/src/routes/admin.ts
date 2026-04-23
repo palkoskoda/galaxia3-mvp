@@ -118,7 +118,7 @@ router.get('/daily-summary/:date', authenticate, authorize('admin', 'staff'), as
       `SELECT 
          u.id as user_id,
          u.first_name || ' ' || u.last_name as user_name,
-         u.address as user_address,
+         COALESCE(dpi.delivery_address, u.address) as user_address,
          u.phone as user_phone,
          SUM(dpi.quantity * mi.price) as total_price
        FROM delivery_plan_items dpi
@@ -126,7 +126,7 @@ router.get('/daily-summary/:date', authenticate, authorize('admin', 'staff'), as
        JOIN menu_items mi ON dm.menu_item_id = mi.id
        JOIN users u ON dpi.user_id = u.id
        WHERE dm.date = $1
-       GROUP BY u.id, u.first_name, u.last_name, u.address, u.phone
+       GROUP BY u.id, u.first_name, u.last_name, COALESCE(dpi.delivery_address, u.address), u.phone
        ORDER BY u.last_name, u.first_name`,
       [date]
     );
@@ -142,8 +142,10 @@ router.get('/daily-summary/:date', authenticate, authorize('admin', 'staff'), as
          FROM delivery_plan_items dpi
          JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
          JOIN menu_items mi ON dm.menu_item_id = mi.id
-         WHERE dpi.user_id = $1 AND dm.date = $2`,
-        [row.user_id, date]
+         JOIN users u ON dpi.user_id = u.id
+         WHERE dpi.user_id = $1 AND dm.date = $2
+           AND COALESCE(dpi.delivery_address, u.address) = $3`,
+        [row.user_id, date, row.user_address]
       );
 
       deliveries.push({

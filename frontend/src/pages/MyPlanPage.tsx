@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { usePlanStore } from '../stores/planStore'
 import { useAuthStore } from '../stores/authStore'
+import { planApi } from '../services/api'
 import { formatDateWithDay, formatDateShort } from '@/utils/date'
 import { Calendar, Package, Euro, MapPin, Edit, AlertCircle, CheckCircle } from 'lucide-react'
 import LoadingSpinner from '@/components/LoadingSpinner'
@@ -11,6 +12,8 @@ export default function MyPlanPage() {
   const { myPlan, isLoading, fetchMyPlan } = usePlanStore()
   const [isEditingAddress, setIsEditingAddress] = useState(false)
   const [tempAddress, setTempAddress] = useState(user?.address || '')
+  const [editingPlanAddress, setEditingPlanAddress] = useState<string | null>(null)
+  const [tempPlanAddress, setTempPlanAddress] = useState('')
   const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
@@ -25,6 +28,21 @@ export default function MyPlanPage() {
       setIsEditingAddress(false)
     } catch (error) {
       toast.error('Nepodarilo sa uložiť adresu')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleSavePlanAddress = async (planId: string) => {
+    setIsSaving(true)
+    try {
+      await planApi.updateDeliveryAddress(planId, tempPlanAddress)
+      await fetchMyPlan()
+      toast.success('Adresa pre objednávku bola uložená')
+      setEditingPlanAddress(null)
+      setTempPlanAddress('')
+    } catch {
+      toast.error('Nepodarilo sa uložiť adresu objednávky')
     } finally {
       setIsSaving(false)
     }
@@ -193,30 +211,59 @@ export default function MyPlanPage() {
                 </div>
               </div>
               <div className="card-body">
-                {/* Show delivery address for this day */}
-                {hasAddress && (
-                  <div className="flex items-center gap-2 mb-4 p-3 bg-gray-50 rounded-lg">
-                    <MapPin className="w-4 h-4 text-gray-400" />
-                    <span className="text-sm text-gray-600">
-                      Doručenie na: <span className="font-medium text-gray-900">{user?.address}</span>
-                    </span>
-                  </div>
-                )}
-                
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {myPlan![date].items.map((item) => (
-                    <div key={item.id} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
-                      <div>
-                        <span className="font-medium text-gray-900">
-                          {item.dailyMenu.menuItem.name}
-                        </span>
-                        <span className="text-gray-500 ml-2">
-                          × {item.quantity}
+                    <div key={item.id} className="py-2 border-b border-gray-100 last:border-0">
+                      <div className="flex justify-between items-center mb-2">
+                        <div>
+                          <span className="font-medium text-gray-900">
+                            {item.dailyMenu.menuItem.name}
+                          </span>
+                          <span className="text-gray-500 ml-2">
+                            × {item.quantity}
+                          </span>
+                        </div>
+                        <span className="text-gray-600">
+                          {(item.quantity * item.dailyMenu.menuItem.price).toFixed(2)} €
                         </span>
                       </div>
-                      <span className="text-gray-600">
-                        {(item.quantity * item.dailyMenu.menuItem.price).toFixed(2)} €
-                      </span>
+
+                      <div className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
+                        <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                        <div className="flex-1">
+                          {editingPlanAddress === item.id ? (
+                            <>
+                              <textarea
+                                value={tempPlanAddress}
+                                onChange={(e) => setTempPlanAddress(e.target.value)}
+                                className="input w-full mb-2"
+                                rows={2}
+                                placeholder="Adresa pre túto objednávku"
+                              />
+                              <div className="flex gap-2">
+                                <button onClick={() => handleSavePlanAddress(item.id)} disabled={isSaving} className="btn-primary btn-sm">
+                                  Uložiť
+                                </button>
+                                <button onClick={() => { setEditingPlanAddress(null); setTempPlanAddress('') }} className="btn-secondary btn-sm">
+                                  Zrušiť
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <div className="flex items-center justify-between gap-3">
+                              <span className="text-sm text-gray-600">
+                                Doručenie na: <span className="font-medium text-gray-900">{item.deliveryAddress || user?.address || 'Bez adresy'}</span>
+                              </span>
+                              <button
+                                onClick={() => { setEditingPlanAddress(item.id); setTempPlanAddress(item.deliveryAddress || user?.address || '') }}
+                                className="text-primary-600 hover:text-primary-800 flex items-center gap-1 text-sm whitespace-nowrap"
+                              >
+                                <Edit className="w-4 h-4" /> Upraviť pre objednávku
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -90,6 +90,11 @@ export const planApi = {
       dailyMenuId,
       quantity,
     }),
+
+  updateDeliveryAddress: (planId: string, deliveryAddress: string) =>
+    api.put<ApiResponse<DeliveryPlanItem>>(`/plan/item/${planId}/delivery-address`, {
+      deliveryAddress,
+    }),
   
   // Môj plán
   getMyPlan: (from?: string) =>
@@ -151,6 +156,7 @@ export const customerServiceApi = {
       currentPlans: Array<{
         planId: string;
         quantity: number;
+        deliveryAddress?: string;
         date: string;
         menuSlot: string;
         menuItem: { name: string; price: number };
@@ -166,14 +172,14 @@ export const customerServiceApi = {
   resetPassword: (userId: string, password?: string) =>
     api.put<ApiResponse<{ message: string; temporaryPassword: string }>>(`/admin/customer-service/user/${userId}/reset-password`, { password }),
   
-  updatePlan: (planId: string, quantity: number) =>
-    api.put<ApiResponse<{ message: string; quantity: number }>>(`/admin/customer-service/plan/${planId}`, { quantity }),
+  updatePlan: (planId: string, quantity: number, deliveryAddress?: string) =>
+    api.put<ApiResponse<{ message: string; quantity: number; deliveryAddress?: string }>>(`/admin/customer-service/plan/${planId}`, { quantity, deliveryAddress }),
   
   cancelPlan: (planId: string) =>
     api.delete<ApiResponse<{ message: string; cancelledDate: string }>>(`/admin/customer-service/plan/${planId}`),
   
-  createOrder: (userId: string, dailyMenuId: string, quantity: number) =>
-    api.post<ApiResponse<{ message: string; planId: string; quantity: number }>>(`/admin/customer-service/user/${userId}/create-order`, { dailyMenuId, quantity }),
+  createOrder: (userId: string, dailyMenuId: string, quantity: number, deliveryAddress?: string) =>
+    api.post<ApiResponse<{ message: string; planId: string; quantity: number; deliveryAddress?: string }>>(`/admin/customer-service/user/${userId}/create-order`, { dailyMenuId, quantity, deliveryAddress }),
   
   getTodayOrders: () =>
     api.get<ApiResponse<Array<{

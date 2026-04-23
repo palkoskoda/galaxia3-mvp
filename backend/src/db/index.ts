@@ -174,10 +174,12 @@ const createPostgresTables = async () => {
         user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
         daily_menu_id TEXT NOT NULL REFERENCES daily_menu(id) ON DELETE CASCADE,
         quantity INTEGER NOT NULL CHECK (quantity > 0),
+        delivery_address TEXT,
         last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE(user_id, daily_menu_id)
       )
     `);
+    await client.query('ALTER TABLE delivery_plan_items ADD COLUMN IF NOT EXISTS delivery_address TEXT');
 
     // Order history table
     await client.query(`
@@ -301,10 +303,18 @@ const createSQLiteTables = async () => {
       user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       daily_menu_id TEXT NOT NULL REFERENCES daily_menu(id) ON DELETE CASCADE,
       quantity INTEGER NOT NULL CHECK (quantity > 0),
+      delivery_address TEXT,
       last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
       UNIQUE(user_id, daily_menu_id)
     )
   `);
+  try {
+    await sqliteDb.run('ALTER TABLE delivery_plan_items ADD COLUMN delivery_address TEXT');
+  } catch (error: any) {
+    if (!String(error?.message || error).includes('duplicate column name')) {
+      throw error;
+    }
+  }
 
   // Order history table
   await sqliteDb.run(`

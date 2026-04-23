@@ -107,6 +107,49 @@ router.put('/selection', authenticate, async (req: Request, res: Response, next:
   }
 });
 
+// PUT /api/plan/item/:planId/delivery-address - Upraviť adresu doručenia pre konkrétnu objednávku
+router.put('/item/:planId/delivery-address', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user!.id;
+    const planId = req.params.planId;
+    const deliveryAddress = (req.body.deliveryAddress || '').trim();
+
+    const planCheck = await query<any>(
+      `SELECT dpi.id, dm.deadline_timestamp, dm.is_locked
+       FROM delivery_plan_items dpi
+       JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
+       WHERE dpi.id = $1 AND dpi.user_id = $2`,
+      [planId, userId]
+    );
+
+    if (planCheck.rows.length === 0) {
+      throw new NotFoundError('Delivery plan item');
+    }
+
+    const plan = planCheck.rows[0];
+    if (plan.is_locked === 1 || new Date(plan.deadline_timestamp) < new Date()) {
+      throw new DeadlinePassedError('Uzávierka už uplynula, adresu nemožno upraviť');
+    }
+
+    const result = await query<DeliveryPlanItem>(
+      `UPDATE delivery_plan_items
+       SET delivery_address = $1, last_updated = datetime('now')
+       WHERE id = $2 AND user_id = $3
+       RETURNING *`,
+      [deliveryAddress || null, planId, userId]
+    );
+
+    const response: ApiResponse<DeliveryPlanItem> = {
+      success: true,
+      data: result.rows[0],
+    };
+
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // GET /api/plan/my - Môj aktuálny plán dodávok
 router.get('/my', authenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -119,6 +162,7 @@ router.get('/my', authenticate, async (req: Request, res: Response, next: NextFu
          dpi.user_id,
          dpi.daily_menu_id,
          dpi.quantity,
+         dpi.delivery_address,
          dpi.last_updated,
          dm.id as dm_id,
          dm.date as dm_date,
@@ -155,6 +199,7 @@ router.get('/my', authenticate, async (req: Request, res: Response, next: NextFu
       userId: row.user_id,
       dailyMenuId: row.daily_menu_id,
       quantity: row.quantity,
+      deliveryAddress: row.delivery_address,
       lastUpdated: row.last_updated,
       dailyMenu: {
         id: row.dm_id,

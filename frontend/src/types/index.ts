@@ -56,6 +56,7 @@ export interface DeliveryPlanItem {
   dailyMenuId: string;
   dailyMenu: DailyMenu;
   quantity: number;
+  deliveryAddress?: string;
   lastUpdated: string;
 }
 

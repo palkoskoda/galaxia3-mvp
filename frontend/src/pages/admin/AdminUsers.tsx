@@ -19,6 +19,7 @@ interface CustomerDetail {
   currentPlans: Array<{
     planId: string
     quantity: number
+    deliveryAddress?: string
     date: string
     menuSlot: string
     menuItem: { name: string; price: number }
@@ -42,12 +43,14 @@ export default function AdminUsers() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [editQuantity, setEditQuantity] = useState<{[key: string]: number}>({})
+  const [editAddress, setEditAddress] = useState<{[key: string]: string}>({})
   
   // Add order modal
   const [isAddOrderOpen, setIsAddOrderOpen] = useState(false)
   const [availableMenu, setAvailableMenu] = useState<DailyMenu[]>([])
   const [selectedMenuItem, setSelectedMenuItem] = useState('')
   const [orderQuantity, setOrderQuantity] = useState(1)
+  const [orderDeliveryAddress, setOrderDeliveryAddress] = useState('')
 
   useEffect(() => {
     loadUsers()
@@ -90,13 +93,18 @@ export default function AdminUsers() {
 
     setIsSaving(true)
     try {
-      await customerServiceApi.updatePlan(planId, quantity)
+      await customerServiceApi.updatePlan(planId, quantity, editAddress[planId])
       // Refresh detail
       if (selectedUser) {
         const response = await customerServiceApi.getUserDetail(selectedUser.user.id)
         setSelectedUser(response.data.data)
       }
       setEditQuantity(prev => {
+        const next = { ...prev }
+        delete next[planId]
+        return next
+      })
+      setEditAddress(prev => {
         const next = { ...prev }
         delete next[planId]
         return next
@@ -134,13 +142,14 @@ export default function AdminUsers() {
 
     setIsSaving(true)
     try {
-      await customerServiceApi.createOrder(selectedUser.user.id, selectedMenuItem, orderQuantity)
+      await customerServiceApi.createOrder(selectedUser.user.id, selectedMenuItem, orderQuantity, orderDeliveryAddress || selectedUser.user.address)
       // Refresh detail
       const response = await customerServiceApi.getUserDetail(selectedUser.user.id)
       setSelectedUser(response.data.data)
       setIsAddOrderOpen(false)
       setSelectedMenuItem('')
       setOrderQuantity(1)
+      setOrderDeliveryAddress('')
     } catch (error: any) {
       alert('Chyba pri vytváraní objednávky: ' + (error.response?.data?.error || error.message))
     } finally {
@@ -158,6 +167,7 @@ export default function AdminUsers() {
         return deadline && deadline > now
       })
       setAvailableMenu(available)
+      setOrderDeliveryAddress(selectedUser?.user.address || '')
       setIsAddOrderOpen(true)
     } catch (error) {
       console.error('Failed to load menu:', error)
@@ -370,7 +380,7 @@ export default function AdminUsers() {
                           </div>
                           <div className="flex items-center gap-2">
                             {editQuantity[plan.planId] !== undefined ? (
-                              <>
+                              <div className="flex flex-col items-end gap-2">
                                 <input
                                   type="number"
                                   min="0"
@@ -381,36 +391,47 @@ export default function AdminUsers() {
                                   }))}
                                   className="input w-20 text-center"
                                 />
-                                <button
-                                  onClick={() => handleUpdatePlan(plan.planId)}
-                                  disabled={isSaving}
-                                  className="text-green-600 hover:text-green-800"
-                                >
-                                  <Save className="w-4 h-4" />
-                                </button>
-                                <button
-                                  onClick={() => setEditQuantity(prev => {
-                                    const next = { ...prev }
-                                    delete next[plan.planId]
-                                    return next
-                                  })}
-                                  className="text-gray-400 hover:text-gray-600"
-                                >
-                                  <X className="w-4 h-4" />
-                                </button>
-                              </>
+                                <textarea
+                                  value={editAddress[plan.planId] ?? plan.deliveryAddress ?? selectedUser.user.address ?? ''}
+                                  onChange={(e) => setEditAddress(prev => ({ ...prev, [plan.planId]: e.target.value }))}
+                                  className="input w-64 text-sm"
+                                  rows={2}
+                                  placeholder="Adresa doručenia pre túto objednávku"
+                                />
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => handleUpdatePlan(plan.planId)}
+                                    disabled={isSaving}
+                                    className="text-green-600 hover:text-green-800"
+                                  >
+                                    <Save className="w-4 h-4" />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      setEditQuantity(prev => { const next = { ...prev }; delete next[plan.planId]; return next })
+                                      setEditAddress(prev => { const next = { ...prev }; delete next[plan.planId]; return next })
+                                    }}
+                                    className="text-gray-400 hover:text-gray-600"
+                                  >
+                                    <X className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </div>
                             ) : (
                               <>
-                                <span className="font-medium">{plan.quantity} ks</span>
+                                <div className="text-right">
+                                  <span className="font-medium">{plan.quantity} ks</span>
+                                  <p className="text-xs text-gray-500 max-w-xs">{plan.deliveryAddress || selectedUser.user.address || 'Bez adresy'}</p>
+                                </div>
                                 {plan.isEditable && (
                                   <>
                                     <button
-                                      onClick={() => setEditQuantity(prev => ({
-                                        ...prev,
-                                        [plan.planId]: plan.quantity
-                                      }))}
+                                      onClick={() => {
+                                        setEditQuantity(prev => ({ ...prev, [plan.planId]: plan.quantity }))
+                                        setEditAddress(prev => ({ ...prev, [plan.planId]: plan.deliveryAddress || selectedUser.user.address || '' }))
+                                      }}
                                       className="text-blue-600 hover:text-blue-800"
-                                      title="Upraviť množstvo"
+                                      title="Upraviť množstvo a adresu"
                                     >
                                       <Edit2 className="w-4 h-4" />
                                     </button>
@@ -502,6 +523,17 @@ export default function AdminUsers() {
                     value={orderQuantity}
                     onChange={(e) => setOrderQuantity(parseInt(e.target.value) || 1)}
                     className="input w-full"
+                  />
+                </div>
+
+                <div>
+                  <label className="label">Adresa doručenia pre túto objednávku</label>
+                  <textarea
+                    value={orderDeliveryAddress}
+                    onChange={(e) => setOrderDeliveryAddress(e.target.value)}
+                    className="input w-full"
+                    rows={2}
+                    placeholder="Adresa doručenia"
                   />
                 </div>
 
