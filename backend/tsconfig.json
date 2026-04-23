@@ -15,7 +15,6 @@
     "declaration": false,
     "sourceMap": false,
     "moduleResolution": "NodeNext",
-    "types": ["node"],
 
   },
   "include": ["src/**/*"],
