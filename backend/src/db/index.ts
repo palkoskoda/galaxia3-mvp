@@ -405,9 +405,12 @@ export const query = async <T = any>(
           const rows = await sqliteDb.all(selectSql, [id]);
           return { rows, rowCount: rows.length };
         } else if (isInsert && table) {
-          const stmt = await sqliteDb.run(sql, params);
-          const id = stmt.lastID;
-          if (id) {
+          // For SQLite with TEXT PK, we need to get the ID from params
+          const idMatch = sql.match(/VALUES\s*\(([^)]+)\)/i);
+          if (idMatch) {
+            const valuesCount = idMatch[1].split(',').length;
+            const id = params?.[0]; // First param is usually ID
+            await sqliteDb.run(sql, params);
             const selectSql = `SELECT ${returningColumns} FROM ${table} WHERE id = ?`;
             const rows = await sqliteDb.all(selectSql, [id]);
             return { rows, rowCount: rows.length };
