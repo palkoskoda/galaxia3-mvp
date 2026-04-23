@@ -217,7 +217,13 @@ const syncMenuData = async () => {
   console.log(`   ${dailyMenuCount} daily menu entries created/updated`);
 };
 
-syncMenuData().catch((error) => {
-  console.error('❌ Sync failed:', error);
-  process.exit(1);
-});
+// Export for programmatic use
+export { syncMenuData };
+
+// Run if called directly
+if (require.main === module) {
+  syncMenuData().then(() => process.exit(0)).catch((error) => {
+    console.error('❌ Sync failed:', error);
+    process.exit(1);
+  });
+}

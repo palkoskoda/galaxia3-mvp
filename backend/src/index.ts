@@ -85,10 +85,39 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFoundHandler);
 app.use(errorHandler);
 
+// Auto-seed and sync functions
+const autoSeed = async () => {
+  try {
+    console.log('🌱 Running auto-seed...');
+    const seedScript = require('./scripts/seed');
+    await seedScript.seed();
+    console.log('✅ Auto-seed complete');
+  } catch (error) {
+    console.log('ℹ️ Seed script not available or already seeded');
+  }
+};
+
+const autoSyncMenu = async () => {
+  try {
+    console.log('📊 Running auto-sync menu...');
+    const syncScript = require('./scripts/sync-menu-data');
+    await syncScript.syncMenuData();
+    console.log('✅ Auto-sync complete');
+  } catch (error) {
+    console.log('ℹ️ Menu sync not available or already synced');
+  }
+};
+
 // Initialize database and start server
 const startServer = async () => {
   try {
     await initDatabase();
+    
+    // Auto-seed and sync in production
+    if (process.env.NODE_ENV === 'production') {
+      await autoSeed();
+      await autoSyncMenu();
+    }
     
     app.listen(PORT, () => {
       console.log(`🚀 Galaxia Obedy 3.0 Backend running on port ${PORT}`);

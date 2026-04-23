@@ -364,8 +364,15 @@ const seed = async () => {
   console.log('  klient3@example.com / password123');
   console.log('  klient4@example.com / password123');
   console.log('  klient5@example.com / password123');
-  
-  process.exit(0);
 };
 
-seed().catch(console.error);
+// Export for programmatic use
+export { seed };
+
+// Run if called directly
+if (require.main === module) {
+  seed().then(() => process.exit(0)).catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
