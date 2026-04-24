@@ -21,6 +21,9 @@ import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminMenu from './pages/admin/AdminMenu'
 import AdminDailySummary from './pages/admin/AdminDailySummary'
 import AdminUsers from './pages/admin/AdminUsers'
+import AdminDeliveryRuns from './pages/admin/AdminDeliveryRuns'
+import AdminOrderLocks from './pages/admin/AdminOrderLocks'
+import AdminOrderIntake from './pages/admin/AdminOrderIntake'
 
 function App() {
   const { checkAuth } = useAuthStore()
@@ -78,6 +81,21 @@ function App() {
         <Route path="/admin/pouzivatelia" element={
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminUsers />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/rozvoz" element={
+          <ProtectedRoute allowedRoles={['admin', 'staff']}>
+            <AdminDeliveryRuns />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/prijem-objednavok" element={
+          <ProtectedRoute allowedRoles={['admin', 'staff']}>
+            <AdminOrderIntake />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin/uzamknutia" element={
+          <ProtectedRoute allowedRoles={['admin', 'staff']}>
+            <AdminOrderLocks />
           </ProtectedRoute>
         } />
         

@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import { initDatabase } from './db';
+import { initDatabase, query } from './db';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 // Rate limiting temporarily disabled due to TypeScript compatibility issues
 
@@ -17,6 +17,8 @@ import planRoutes from './routes/plan';
 import historyRoutes from './routes/history';
 import adminRoutes from './routes/admin';
 import adminCustomerServiceRoutes from './routes/admin-customer-service';
+import deliveryRunsRoutes from './routes/delivery-runs';
+import orderLocksRoutes from './routes/order-locks';
 
 dotenv.config();
 
@@ -26,6 +28,10 @@ const allowedOrigins = [
   process.env.CORS_ORIGIN,
   'https://galaxia3-mvp.onrender.com',
   'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:3007',
+  'http://127.0.0.1:3007',
 ].filter(Boolean);
 
 // Security middleware
@@ -67,6 +73,8 @@ app.use('/api/plan', planRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin', adminCustomerServiceRoutes);
+app.use('/api/delivery-runs', deliveryRunsRoutes);
+app.use('/api/order-locks', orderLocksRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
@@ -88,6 +96,14 @@ app.use(errorHandler);
 // Auto-seed and sync functions
 const autoSeed = async () => {
   try {
+    const usersCount = await query<{ count: number }>('SELECT COUNT(*) as count FROM users');
+    const hasUsers = Number(usersCount.rows[0]?.count || 0) > 0;
+
+    if (hasUsers) {
+      console.log('ℹ️ Auto-seed skipped: users already exist');
+      return;
+    }
+
     console.log('🌱 Running auto-seed...');
     const seedScript = require('./scripts/seed');
     await seedScript.seed();
@@ -99,6 +115,14 @@ const autoSeed = async () => {
 
 const autoSyncMenu = async () => {
   try {
+    const menuCount = await query<{ count: number }>('SELECT COUNT(*) as count FROM daily_menu');
+    const hasMenu = Number(menuCount.rows[0]?.count || 0) > 0;
+
+    if (hasMenu) {
+      console.log('ℹ️ Auto-sync skipped: daily menu already exists');
+      return;
+    }
+
     console.log('📊 Running auto-sync menu...');
     const syncScript = require('./scripts/sync-menu-data');
     await syncScript.syncMenuData();

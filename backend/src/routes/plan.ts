@@ -7,6 +7,34 @@ import { ApiResponse, DeliveryPlanItem } from '../types';
 
 const router = Router();
 
+const logPlanAudit = async (params: {
+  planItemId: string;
+  userId: string;
+  actorUserId: string;
+  actionType: string;
+  fieldName?: string;
+  oldValue?: unknown;
+  newValue?: unknown;
+  reason?: string;
+}) => {
+  const auditId = `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  await query(
+    `INSERT INTO delivery_plan_audit_log (id, plan_item_id, user_id, actor_user_id, action_type, field_name, old_value, new_value, reason)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [
+      auditId,
+      params.planItemId,
+      params.userId,
+      params.actorUserId,
+      params.actionType,
+      params.fieldName || null,
+      params.oldValue != null ? String(params.oldValue) : null,
+      params.newValue != null ? String(params.newValue) : null,
+      params.reason || null,
+    ]
+  );
+};
+
 // ============================================
 // ŽIVÝ PLÁN - KĽÚČOVÁ FUNKCIONALITA
 // ============================================
@@ -66,10 +94,20 @@ router.put('/selection', authenticate, async (req: Request, res: Response, next:
         res.json(response);
         return;
       }
+
+      await logPlanAudit({
+        planItemId: result.rows[0].id,
+        userId,
+        actorUserId: userId,
+        actionType: 'plan_item_deleted',
+        fieldName: 'quantity',
+        oldValue: result.rows[0].quantity,
+        newValue: 0,
+      });
     } else {
       // Check if record exists
-      const existingResult = await query(
-        'SELECT id FROM delivery_plan_items WHERE user_id = $1 AND daily_menu_id = $2',
+      const existingResult = await query<any>(
+        'SELECT id, quantity FROM delivery_plan_items WHERE user_id = $1 AND daily_menu_id = $2',
         [userId, dailyMenuId]
       );
 
@@ -82,15 +120,32 @@ router.put('/selection', authenticate, async (req: Request, res: Response, next:
            RETURNING *`,
           [quantity, userId, dailyMenuId]
         );
+        await logPlanAudit({
+          planItemId: existingResult.rows[0].id,
+          userId,
+          actorUserId: userId,
+          actionType: 'quantity_updated',
+          fieldName: 'quantity',
+          oldValue: existingResult.rows[0].quantity,
+          newValue: quantity,
+        });
       } else {
         // INSERT new record
         const id = `plan-${userId}-${dailyMenuId}-${Date.now()}`;
         result = await query<DeliveryPlanItem>(
-          `INSERT INTO delivery_plan_items (id, user_id, daily_menu_id, quantity, last_updated)
-           VALUES ($1, $2, $3, $4, datetime('now'))
+          `INSERT INTO delivery_plan_items (id, user_id, daily_menu_id, quantity, delivery_address, last_updated)
+           VALUES ($1, $2, $3, $4, NULL, datetime('now'))
            RETURNING *`,
           [id, userId, dailyMenuId, quantity]
         );
+        await logPlanAudit({
+          planItemId: id,
+          userId,
+          actorUserId: userId,
+          actionType: 'plan_item_created',
+          fieldName: 'quantity',
+          newValue: quantity,
+        });
       }
     }
 
@@ -115,7 +170,7 @@ router.put('/item/:planId/delivery-address', authenticate, async (req: Request, 
     const deliveryAddress = (req.body.deliveryAddress || '').trim();
 
     const planCheck = await query<any>(
-      `SELECT dpi.id, dm.deadline_timestamp, dm.is_locked
+      `SELECT dpi.id, dpi.delivery_address, dm.date, dm.deadline_timestamp, dm.is_locked
        FROM delivery_plan_items dpi
        JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
        WHERE dpi.id = $1 AND dpi.user_id = $2`,
@@ -139,12 +194,101 @@ router.put('/item/:planId/delivery-address', authenticate, async (req: Request, 
       [deliveryAddress || null, planId, userId]
     );
 
+    await logPlanAudit({
+      planItemId: planId,
+      userId,
+      actorUserId: userId,
+      actionType: 'delivery_address_updated',
+      fieldName: 'delivery_address',
+      oldValue: plan.delivery_address,
+      newValue: deliveryAddress || null,
+    });
+
     const response: ApiResponse<DeliveryPlanItem> = {
       success: true,
       data: result.rows[0],
     };
 
     res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/plan/item/:planId/reset-delivery-address - Reset adresy na profilovú default
+router.post('/item/:planId/reset-delivery-address', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user!.id;
+    const planId = req.params.planId;
+
+    const planCheck = await query<any>(
+      `SELECT dpi.id, dpi.delivery_address, dm.deadline_timestamp, dm.is_locked
+       FROM delivery_plan_items dpi
+       JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
+       WHERE dpi.id = $1 AND dpi.user_id = $2`,
+      [planId, userId]
+    );
+
+    if (planCheck.rows.length === 0) throw new NotFoundError('Delivery plan item');
+    const plan = planCheck.rows[0];
+    if (plan.is_locked === 1 || new Date(plan.deadline_timestamp) < new Date()) {
+      throw new DeadlinePassedError('Uzávierka už uplynula, adresu nemožno upraviť');
+    }
+
+    const result = await query<DeliveryPlanItem>(
+      `UPDATE delivery_plan_items SET delivery_address = NULL, last_updated = datetime('now') WHERE id = $1 AND user_id = $2 RETURNING *`,
+      [planId, userId]
+    );
+
+    await logPlanAudit({
+      planItemId: planId,
+      userId,
+      actorUserId: userId,
+      actionType: 'delivery_address_reset',
+      fieldName: 'delivery_address',
+      oldValue: plan.delivery_address,
+      newValue: null,
+    });
+
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/plan/day/:date/apply-default-address - Použiť profilovú adresu pre všetky objednávky v daný deň
+router.post('/day/:date/apply-default-address', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user!.id;
+    const date = req.params.date;
+
+    const plans = await query<any>(
+      `SELECT dpi.id, dpi.delivery_address, dm.deadline_timestamp, dm.is_locked
+       FROM delivery_plan_items dpi
+       JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
+       WHERE dpi.user_id = $1 AND dm.date = $2`,
+      [userId, date]
+    );
+
+    const editablePlans = plans.rows.filter((row: any) => row.is_locked !== 1 && new Date(row.deadline_timestamp) >= new Date());
+
+    for (const plan of editablePlans) {
+      await query(
+        `UPDATE delivery_plan_items SET delivery_address = NULL, last_updated = datetime('now') WHERE id = $1`,
+        [plan.id]
+      );
+      await logPlanAudit({
+        planItemId: plan.id,
+        userId,
+        actorUserId: userId,
+        actionType: 'delivery_address_reset_for_day',
+        fieldName: 'delivery_address',
+        oldValue: plan.delivery_address,
+        newValue: null,
+      });
+    }
+
+    res.json({ success: true, data: { updatedCount: editablePlans.length } });
   } catch (error) {
     next(error);
   }

@@ -281,7 +281,13 @@ router.get('/users', authenticate, authorize('admin'), async (req: Request, res:
     }
 
     if (search) {
-      whereClause += ` AND (first_name LIKE $${params.length + 1} OR last_name LIKE $${params.length + 1} OR email LIKE $${params.length + 1})`;
+      whereClause += ` AND (
+        first_name LIKE $${params.length + 1}
+        OR last_name LIKE $${params.length + 1}
+        OR email LIKE $${params.length + 1}
+        OR phone LIKE $${params.length + 1}
+        OR address LIKE $${params.length + 1}
+      )`;
       params.push(`%${search}%`);
     }
 
@@ -294,8 +300,16 @@ router.get('/users', authenticate, authorize('admin'), async (req: Request, res:
     );
 
     const users = result.rows.map((user: any) => ({
-      ...user,
+      id: user.id,
+      email: user.email,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      phone: user.phone,
+      address: user.address,
+      role: user.role,
       isActive: user.is_active === 1,
+      createdAt: user.created_at,
+      updatedAt: user.updated_at,
     }));
 
     const response: ApiResponse<User[]> = {

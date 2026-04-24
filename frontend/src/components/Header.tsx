@@ -133,6 +133,27 @@ export default function Header() {
                           >
                             Denná súpiska
                           </Link>
+                          <Link
+                            to="/admin/prijem-objednavok"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setAdminMenuOpen(false)}
+                          >
+                            Prijať objednávku
+                          </Link>
+                          <Link
+                            to="/admin/rozvoz"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setAdminMenuOpen(false)}
+                          >
+                            Rozvozová trasa
+                          </Link>
+                          <Link
+                            to="/admin/uzamknutia"
+                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            onClick={() => setAdminMenuOpen(false)}
+                          >
+                            Uzamknutia
+                          </Link>
                         </div>
                       </>
                     )}
@@ -220,6 +241,12 @@ export default function Header() {
                       className="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
                     >
                       Denná súpiska
+                    </Link>
+                    <Link
+                      to="/admin/prijem-objednavok"
+                      className="block pl-6 pr-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+                    >
+                      Prijať objednávku
                     </Link>
                   </>
                 )}

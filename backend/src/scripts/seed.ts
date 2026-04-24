@@ -2,6 +2,7 @@ import { query, initDatabase } from '../db';
 import bcrypt from 'bcryptjs';
 
 const isPostgres = process.env.DATABASE_URL?.startsWith('postgres');
+const resetDemoData = process.env.RESET_DEMO_DATA === 'true';
 
 const seed = async () => {
   await initDatabase();
@@ -12,13 +13,17 @@ const seed = async () => {
   const passwordHash = await bcrypt.hash('password123', 10);
   console.log('Password hash:', passwordHash);
 
-  // Clear existing data (optional - keep for fresh start)
-  await query('DELETE FROM delivery_plan_items');
-  await query('DELETE FROM order_history');
-  await query('DELETE FROM daily_menu');
-  await query('DELETE FROM menu_items');
-  await query('DELETE FROM users WHERE email LIKE \'%@example.com\' OR email LIKE \'%@galaxia.sk\'');
-  console.log('✅ Cleared existing data');
+  if (resetDemoData) {
+    console.log('⚠️ RESET_DEMO_DATA=true, clearing demo data first');
+    await query('DELETE FROM delivery_plan_items');
+    await query('DELETE FROM order_history');
+    await query('DELETE FROM daily_menu');
+    await query('DELETE FROM menu_items');
+    await query('DELETE FROM users WHERE email LIKE \'%@example.com\' OR email LIKE \'%@galaxia.sk\'');
+    console.log('✅ Cleared existing data');
+  } else {
+    console.log('ℹ️ Non-destructive seed mode: existing data will be preserved');
+  }
 
   // Users
   const users = [

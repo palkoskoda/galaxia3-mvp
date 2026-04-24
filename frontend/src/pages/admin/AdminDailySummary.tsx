@@ -103,6 +103,36 @@ export default function AdminDailySummary() {
                 </ul>
               </div>
             )}
+
+            {summary.deliveries && summary.deliveries.length > 0 && (
+              <div className="bg-white p-6 rounded-lg shadow">
+                <h3 className="text-lg font-semibold mb-4">Rozvoz podľa adresy</h3>
+                <div className="space-y-4">
+                  {summary.deliveries.map((delivery: any, idx: number) => (
+                    <div key={idx} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex justify-between items-start gap-4 mb-2">
+                        <div>
+                          <p className="font-semibold text-gray-900">{delivery.userName}</p>
+                          <p className="text-sm text-gray-600">{delivery.userAddress || 'Bez adresy'}</p>
+                          <p className="text-sm text-gray-500">{delivery.userPhone || ''}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-semibold text-primary-600">{Number(delivery.totalPrice || 0).toFixed(2)} €</p>
+                        </div>
+                      </div>
+                      <ul className="space-y-1 text-sm text-gray-700">
+                        {delivery.items?.map((item: any, itemIdx: number) => (
+                          <li key={itemIdx} className="flex justify-between gap-4">
+                            <span>{item.itemName}</span>
+                            <span>{item.quantity} ks</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

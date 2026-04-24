@@ -3,15 +3,13 @@ import { usePlanStore } from '../stores/planStore'
 import { useAuthStore } from '../stores/authStore'
 import { planApi } from '../services/api'
 import { formatDateWithDay, formatDateShort } from '@/utils/date'
-import { Calendar, Package, Euro, MapPin, Edit, AlertCircle, CheckCircle } from 'lucide-react'
+import { Calendar, Package, Euro, MapPin, Edit, RotateCcw } from 'lucide-react'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import toast from 'react-hot-toast'
 
 export default function MyPlanPage() {
-  const { user, updateProfile } = useAuthStore()
+  const { user } = useAuthStore()
   const { myPlan, isLoading, fetchMyPlan } = usePlanStore()
-  const [isEditingAddress, setIsEditingAddress] = useState(false)
-  const [tempAddress, setTempAddress] = useState(user?.address || '')
   const [editingPlanAddress, setEditingPlanAddress] = useState<string | null>(null)
   const [tempPlanAddress, setTempPlanAddress] = useState('')
   const [isSaving, setIsSaving] = useState(false)
@@ -19,19 +17,6 @@ export default function MyPlanPage() {
   useEffect(() => {
     fetchMyPlan()
   }, [fetchMyPlan])
-
-  const handleSaveAddress = async () => {
-    setIsSaving(true)
-    try {
-      await updateProfile({ address: tempAddress })
-      toast.success('Adresa bola uložená')
-      setIsEditingAddress(false)
-    } catch (error) {
-      toast.error('Nepodarilo sa uložiť adresu')
-    } finally {
-      setIsSaving(false)
-    }
-  }
 
   const handleSavePlanAddress = async (planId: string) => {
     setIsSaving(true)
@@ -43,6 +28,32 @@ export default function MyPlanPage() {
       setTempPlanAddress('')
     } catch {
       toast.error('Nepodarilo sa uložiť adresu objednávky')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleResetPlanAddress = async (planId: string) => {
+    setIsSaving(true)
+    try {
+      await planApi.resetDeliveryAddress(planId)
+      await fetchMyPlan()
+      toast.success('Objednávka znovu používa default adresu')
+    } catch {
+      toast.error('Nepodarilo sa resetnúť adresu objednávky')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleApplyDefaultForDay = async (date: string) => {
+    setIsSaving(true)
+    try {
+      const response = await planApi.applyDefaultAddressForDay(date)
+      await fetchMyPlan()
+      toast.success(`Resetované objednávky pre deň: ${response.data.data?.updatedCount ?? 0}`)
+    } catch {
+      toast.error('Nepodarilo sa použiť default adresu pre celý deň')
     } finally {
       setIsSaving(false)
     }
@@ -71,88 +82,6 @@ export default function MyPlanPage() {
           </p>
         </div>
 
-        {/* Delivery Address Card */}
-        <div className={`card mb-6 ${!hasAddress ? 'border-2 border-orange-400' : ''}`}>
-          <div className="card-header border-b border-gray-200 flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-primary-600" />
-              <h2 className="text-lg font-semibold text-gray-900">Adresa doručenia</h2>
-              {!hasAddress && (
-                <span className="badge-orange text-xs">Chýba adresa!</span>
-              )}
-            </div>
-            {!isEditingAddress && (
-              <button
-                onClick={() => setIsEditingAddress(true)}
-                className="text-primary-600 hover:text-primary-800 flex items-center gap-1 text-sm"
-              >
-                <Edit className="w-4 h-4" />
-                Upraviť
-              </button>
-            )}
-          </div>
-          <div className="card-body">
-            {!hasAddress && !isEditingAddress && (
-              <div className="flex items-start gap-3 p-4 bg-orange-50 rounded-lg mb-4">
-                <AlertCircle className="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-orange-800 font-medium">Nemáte nastavenú adresu doručenia</p>
-                  <p className="text-orange-600 text-sm mt-1">
-                    Pre správne doručenie obedov prosím zadajte vašu adresu.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {isEditingAddress ? (
-              <div className="space-y-3">
-                <textarea
-                  value={tempAddress}
-                  onChange={(e) => setTempAddress(e.target.value)}
-                  className="input w-full"
-                  rows={3}
-                  placeholder="Zadajte adresu doručenia (ulica, číslo, mesto, PSČ)"
-                />
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleSaveAddress}
-                    disabled={isSaving || !tempAddress.trim()}
-                    className="btn-primary btn-sm"
-                  >
-                    {isSaving ? 'Ukladám...' : 'Uložiť adresu'}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsEditingAddress(false)
-                      setTempAddress(user?.address || '')
-                    }}
-                    className="btn-secondary btn-sm"
-                  >
-                    Zrušiť
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-start gap-3">
-                {hasAddress ? (
-                  <>
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-gray-900 font-medium">{user?.address}</p>
-                      <p className="text-gray-500 text-sm mt-1">
-                        Táto adresa bude použitá pre všetky vaše objednávky.
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <p className="text-gray-500 italic">
-                    Kliknite na "Upraviť" pre pridanie adresy.
-                  </p>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
 
         {/* Summary cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -198,16 +127,25 @@ export default function MyPlanPage() {
           {dates.map((date) => (
             <div key={date} className="card">
               <div className="card-header border-b border-gray-200">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-start gap-4">
                   <div>
                     <h2 className="text-lg font-semibold text-gray-900">
                       {formatDateWithDay(date)}
                     </h2>
                     <p className="text-sm text-gray-500">{formatDateShort(date)}</p>
                   </div>
-                  <span className="text-lg font-bold text-primary-600">
-                    {myPlan![date].totalPrice.toFixed(2)} €
-                  </span>
+                  <div className="text-right">
+                    <span className="text-lg font-bold text-primary-600 block">
+                      {myPlan![date].totalPrice.toFixed(2)} €
+                    </span>
+                    <button
+                      onClick={() => handleApplyDefaultForDay(date)}
+                      disabled={isSaving}
+                      className="text-xs text-primary-600 hover:text-primary-800 mt-1"
+                    >
+                      Použiť profilovú adresu pre celý deň
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="card-body">
@@ -250,16 +188,38 @@ export default function MyPlanPage() {
                               </div>
                             </>
                           ) : (
-                            <div className="flex items-center justify-between gap-3">
-                              <span className="text-sm text-gray-600">
-                                Doručenie na: <span className="font-medium text-gray-900">{item.deliveryAddress || user?.address || 'Bez adresy'}</span>
-                              </span>
-                              <button
-                                onClick={() => { setEditingPlanAddress(item.id); setTempPlanAddress(item.deliveryAddress || user?.address || '') }}
-                                className="text-primary-600 hover:text-primary-800 flex items-center gap-1 text-sm whitespace-nowrap"
-                              >
-                                <Edit className="w-4 h-4" /> Upraviť pre objednávku
-                              </button>
+                            <div className="flex items-start justify-between gap-3">
+                              <div>
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="text-sm text-gray-600">
+                                    Doručenie na: <span className="font-medium text-gray-900">{item.deliveryAddress || user?.address || 'Bez adresy'}</span>
+                                  </span>
+                                  {item.deliveryAddress ? (
+                                    <span className="badge-purple text-xs">iné miesto</span>
+                                  ) : (
+                                    <span className="badge-gray text-xs">profil</span>
+                                  )}
+                                </div>
+                                {item.deliveryAddress && user?.address && item.deliveryAddress !== user.address && (
+                                  <p className="text-xs text-orange-700 mt-1">Táto objednávka sa doručí inde než profilová adresa.</p>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 flex-wrap justify-end">
+                                <button
+                                  onClick={() => { setEditingPlanAddress(item.id); setTempPlanAddress(item.deliveryAddress || user?.address || '') }}
+                                  className="text-primary-600 hover:text-primary-800 flex items-center gap-1 text-sm whitespace-nowrap"
+                                >
+                                  <Edit className="w-4 h-4" /> Zmeniť adresu
+                                </button>
+                                {item.deliveryAddress && (
+                                  <button
+                                    onClick={() => handleResetPlanAddress(item.id)}
+                                    className="text-gray-600 hover:text-gray-800 flex items-center gap-1 text-sm whitespace-nowrap"
+                                  >
+                                    <RotateCcw className="w-4 h-4" /> Použiť profilovú adresu
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           )}
                         </div>

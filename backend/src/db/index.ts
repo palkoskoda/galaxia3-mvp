@@ -197,6 +197,21 @@ const createPostgresTables = async () => {
       )
     `);
 
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS delivery_plan_audit_log (
+        id TEXT PRIMARY KEY,
+        plan_item_id TEXT REFERENCES delivery_plan_items(id) ON DELETE SET NULL,
+        user_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+        actor_user_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+        action_type TEXT NOT NULL,
+        field_name TEXT,
+        old_value TEXT,
+        new_value TEXT,
+        reason TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     // Raw payload used by render/import workflows
     await client.query(`
       CREATE TABLE IF NOT EXISTS render_menu_data (
@@ -227,6 +242,91 @@ const createPostgresTables = async () => {
       )
     `);
 
+    // Delivery run templates - reusable run definitions
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS delivery_run_templates (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL UNIQUE,
+        driver_name TEXT,
+        driver_phone TEXT,
+        vehicle_info TEXT,
+        time_from TEXT,
+        time_to TEXT,
+        sort_order INTEGER DEFAULT 0,
+        valid_from TEXT,
+        valid_to TEXT,
+        is_active INTEGER DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Delivery runs table - individual delivery trips per day
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS delivery_runs (
+        id TEXT PRIMARY KEY,
+        date TEXT NOT NULL,
+        template_id TEXT REFERENCES delivery_run_templates(id) ON DELETE SET NULL,
+        name TEXT NOT NULL,
+        driver_name TEXT,
+        driver_phone TEXT,
+        vehicle_info TEXT,
+        time_from TEXT,
+        time_to TEXT,
+        notes TEXT,
+        status TEXT DEFAULT 'planned' CHECK (status IN ('planned', 'in_progress', 'completed', 'cancelled')),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    await client.query('ALTER TABLE delivery_runs ADD COLUMN IF NOT EXISTS template_id TEXT');
+
+    // Delivery run items - individual stops in a run
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS delivery_run_items (
+        id TEXT PRIMARY KEY,
+        run_id TEXT NOT NULL REFERENCES delivery_runs(id) ON DELETE CASCADE,
+        plan_item_id TEXT REFERENCES delivery_plan_items(id) ON DELETE SET NULL,
+        user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        delivery_address TEXT NOT NULL,
+        delivery_sequence INTEGER NOT NULL DEFAULT 0,
+        delivery_status TEXT DEFAULT 'pending' CHECK (delivery_status IN ('pending', 'delivered', 'failed')),
+        driver_notes TEXT,
+        delivered_at TIMESTAMP,
+        delivered_by TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // Address to run assignment history - for auto-assignment
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS address_run_assignments (
+        id TEXT PRIMARY KEY,
+        address TEXT NOT NULL,
+        run_id TEXT REFERENCES delivery_runs(id) ON DELETE SET NULL,
+        assignment_count INTEGER DEFAULT 1,
+        last_assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(address)
+      )
+    `);
+
+    // Order locks - for tracking admin overrides after deadline
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS order_locks (
+        id TEXT PRIMARY KEY,
+        plan_item_id TEXT NOT NULL REFERENCES delivery_plan_items(id) ON DELETE CASCADE,
+        user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        locked_by TEXT NOT NULL REFERENCES users(id) ON DELETE SET NULL,
+        locked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        lock_reason TEXT NOT NULL,
+        lock_type TEXT DEFAULT 'manual' CHECK (lock_type IN ('manual', 'deadline', 'payment', 'dispute')),
+        unlocked_at TIMESTAMP,
+        unlocked_by TEXT REFERENCES users(id) ON DELETE SET NULL,
+        unlock_reason TEXT
+      )
+    `);
+
     // Create indexes
     await client.query('CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_daily_menu_date ON daily_menu(date)');
@@ -234,8 +334,20 @@ const createPostgresTables = async () => {
     await client.query('CREATE INDEX IF NOT EXISTS idx_delivery_plan_daily ON delivery_plan_items(daily_menu_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_order_history_user ON order_history(user_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_order_history_date ON order_history(date)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_plan_audit_plan_item ON delivery_plan_audit_log(plan_item_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_plan_audit_user ON delivery_plan_audit_log(user_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_plan_audit_actor ON delivery_plan_audit_log(actor_user_id)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_render_menu_data_source ON render_menu_data(source_name)');
     await client.query('CREATE INDEX IF NOT EXISTS idx_import_markers_source ON import_markers(source_name)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_delivery_run_templates_name ON delivery_run_templates(name)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_delivery_runs_date ON delivery_runs(date)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_delivery_runs_template ON delivery_runs(template_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_delivery_run_items_run ON delivery_run_items(run_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_delivery_run_items_user ON delivery_run_items(user_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_delivery_run_items_status ON delivery_run_items(delivery_status)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_address_run_assignments_address ON address_run_assignments(address)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_order_locks_plan_item ON order_locks(plan_item_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_order_locks_user ON order_locks(user_id)');
 
     await client.query('COMMIT');
     console.log('✅ PostgreSQL tables created');
@@ -332,6 +444,21 @@ const createSQLiteTables = async () => {
     )
   `);
 
+  await sqliteDb.run(`
+    CREATE TABLE IF NOT EXISTS delivery_plan_audit_log (
+      id TEXT PRIMARY KEY,
+      plan_item_id TEXT REFERENCES delivery_plan_items(id) ON DELETE SET NULL,
+      user_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+      actor_user_id TEXT REFERENCES users(id) ON DELETE SET NULL,
+      action_type TEXT NOT NULL,
+      field_name TEXT,
+      old_value TEXT,
+      new_value TEXT,
+      reason TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
   // Raw payload used by render/import workflows
   await sqliteDb.run(`
     CREATE TABLE IF NOT EXISTS render_menu_data (
@@ -362,6 +489,89 @@ const createSQLiteTables = async () => {
     )
   `);
 
+  // Delivery run templates
+  await sqliteDb.run(`
+    CREATE TABLE IF NOT EXISTS delivery_run_templates (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL UNIQUE,
+      driver_name TEXT,
+      driver_phone TEXT,
+      vehicle_info TEXT,
+      time_from TEXT,
+      time_to TEXT,
+      sort_order INTEGER DEFAULT 0,
+      valid_from TEXT,
+      valid_to TEXT,
+      is_active INTEGER DEFAULT 1,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Delivery runs table
+  await sqliteDb.run(`
+    CREATE TABLE IF NOT EXISTS delivery_runs (
+      id TEXT PRIMARY KEY,
+      date TEXT NOT NULL,
+      template_id TEXT REFERENCES delivery_run_templates(id) ON DELETE SET NULL,
+      name TEXT NOT NULL,
+      driver_name TEXT,
+      driver_phone TEXT,
+      vehicle_info TEXT,
+      time_from TEXT,
+      time_to TEXT,
+      notes TEXT,
+      status TEXT DEFAULT 'planned' CHECK (status IN ('planned', 'in_progress', 'completed', 'cancelled')),
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Delivery run items
+  await sqliteDb.run(`
+    CREATE TABLE IF NOT EXISTS delivery_run_items (
+      id TEXT PRIMARY KEY,
+      run_id TEXT NOT NULL REFERENCES delivery_runs(id) ON DELETE CASCADE,
+      plan_item_id TEXT REFERENCES delivery_plan_items(id) ON DELETE SET NULL,
+      user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      delivery_address TEXT NOT NULL,
+      delivery_sequence INTEGER NOT NULL DEFAULT 0,
+      delivery_status TEXT DEFAULT 'pending' CHECK (delivery_status IN ('pending', 'delivered', 'failed')),
+      driver_notes TEXT,
+      delivered_at DATETIME,
+      delivered_by TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Address to run assignment history
+  await sqliteDb.run(`
+    CREATE TABLE IF NOT EXISTS address_run_assignments (
+      id TEXT PRIMARY KEY,
+      address TEXT NOT NULL UNIQUE,
+      run_id TEXT REFERENCES delivery_runs(id) ON DELETE SET NULL,
+      assignment_count INTEGER DEFAULT 1,
+      last_assigned_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Order locks
+  await sqliteDb.run(`
+    CREATE TABLE IF NOT EXISTS order_locks (
+      id TEXT PRIMARY KEY,
+      plan_item_id TEXT NOT NULL REFERENCES delivery_plan_items(id) ON DELETE CASCADE,
+      user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      locked_by TEXT NOT NULL REFERENCES users(id) ON DELETE SET NULL,
+      locked_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      lock_reason TEXT NOT NULL,
+      lock_type TEXT DEFAULT 'manual' CHECK (lock_type IN ('manual', 'deadline', 'payment', 'dispute')),
+      unlocked_at DATETIME,
+      unlocked_by TEXT REFERENCES users(id) ON DELETE SET NULL,
+      unlock_reason TEXT
+    )
+  `);
+
   // Create indexes
   await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)');
   await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_daily_menu_date ON daily_menu(date)');
@@ -369,8 +579,28 @@ const createSQLiteTables = async () => {
   await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_delivery_plan_daily ON delivery_plan_items(daily_menu_id)');
   await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_order_history_user ON order_history(user_id)');
   await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_order_history_date ON order_history(date)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_plan_audit_plan_item ON delivery_plan_audit_log(plan_item_id)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_plan_audit_user ON delivery_plan_audit_log(user_id)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_plan_audit_actor ON delivery_plan_audit_log(actor_user_id)');
   await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_render_menu_data_source ON render_menu_data(source_name)');
   await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_import_markers_source ON import_markers(source_name)');
+  try {
+    await sqliteDb.run('ALTER TABLE delivery_runs ADD COLUMN template_id TEXT');
+  } catch (error: any) {
+    if (!String(error?.message || error).includes('duplicate column name')) {
+      throw error;
+    }
+  }
+
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_delivery_run_templates_name ON delivery_run_templates(name)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_delivery_runs_date ON delivery_runs(date)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_delivery_runs_template ON delivery_runs(template_id)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_delivery_run_items_run ON delivery_run_items(run_id)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_delivery_run_items_user ON delivery_run_items(user_id)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_delivery_run_items_status ON delivery_run_items(delivery_status)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_address_run_assignments_address ON address_run_assignments(address)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_order_locks_plan_item ON order_locks(plan_item_id)');
+  await sqliteDb.run('CREATE INDEX IF NOT EXISTS idx_order_locks_user ON order_locks(user_id)');
 };
 
 // Query helper
