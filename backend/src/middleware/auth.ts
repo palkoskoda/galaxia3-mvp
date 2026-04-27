@@ -32,6 +32,7 @@ const transformUser = (user: any): User => ({
   phone: user.phone,
   address: user.address,
   role: user.role,
+  isSenior: user.is_senior === 1,
   isActive: user.is_active === 1,
   createdAt: user.created_at,
   updatedAt: user.updated_at,
@@ -55,7 +56,7 @@ export const authenticate = async (
       
       // Fetch full user from database
       const result = await query<any>(
-        'SELECT id, email, first_name, last_name, phone, address, role, is_active, created_at, updated_at FROM users WHERE id = $1',
+        'SELECT id, email, first_name, last_name, phone, address, role, is_senior, is_active, created_at, updated_at FROM users WHERE id = $1',
         [decoded.userId]
       );
 
@@ -77,6 +78,45 @@ export const authenticate = async (
       } else {
         next(error);
       }
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const optionalAuthenticate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+
+    if (!token) {
+      req.user = undefined;
+      next();
+      return;
+    }
+
+    try {
+      const decoded = verifyToken(token);
+      const result = await query<any>(
+        'SELECT id, email, first_name, last_name, phone, address, role, is_senior, is_active, created_at, updated_at FROM users WHERE id = $1',
+        [decoded.userId]
+      );
+
+      if (result.rows.length === 0 || result.rows[0].is_active !== 1) {
+        req.user = undefined;
+        next();
+        return;
+      }
+
+      req.user = transformUser(result.rows[0]);
+      next();
+    } catch (error) {
+      req.user = undefined;
+      next();
     }
   } catch (error) {
     next(error);

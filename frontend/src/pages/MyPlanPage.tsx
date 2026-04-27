@@ -3,13 +3,13 @@ import { usePlanStore } from '../stores/planStore'
 import { useAuthStore } from '../stores/authStore'
 import { planApi } from '../services/api'
 import { formatDateWithDay, formatDateShort } from '@/utils/date'
-import { Calendar, Package, Euro, MapPin, Edit, RotateCcw } from 'lucide-react'
+import { Calendar, Package, Euro, MapPin, Edit, RotateCcw, Soup, Cherry } from 'lucide-react'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import toast from 'react-hot-toast'
 
 export default function MyPlanPage() {
   const { user } = useAuthStore()
-  const { myPlan, isLoading, fetchMyPlan } = usePlanStore()
+  const { myPlan, isLoading, fetchMyPlan, updatePlanOptions } = usePlanStore()
   const [editingPlanAddress, setEditingPlanAddress] = useState<string | null>(null)
   const [tempPlanAddress, setTempPlanAddress] = useState('')
   const [isSaving, setIsSaving] = useState(false)
@@ -59,6 +59,14 @@ export default function MyPlanPage() {
     }
   }
 
+  const handleToggleOption = async (planId: string, option: 'includeSoup' | 'includeExtra', value: boolean) => {
+    try {
+      await updatePlanOptions(planId, { [option]: value })
+    } catch {
+      // error handled in store
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -72,6 +80,8 @@ export default function MyPlanPage() {
   const totalPrice = dates.reduce((sum, date) => sum + myPlan![date].totalPrice, 0)
   const hasAddress = !!user?.address
 
+  const isMeal = (slot: string) => slot !== 'Soup' && slot !== 'Extra'
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -81,7 +91,6 @@ export default function MyPlanPage() {
             Prehľad vašich objednaných obedov a adresy doručenia.
           </p>
         </div>
-
 
         {/* Summary cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -162,9 +171,35 @@ export default function MyPlanPage() {
                           </span>
                         </div>
                         <span className="text-gray-600">
-                          {(item.quantity * item.dailyMenu.menuItem.price).toFixed(2)} €
+                          {(item.quantity * item.unitPrice).toFixed(2)} €
                         </span>
                       </div>
+
+                      {/* Options for meals */}
+                      {isMeal(item.dailyMenu.menuSlot) && (
+                        <div className="flex flex-wrap gap-4 mb-3">
+                          <label className="inline-flex items-center gap-2 text-sm cursor-pointer select-none">
+                            <input
+                              type="checkbox"
+                              checked={item.includeSoup}
+                              onChange={(e) => handleToggleOption(item.id, 'includeSoup', e.target.checked)}
+                              className="w-4 h-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                            />
+                            <Soup className="w-4 h-4 text-yellow-600" />
+                            <span>Polievka (+0.50 €)</span>
+                          </label>
+                          <label className="inline-flex items-center gap-2 text-sm cursor-pointer select-none">
+                            <input
+                              type="checkbox"
+                              checked={item.includeExtra}
+                              onChange={(e) => handleToggleOption(item.id, 'includeExtra', e.target.checked)}
+                              className="w-4 h-4 text-primary-600 rounded border-gray-300 focus:ring-primary-500"
+                            />
+                            <Cherry className="w-4 h-4 text-red-500" />
+                            <span>Kompót (+0.50 €)</span>
+                          </label>
+                        </div>
+                      )}
 
                       <div className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
                         <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />

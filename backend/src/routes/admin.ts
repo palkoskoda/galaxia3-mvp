@@ -292,7 +292,7 @@ router.get('/users', authenticate, authorize('admin'), async (req: Request, res:
     }
 
     const result = await query<User>(
-      `SELECT id, email, first_name, last_name, phone, address, role, is_active, created_at, updated_at
+      `SELECT id, email, first_name, last_name, phone, address, role, is_senior, is_active, created_at, updated_at
        FROM users
        ${whereClause}
        ORDER BY created_at DESC`,
@@ -307,6 +307,7 @@ router.get('/users', authenticate, authorize('admin'), async (req: Request, res:
       phone: user.phone,
       address: user.address,
       role: user.role,
+      isSenior: user.is_senior === 1,
       isActive: user.is_active === 1,
       createdAt: user.created_at,
       updatedAt: user.updated_at,
@@ -327,7 +328,7 @@ router.get('/users', authenticate, authorize('admin'), async (req: Request, res:
 router.put('/users/:id', authenticate, authorize('admin'), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.params.id;
-    const { firstName, lastName, phone, address, role, isActive } = req.body;
+    const { firstName, lastName, phone, address, role, isActive, isSenior } = req.body;
 
     // Build dynamic query based on provided fields
     const updates: string[] = [];
@@ -353,6 +354,10 @@ router.put('/users/:id', authenticate, authorize('admin'), async (req: Request, 
       updates.push('role = ?');
       values.push(role);
     }
+    if (isSenior !== undefined) {
+      updates.push('is_senior = ?');
+      values.push(isSenior ? 1 : 0);
+    }
     if (isActive !== undefined) {
       updates.push('is_active = ?');
       values.push(isActive ? 1 : 0);
@@ -365,10 +370,10 @@ router.put('/users/:id', authenticate, authorize('admin'), async (req: Request, 
     values.push(userId);
 
     const result = await query<User>(
-      `UPDATE users 
+      `UPDATE users
        SET ${updates.join(', ')}
        WHERE id = ?
-       RETURNING id, email, first_name, last_name, phone, address, role, is_active, created_at, updated_at`,
+       RETURNING id, email, first_name, last_name, phone, address, role, is_senior, is_active, created_at, updated_at`,
       values
     );
 
@@ -378,6 +383,7 @@ router.put('/users/:id', authenticate, authorize('admin'), async (req: Request, 
 
     const user = {
       ...result.rows[0],
+      isSenior: (result.rows[0] as any).is_senior === 1,
       isActive: (result.rows[0] as any).is_active === 1,
     };
 

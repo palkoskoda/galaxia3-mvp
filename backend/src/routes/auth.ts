@@ -17,6 +17,7 @@ const transformUser = (user: any): User => ({
   phone: user.phone,
   address: user.address,
   role: user.role,
+  isSenior: user.is_senior === 1,
   isActive: user.is_active === 1,
   createdAt: user.created_at,
   updatedAt: user.updated_at,

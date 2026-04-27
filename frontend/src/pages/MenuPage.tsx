@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { usePlanStore } from '../stores/planStore'
+import { useAuthStore } from '../stores/authStore'
 import { formatDateShort, formatDateWithDay, isToday, isTomorrow, getDeadlineText, isDeadlinePassed } from '../utils/date'
-import { Minus, Plus, Info, AlertCircle, Clock, ChevronDown } from 'lucide-react'
+import { Minus, Plus, Info, AlertCircle, Clock, ChevronDown, Phone, Mail, LogIn } from 'lucide-react'
 import LoadingSpinner from '../components/LoadingSpinner'
 import type { DailyMenuWithSelection } from '../types'
 
 export default function MenuPage() {
   const { menuPlan, isLoading, isUpdating, fetchMenuPlan, setSelection } = usePlanStore()
+  const { user, isAuthenticated } = useAuthStore()
+  const isSenior = user?.isSenior ?? false
   const [selectedDate, setSelectedDate] = useState<string>('')
 
   useEffect(() => {
@@ -24,15 +28,16 @@ export default function MenuPage() {
   }, [menuPlan, selectedDate])
 
   const handleQuantityChange = async (dailyMenuId: string, currentQuantity: number, delta: number, itemName: string) => {
+    if (!isAuthenticated) return
     const newQuantity = Math.max(0, currentQuantity + delta)
-    
+
     // Show confirmation when removing item (going from 1 to 0)
     if (currentQuantity === 1 && delta === -1) {
       if (!confirm(`Odstrániť "${itemName}" z plánu?`)) {
         return
       }
     }
-    
+
     try {
       await setSelection(dailyMenuId, newQuantity)
     } catch (error) {
@@ -52,6 +57,7 @@ export default function MenuPage() {
       case 'MenuB': return 'Menu B'
       case 'Soup': return 'Polievka'
       case 'Special': return 'Špeciál'
+      case 'Extra': return 'Extra'
       default: return slot
     }
   }
@@ -62,6 +68,7 @@ export default function MenuPage() {
       case 'MenuB': return 'bg-green-100 text-green-800'
       case 'Soup': return 'bg-yellow-100 text-yellow-800'
       case 'Special': return 'bg-purple-100 text-purple-800'
+      case 'Extra': return 'bg-orange-100 text-orange-800'
       default: return 'bg-gray-100 text-gray-800'
     }
   }
@@ -97,10 +104,50 @@ export default function MenuPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Jedálny lístok</h1>
-          <p className="text-gray-600 mt-2">
-            Kliknutím na +/- upravte počty jedál pre jednotlivé dni.
-          </p>
+          {isAuthenticated ? (
+            <p className="text-gray-600 mt-2">
+              Kliknutím na +/- upravte počty jedál pre jednotlivé dni.
+            </p>
+          ) : (
+            <p className="text-gray-600 mt-2">
+              Pre objednanie sa prihláste alebo zavolajte.
+            </p>
+          )}
         </div>
+
+        {/* Public contact banner */}
+        {!isAuthenticated && (
+          <div className="mb-6 bg-primary-50 border border-primary-200 rounded-xl p-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-5 h-5 text-primary-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">Objednávky telefonicky</p>
+                  <p className="text-sm text-gray-600">Banská Štiavnica, Dudince, Dobrá Niva: <a href="tel:+421948953871" className="text-primary-600 font-semibold hover:underline">0948 953 871</a></p>
+                  <p className="text-sm text-gray-600">Zvolen: <a href="tel:+421949001656" className="text-primary-600 font-semibold hover:underline">0949 001 656</a></p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-5 h-5 text-primary-600" />
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">Email</p>
+                  <a href="mailto:galaxia.obedy@gmail.com" className="text-sm text-primary-600 font-semibold hover:underline">galaxia.obedy@gmail.com</a>
+                </div>
+              </div>
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex-shrink-0"
+              >
+                <LogIn className="w-4 h-4" />
+                Prihlásiť sa pre objednanie
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Date selector for mobile */}
         <div className="md:hidden mb-6">
@@ -132,6 +179,8 @@ export default function MenuPage() {
               getDateLabel={getDateLabel}
               getSlotLabel={getSlotLabel}
               getSlotColor={getSlotColor}
+              isSenior={isSenior}
+              isAuthenticated={isAuthenticated}
             />
           ))}
         </div>
@@ -147,6 +196,8 @@ export default function MenuPage() {
               getDateLabel={getDateLabel}
               getSlotLabel={getSlotLabel}
               getSlotColor={getSlotColor}
+              isSenior={isSenior}
+              isAuthenticated={isAuthenticated}
             />
           )}
         </div>
@@ -168,20 +219,25 @@ interface DayCardProps {
   getDateLabel: (date: string) => string
   getSlotLabel: (slot: string) => string
   getSlotColor: (slot: string) => string
+  isSenior: boolean
+  isAuthenticated: boolean
 }
 
-function DayCard({ date, dayData, onQuantityChange, isUpdating, getDateLabel, getSlotLabel, getSlotColor }: DayCardProps) {
-  const totalForDay = dayData.items.reduce((sum, item) => sum + (item.userQuantity * item.menuItem.price), 0)
+function DayCard({ date, dayData, onQuantityChange, isUpdating, getDateLabel, getSlotLabel, getSlotColor, isSenior, isAuthenticated }: DayCardProps) {
+  const totalForDay = dayData.items.reduce((sum, item) => {
+    const price = (isSenior && item.menuItem.seniorPrice != null) ? item.menuItem.seniorPrice : item.menuItem.price
+    return sum + (item.userQuantity * price)
+  }, 0)
   const hasItems = dayData.items.some(item => item.userQuantity > 0)
 
   return (
-    <div className={`card ${hasItems ? 'ring-2 ring-primary-500' : ''}`}>
+    <div className={`card ${hasItems && isAuthenticated ? 'ring-2 ring-primary-500' : ''}`}>
       <div className="card-header border-b border-gray-200">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">
             {getDateLabel(date)}
           </h2>
-          {hasItems && (
+          {hasItems && isAuthenticated && (
             <span className="badge-green">
               {dayData.items.reduce((sum, item) => sum + item.userQuantity, 0)} ks
             </span>
@@ -201,6 +257,8 @@ function DayCard({ date, dayData, onQuantityChange, isUpdating, getDateLabel, ge
             isUpdating={isUpdating}
             getSlotLabel={getSlotLabel}
             getSlotColor={getSlotColor}
+            isSenior={isSenior}
+            isAuthenticated={isAuthenticated}
           />
         ))}
 
@@ -211,7 +269,7 @@ function DayCard({ date, dayData, onQuantityChange, isUpdating, getDateLabel, ge
         )}
       </div>
 
-      {totalForDay > 0 && (
+      {isAuthenticated && totalForDay > 0 && (
         <div className="card-header border-t border-gray-200 bg-gray-50">
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">Celkom za deň:</span>
@@ -232,13 +290,17 @@ interface MenuItemRowProps {
   isUpdating: boolean
   getSlotLabel: (slot: string) => string
   getSlotColor: (slot: string) => string
+  isSenior: boolean
+  isAuthenticated: boolean
 }
 
-function MenuItemRow({ item, onQuantityChange, isUpdating, getSlotLabel, getSlotColor }: MenuItemRowProps) {
+function MenuItemRow({ item, onQuantityChange, isUpdating, getSlotLabel, getSlotColor, isSenior, isAuthenticated }: MenuItemRowProps) {
   const deadlinePassed = isDeadlinePassed(item.deadlineTimestamp) || !item.isEditable
+  const isAddon = item.menuSlot === 'Soup' || item.menuSlot === 'Extra'
+  const displayPrice = (isSenior && item.menuItem.seniorPrice != null) ? item.menuItem.seniorPrice : item.menuItem.price
 
   return (
-    <div className={`p-3 rounded-lg border ${item.userQuantity > 0 ? 'bg-primary-50 border-primary-200' : 'bg-white border-gray-200'}`}>
+    <div className={`p-3 rounded-lg border ${item.userQuantity > 0 && !isAddon && isAuthenticated ? 'bg-primary-50 border-primary-200' : 'bg-white border-gray-200'} ${isAddon ? 'opacity-80' : ''}`}>
       <div className="flex items-start justify-between mb-2">
         <div className="flex-1 min-w-0">
           <span className={`badge ${getSlotColor(item.menuSlot)} text-xs`}>
@@ -255,8 +317,11 @@ function MenuItemRow({ item, onQuantityChange, isUpdating, getSlotLabel, getSlot
         </div>
         <div className="text-right ml-2">
           <span className="font-bold text-gray-900">
-            {item.menuItem.price.toFixed(2)} €
+            {displayPrice.toFixed(2)} €
           </span>
+          {isSenior && item.menuItem.seniorPrice != null && (
+            <span className="block text-xs text-green-600">dôchodca</span>
+          )}
         </div>
       </div>
 
@@ -271,14 +336,22 @@ function MenuItemRow({ item, onQuantityChange, isUpdating, getSlotLabel, getSlot
         </div>
       )}
 
-      {/* Quantity controls */}
+      {/* Quantity controls - only for meals, not addons */}
       <div className="flex items-center justify-between">
         <div className="flex items-center text-xs text-gray-500">
           <Clock className="w-3 h-3 mr-1 flex-shrink-0" />
           <span className="truncate">{getDeadlineText(item.deadlineTimestamp)}</span>
         </div>
 
-        {deadlinePassed ? (
+        {!isAuthenticated ? (
+          <span className="text-xs text-gray-400 italic">
+            Pre objednanie sa prihláste
+          </span>
+        ) : isAddon ? (
+          <span className="text-xs text-gray-500 italic">
+            Automaticky k obedu
+          </span>
+        ) : deadlinePassed ? (
           <div className="flex items-center text-sm text-gray-500">
             <AlertCircle className="w-4 h-4 mr-1 flex-shrink-0" />
             {item.userQuantity > 0 ? `${item.userQuantity} ks` : 'Uzavreté'}
@@ -307,10 +380,10 @@ function MenuItemRow({ item, onQuantityChange, isUpdating, getSlotLabel, getSlot
       </div>
 
       {/* Subtotal */}
-      {item.userQuantity > 0 && (
+      {isAuthenticated && !isAddon && item.userQuantity > 0 && (
         <div className="mt-2 pt-2 border-t border-primary-200 text-right">
           <span className="text-sm text-primary-700 font-medium">
-            {(item.userQuantity * item.menuItem.price).toFixed(2)} €
+            {(item.userQuantity * displayPrice).toFixed(2)} €
           </span>
         </div>
       )}

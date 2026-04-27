@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
-import { User, LogOut, Menu as MenuIcon, ChefHat, ClipboardList } from 'lucide-react'
+import { User, LogOut, Menu as MenuIcon, ClipboardList } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 export default function Header() {
@@ -50,34 +50,38 @@ export default function Header() {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <ChefHat className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">Galaxia Obedy</span>
+            <Link to="/" className="flex items-center space-x-3">
+              <img
+                src="/assets/img/logo.png"
+                alt="Galaxia Krupina"
+                className="h-12 w-auto"
+              />
+              <span className="hidden sm:block text-xl font-display font-bold text-gray-900 tracking-wide">
+                GALAXIA
+              </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-4">
+            <Link
+              to="/menu"
+              className="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              Jedálny lístok
+            </Link>
             {isAuthenticated ? (
               <>
                 {/* Customer links */}
                 <Link
-                  to="/menu"
-                  className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Jedálny lístok
-                </Link>
-                <Link
                   to="/moj-plan"
-                  className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Môj plán
                 </Link>
                 <Link
                   to="/historia"
-                  className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   História
                 </Link>
@@ -90,7 +94,7 @@ export default function Header() {
                     onMouseLeave={scheduleCloseAdminMenu}
                   >
                     <button
-                      className="text-primary-600 hover:text-primary-700 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                      className="text-primary-600 hover:text-primary-700 px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors"
                       onClick={() => setAdminMenuOpen((v) => !v)}
                     >
                       <ClipboardList className="w-4 h-4 mr-1" />
@@ -164,14 +168,14 @@ export default function Header() {
                 <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-gray-200">
                   <Link
                     to="/profil"
-                    className="text-gray-600 hover:text-gray-900 flex items-center space-x-1"
+                    className="text-gray-600 hover:text-primary-600 flex items-center space-x-1 transition-colors"
                   >
                     <User className="w-4 h-4" />
                     <span className="text-sm font-medium">{user?.firstName}</span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-gray-400 hover:text-primary-600 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
@@ -181,7 +185,7 @@ export default function Header() {
               <>
                 <Link
                   to="/login"
-                  className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-600 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Prihlásenie
                 </Link>
@@ -199,7 +203,7 @@ export default function Header() {
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-400 hover:text-gray-500 p-2"
+              className="text-gray-400 hover:text-primary-600 p-2 transition-colors"
             >
               <MenuIcon className="w-6 h-6" />
             </button>
@@ -215,19 +219,19 @@ export default function Header() {
               <>
                 <Link
                   to="/menu"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600"
                 >
                   Jedálny lístok
                 </Link>
                 <Link
                   to="/moj-plan"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600"
                 >
                   Môj plán
                 </Link>
                 <Link
                   to="/historia"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600"
                 >
                   História
                 </Link>
@@ -266,8 +270,14 @@ export default function Header() {
             ) : (
               <>
                 <Link
+                  to="/menu"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600"
+                >
+                  Jedálny lístok
+                </Link>
+                <Link
                   to="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-primary-600"
                 >
                   Prihlásenie
                 </Link>

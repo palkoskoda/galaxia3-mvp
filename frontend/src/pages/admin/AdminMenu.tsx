@@ -122,6 +122,7 @@ function MenuLibrary({ items, onRefresh }: { items: MenuItem[]; onRefresh: () =>
                 <th className="text-left py-3 text-sm font-medium text-gray-500">Názov</th>
                 <th className="text-left py-3 text-sm font-medium text-gray-500">Popis</th>
                 <th className="text-right py-3 text-sm font-medium text-gray-500">Cena</th>
+                <th className="text-right py-3 text-sm font-medium text-gray-500">Dôchodca</th>
                 <th className="text-left py-3 text-sm font-medium text-gray-500">Alergény</th>
                 <th className="text-center py-3 text-sm font-medium text-gray-500">Typ</th>
                 <th className="text-right py-3 text-sm font-medium text-gray-500">Akcie</th>
@@ -133,6 +134,7 @@ function MenuLibrary({ items, onRefresh }: { items: MenuItem[]; onRefresh: () =>
                   <td className="py-3 text-gray-900 font-medium">{item.name}</td>
                   <td className="py-3 text-gray-600 max-w-xs truncate">{item.description}</td>
                   <td className="py-3 text-right text-gray-900">{item.price.toFixed(2)} €</td>
+                  <td className="py-3 text-right text-gray-900">{item.seniorPrice != null ? `${item.seniorPrice.toFixed(2)} €` : '-'}</td>
                   <td className="py-3">
                     <div className="flex flex-wrap gap-1">
                       {item.allergens.map((a) => (
@@ -280,6 +282,7 @@ function AddMenuItemModal({ onClose, onSuccess }: { onClose: () => void; onSucce
     name: '',
     description: '',
     price: '',
+    seniorPrice: '',
     allergens: '',
     deadlineType: 'standard',
     category: 'main'
@@ -295,6 +298,7 @@ function AddMenuItemModal({ onClose, onSuccess }: { onClose: () => void; onSucce
         name: formData.name,
         description: formData.description,
         price: parseFloat(formData.price),
+        seniorPrice: formData.seniorPrice ? parseFloat(formData.seniorPrice) : undefined,
         allergens: formData.allergens.split(',').map(a => a.trim()).filter(Boolean),
         deadlineType: formData.deadlineType as 'standard' | 'express',
         category: formData.category
@@ -331,11 +335,11 @@ function AddMenuItemModal({ onClose, onSuccess }: { onClose: () => void; onSucce
             onChange={e => setFormData({...formData, description: e.target.value})}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div>
             <label className="label">Cena (€) *</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               step="0.01"
               min="0"
               className="input"
@@ -345,8 +349,19 @@ function AddMenuItemModal({ onClose, onSuccess }: { onClose: () => void; onSucce
             />
           </div>
           <div>
+            <label className="label">Cena dôchodca (€)</label>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              className="input"
+              value={formData.seniorPrice}
+              onChange={e => setFormData({...formData, seniorPrice: e.target.value})}
+            />
+          </div>
+          <div>
             <label className="label">Typ uzávierky</label>
-            <select 
+            <select
               className="input"
               value={formData.deadlineType}
               onChange={e => setFormData({...formData, deadlineType: e.target.value as 'standard' | 'express'})}
@@ -384,6 +399,7 @@ function EditMenuItemModal({ item, onClose, onSuccess }: { item: MenuItem; onClo
     name: item.name,
     description: item.description || '',
     price: item.price.toString(),
+    seniorPrice: item.seniorPrice != null ? item.seniorPrice.toString() : '',
     allergens: item.allergens.join(', '),
     deadlineType: item.deadlineType,
     category: item.category || 'main'
@@ -399,6 +415,7 @@ function EditMenuItemModal({ item, onClose, onSuccess }: { item: MenuItem; onClo
         name: formData.name,
         description: formData.description,
         price: parseFloat(formData.price),
+        seniorPrice: formData.seniorPrice ? parseFloat(formData.seniorPrice) : undefined,
         allergens: formData.allergens.split(',').map(a => a.trim()).filter(Boolean),
         deadlineType: formData.deadlineType as 'standard' | 'express',
         category: formData.category
@@ -435,11 +452,11 @@ function EditMenuItemModal({ item, onClose, onSuccess }: { item: MenuItem; onClo
             onChange={e => setFormData({...formData, description: e.target.value})}
           />
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div>
             <label className="label">Cena (€) *</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               step="0.01"
               min="0"
               className="input"
@@ -449,8 +466,19 @@ function EditMenuItemModal({ item, onClose, onSuccess }: { item: MenuItem; onClo
             />
           </div>
           <div>
+            <label className="label">Cena dôchodca (€)</label>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              className="input"
+              value={formData.seniorPrice}
+              onChange={e => setFormData({...formData, seniorPrice: e.target.value})}
+            />
+          </div>
+          <div>
             <label className="label">Typ uzávierky</label>
-            <select 
+            <select
               className="input"
               value={formData.deadlineType}
               onChange={e => setFormData({...formData, deadlineType: e.target.value as 'standard' | 'express'})}

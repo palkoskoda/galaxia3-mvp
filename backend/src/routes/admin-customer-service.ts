@@ -53,7 +53,7 @@ router.get('/customer-service/search', authenticate, authorize('admin', 'staff')
     const searchPattern = `%${searchQuery}%`;
 
     const result = await query<User>(
-      `SELECT id, email, first_name, last_name, phone, address, role, is_active, created_at, updated_at
+      `SELECT id, email, first_name, last_name, phone, address, role, is_senior, is_active, created_at, updated_at
        FROM users
        WHERE email LIKE ?
           OR first_name LIKE ?
@@ -75,6 +75,7 @@ router.get('/customer-service/search', authenticate, authorize('admin', 'staff')
       phone: user.phone,
       address: user.address,
       role: user.role,
+      isSenior: user.is_senior === 1,
       isActive: user.is_active === 1,
       createdAt: user.created_at,
       updatedAt: user.updated_at,
@@ -264,7 +265,7 @@ router.get('/customer-service/user/:userId', authenticate, authorize('admin', 's
 
     // Základné info o zákazníkovi
     const userResult = await query<User>(
-      `SELECT id, email, first_name, last_name, phone, address, role, is_active, created_at, updated_at
+      `SELECT id, email, first_name, last_name, phone, address, role, is_senior, is_active, created_at, updated_at
        FROM users WHERE id = ?`,
       [userId]
     );
@@ -278,6 +279,7 @@ router.get('/customer-service/user/:userId', authenticate, authorize('admin', 's
 
     const user = {
       ...userResult.rows[0],
+      isSenior: (userResult.rows[0] as any).is_senior === 1,
       isActive: (userResult.rows[0] as any).is_active === 1,
     };
 

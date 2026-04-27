@@ -39,13 +39,9 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        
+        <Route path="/menu" element={<MenuPage />} />
+
         {/* Protected customer routes */}
-        <Route path="/menu" element={
-          <ProtectedRoute>
-            <MenuPage />
-          </ProtectedRoute>
-        } />
         <Route path="/moj-plan" element={
           <ProtectedRoute>
             <MyPlanPage />

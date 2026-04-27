@@ -13,6 +13,7 @@ interface PlanState {
   fetchMenuPlan: (days?: number) => Promise<void>;
   fetchMyPlan: (from?: string) => Promise<void>;
   setSelection: (dailyMenuId: string, quantity: number) => Promise<void>;
+  updatePlanOptions: (planId: string, options: { includeSoup?: boolean; includeExtra?: boolean }) => Promise<void>;
   updateLocalQuantity: (dailyMenuId: string, quantity: number) => void;
   getDayTotal: (date: string) => number;
   getDayItems: (date: string) => DeliveryPlanItem[];
@@ -70,6 +71,21 @@ export const usePlanStore = create<PlanState>()((set, get) => ({
     }
 
     set({ menuPlan: newMenuPlan });
+  },
+
+  updatePlanOptions: async (planId, options) => {
+    set({ isUpdating: true });
+    try {
+      await planApi.updatePlanOptions(planId, options);
+      await get().fetchMyPlan();
+      toast.success('Možnosti objednávky aktualizované');
+    } catch (error: any) {
+      const message = error.response?.data?.error || 'Aktualizácia možností zlyhala';
+      toast.error(message);
+      throw error;
+    } finally {
+      set({ isUpdating: false });
+    }
   },
 
   setSelection: async (dailyMenuId, quantity) => {

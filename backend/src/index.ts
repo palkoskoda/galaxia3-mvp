@@ -32,6 +32,8 @@ const allowedOrigins = [
   'http://127.0.0.1:3000',
   'http://localhost:3007',
   'http://127.0.0.1:3007',
+  'http://localhost:3010',
+  'http://127.0.0.1:3010',
 ].filter(Boolean);
 
 // Security middleware

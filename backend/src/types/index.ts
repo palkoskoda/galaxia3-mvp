@@ -11,6 +11,7 @@ export interface User {
   phone?: string;
   address?: string;
   role: 'customer' | 'admin' | 'staff';
+  isSenior: boolean;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -28,6 +29,7 @@ export interface MenuItem {
   name: string;
   description?: string;
   price: number;
+  seniorPrice?: number;
   allergens: string[];
   deadlineType: 'standard' | 'express';
   isActive: boolean;

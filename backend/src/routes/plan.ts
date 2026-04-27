@@ -53,8 +53,9 @@ router.put('/selection', authenticate, async (req: Request, res: Response, next:
       deadline_timestamp: string;
       is_locked: number;
       menu_item_name: string;
+      menu_slot: string;
     }>(
-      `SELECT dm.id, dm.deadline_timestamp, dm.is_locked, mi.name as menu_item_name
+      `SELECT dm.id, dm.deadline_timestamp, dm.is_locked, mi.name as menu_item_name, dm.menu_slot
        FROM daily_menu dm
        JOIN menu_items mi ON dm.menu_item_id = mi.id
        WHERE dm.id = $1`,
@@ -107,14 +108,14 @@ router.put('/selection', authenticate, async (req: Request, res: Response, next:
     } else {
       // Check if record exists
       const existingResult = await query<any>(
-        'SELECT id, quantity FROM delivery_plan_items WHERE user_id = $1 AND daily_menu_id = $2',
+        'SELECT id, quantity, include_soup, include_extra FROM delivery_plan_items WHERE user_id = $1 AND daily_menu_id = $2',
         [userId, dailyMenuId]
       );
 
       if (existingResult.rows.length > 0) {
         // UPDATE existing record
         result = await query<DeliveryPlanItem>(
-          `UPDATE delivery_plan_items 
+          `UPDATE delivery_plan_items
            SET quantity = $1, last_updated = datetime('now')
            WHERE user_id = $2 AND daily_menu_id = $3
            RETURNING *`,
@@ -133,8 +134,8 @@ router.put('/selection', authenticate, async (req: Request, res: Response, next:
         // INSERT new record
         const id = `plan-${userId}-${dailyMenuId}-${Date.now()}`;
         result = await query<DeliveryPlanItem>(
-          `INSERT INTO delivery_plan_items (id, user_id, daily_menu_id, quantity, delivery_address, last_updated)
-           VALUES ($1, $2, $3, $4, NULL, datetime('now'))
+          `INSERT INTO delivery_plan_items (id, user_id, daily_menu_id, quantity, delivery_address, include_soup, include_extra, last_updated)
+           VALUES ($1, $2, $3, $4, NULL, 1, 0, datetime('now'))
            RETURNING *`,
           [id, userId, dailyMenuId, quantity]
         );
@@ -151,12 +152,92 @@ router.put('/selection', authenticate, async (req: Request, res: Response, next:
 
     const response: ApiResponse<DeliveryPlanItem | { message: string }> = {
       success: true,
-      data: quantity === 0 
+      data: quantity === 0
         ? { message: 'Selection removed' }
         : result.rows[0],
     };
 
     res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// PUT /api/plan/item/:planId/options - Zmeniť polievku/extra pre objednávku
+router.put('/item/:planId/options', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user!.id;
+    const planId = req.params.planId;
+    const { includeSoup, includeExtra } = req.body;
+
+    const planCheck = await query<any>(
+      `SELECT dpi.id, dpi.include_soup, dpi.include_extra, dm.date, dm.deadline_timestamp, dm.is_locked
+       FROM delivery_plan_items dpi
+       JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
+       WHERE dpi.id = $1 AND dpi.user_id = $2`,
+      [planId, userId]
+    );
+
+    if (planCheck.rows.length === 0) {
+      throw new NotFoundError('Delivery plan item');
+    }
+
+    const plan = planCheck.rows[0];
+    if (plan.is_locked === 1 || new Date(plan.deadline_timestamp) < new Date()) {
+      throw new DeadlinePassedError('Uzávierka už uplynula, objednávku nemožno upraviť');
+    }
+
+    const updates: string[] = [];
+    const values: any[] = [];
+    let paramIdx = 1;
+
+    if (includeSoup !== undefined) {
+      updates.push(`include_soup = $${paramIdx++}`);
+      values.push(includeSoup ? 1 : 0);
+    }
+    if (includeExtra !== undefined) {
+      updates.push(`include_extra = $${paramIdx++}`);
+      values.push(includeExtra ? 1 : 0);
+    }
+
+    if (updates.length === 0) {
+      throw new ValidationError('No options to update');
+    }
+
+    values.push(planId, userId);
+
+    const result = await query<DeliveryPlanItem>(
+      `UPDATE delivery_plan_items
+       SET ${updates.join(', ')}, last_updated = datetime('now')
+       WHERE id = $${paramIdx++} AND user_id = $${paramIdx++}
+       RETURNING *`,
+      values
+    );
+
+    if (includeSoup !== undefined) {
+      await logPlanAudit({
+        planItemId: planId,
+        userId,
+        actorUserId: userId,
+        actionType: 'options_updated',
+        fieldName: 'include_soup',
+        oldValue: plan.include_soup,
+        newValue: includeSoup ? 1 : 0,
+      });
+    }
+    if (includeExtra !== undefined) {
+      await logPlanAudit({
+        planItemId: planId,
+        userId,
+        actorUserId: userId,
+        actionType: 'options_updated',
+        fieldName: 'include_extra',
+        oldValue: plan.include_extra,
+        newValue: includeExtra ? 1 : 0,
+      });
+    }
+
+    res.json({ success: true, data: result.rows[0] });
   } catch (error) {
     next(error);
   }
@@ -300,13 +381,22 @@ router.get('/my', authenticate, async (req: Request, res: Response, next: NextFu
     const userId = req.user!.id;
     const from = req.query.from as string || new Date().toISOString().split('T')[0];
 
+    // Get user's senior status
+    const userResult = await query<{ is_senior: number }>(
+      'SELECT is_senior FROM users WHERE id = $1',
+      [userId]
+    );
+    const isSenior = userResult.rows[0]?.is_senior === 1;
+
     const result = await query<any>(
-      `SELECT 
+      `SELECT
          dpi.id,
          dpi.user_id,
          dpi.daily_menu_id,
          dpi.quantity,
          dpi.delivery_address,
+         dpi.include_soup,
+         dpi.include_extra,
          dpi.last_updated,
          dm.id as dm_id,
          dm.date as dm_date,
@@ -319,51 +409,73 @@ router.get('/my', authenticate, async (req: Request, res: Response, next: NextFu
          mi.name as mi_name,
          mi.description as mi_description,
          mi.price as mi_price,
+         mi.senior_price as mi_senior_price,
          mi.allergens as mi_allergens,
          mi.deadline_type as mi_deadline_type,
-         mi.is_active as mi_is_active
+         mi.is_active as mi_is_active,
+         soup.price as soup_price,
+         extra.price as extra_price
        FROM delivery_plan_items dpi
        JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
        JOIN menu_items mi ON dm.menu_item_id = mi.id
+       LEFT JOIN daily_menu dm_soup ON dm_soup.date = dm.date AND dm_soup.menu_slot = 'Soup'
+       LEFT JOIN menu_items soup ON dm_soup.menu_item_id = soup.id
+       LEFT JOIN daily_menu dm_extra ON dm_extra.date = dm.date AND dm_extra.menu_slot = 'Extra'
+       LEFT JOIN menu_items extra ON dm_extra.menu_item_id = extra.id
        WHERE dpi.user_id = $1
          AND dm.date >= $2
-       ORDER BY dm.date, 
-         CASE dm.menu_slot 
-           WHEN 'Soup' THEN 1 
-           WHEN 'MenuA' THEN 2 
-           WHEN 'MenuB' THEN 3 
-           WHEN 'Special' THEN 4 
+       ORDER BY dm.date,
+         CASE dm.menu_slot
+           WHEN 'Soup' THEN 1
+           WHEN 'MenuA' THEN 2
+           WHEN 'MenuB' THEN 3
+           WHEN 'Special' THEN 4
+           WHEN 'Extra' THEN 5
          END`,
       [userId, from]
     );
 
     // Transform to expected format
-    const items = result.rows.map(row => ({
-      id: row.id,
-      userId: row.user_id,
-      dailyMenuId: row.daily_menu_id,
-      quantity: row.quantity,
-      deliveryAddress: row.delivery_address,
-      lastUpdated: row.last_updated,
-      dailyMenu: {
-        id: row.dm_id,
-        date: row.dm_date,
-        menuItemId: row.dm_menu_item_id,
-        menuSlot: row.dm_menu_slot,
-        deadlineTimestamp: row.dm_deadline_timestamp,
-        maxQuantity: row.dm_max_quantity,
-        isLocked: row.dm_is_locked === 1,
-        menuItem: {
-          id: row.mi_id,
-          name: row.mi_name,
-          description: row.mi_description,
-          price: row.mi_price,
-          allergens: JSON.parse(row.mi_allergens || '[]'),
-          deadlineType: row.mi_deadline_type,
-          isActive: row.mi_is_active === 1,
+    const items = result.rows.map(row => {
+      const isMeal = row.dm_menu_slot !== 'Soup' && row.dm_menu_slot !== 'Extra';
+      const soupPrice = row.soup_price || 0.50;
+      const extraPrice = row.extra_price || 0.50;
+      const basePrice = isSenior && row.mi_senior_price != null ? row.mi_senior_price : row.mi_price;
+      const unitPrice = isMeal
+        ? basePrice + (row.include_soup ? soupPrice : 0) + (row.include_extra ? extraPrice : 0)
+        : basePrice;
+
+      return {
+        id: row.id,
+        userId: row.user_id,
+        dailyMenuId: row.daily_menu_id,
+        quantity: row.quantity,
+        deliveryAddress: row.delivery_address,
+        includeSoup: row.include_soup === 1,
+        includeExtra: row.include_extra === 1,
+        lastUpdated: row.last_updated,
+        unitPrice,
+        dailyMenu: {
+          id: row.dm_id,
+          date: row.dm_date,
+          menuItemId: row.dm_menu_item_id,
+          menuSlot: row.dm_menu_slot,
+          deadlineTimestamp: row.dm_deadline_timestamp,
+          maxQuantity: row.dm_max_quantity,
+          isLocked: row.dm_is_locked === 1,
+          menuItem: {
+            id: row.mi_id,
+            name: row.mi_name,
+            description: row.mi_description,
+            price: row.mi_price,
+            seniorPrice: row.mi_senior_price,
+            allergens: JSON.parse(row.mi_allergens || '[]'),
+            deadlineType: row.mi_deadline_type,
+            isActive: row.mi_is_active === 1,
+          },
         },
-      },
-    }));
+      };
+    });
 
     // Group by date
     const grouped = items.reduce((acc, item) => {
@@ -376,7 +488,7 @@ router.get('/my', authenticate, async (req: Request, res: Response, next: NextFu
         };
       }
       acc[date].items.push(item);
-      acc[date].totalPrice += item.quantity * item.dailyMenu.menuItem.price;
+      acc[date].totalPrice += item.quantity * item.unitPrice;
       return acc;
     }, {} as Record<string, { date: string; items: typeof items; totalPrice: number }>);
 
@@ -397,18 +509,35 @@ router.get('/summary/:date', authenticate, async (req: Request, res: Response, n
     const userId = req.user!.id;
     const date = req.params.date;
 
+    // Get user's senior status
+    const userResult = await query<{ is_senior: number }>(
+      'SELECT is_senior FROM users WHERE id = $1',
+      [userId]
+    );
+    const isSenior = userResult.rows[0]?.is_senior === 1;
+
     const result = await query<{
       total_items: number;
       total_price: number;
     }>(
-      `SELECT 
+      `SELECT
          COUNT(*) as total_items,
-         COALESCE(SUM(dpi.quantity * mi.price), 0) as total_price
+         COALESCE(SUM(
+           dpi.quantity * (
+             CASE WHEN $3 = 1 AND mi.senior_price IS NOT NULL THEN mi.senior_price ELSE mi.price END +
+             CASE WHEN dm.menu_slot IN ('MenuA', 'MenuB', 'Special') AND dpi.include_soup = 1 THEN COALESCE(soup.price, 0.50) ELSE 0 END +
+             CASE WHEN dm.menu_slot IN ('MenuA', 'MenuB', 'Special') AND dpi.include_extra = 1 THEN COALESCE(extra.price, 0.50) ELSE 0 END
+           )
+         ), 0) as total_price
        FROM delivery_plan_items dpi
        JOIN daily_menu dm ON dpi.daily_menu_id = dm.id
        JOIN menu_items mi ON dm.menu_item_id = mi.id
+       LEFT JOIN daily_menu dm_soup ON dm_soup.date = dm.date AND dm_soup.menu_slot = 'Soup'
+       LEFT JOIN menu_items soup ON dm_soup.menu_item_id = soup.id
+       LEFT JOIN daily_menu dm_extra ON dm_extra.date = dm.date AND dm_extra.menu_slot = 'Extra'
+       LEFT JOIN menu_items extra ON dm_extra.menu_item_id = extra.id
        WHERE dpi.user_id = $1 AND dm.date = $2`,
-      [userId, date]
+      [userId, date, isSenior ? 1 : 0]
     );
 
     const response: ApiResponse<typeof result.rows[0]> = {

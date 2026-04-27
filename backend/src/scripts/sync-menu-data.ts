@@ -123,13 +123,13 @@ const syncMenuData = async () => {
                deadline_type = EXCLUDED.deadline_type,
                is_active = 1,
                updated_at = NOW()`,
-            [soupId, day.soup.name, 'Polievka', 2.50, JSON.stringify(parseAllergens(day.soup.allergens)), 'standard']
+            [soupId, day.soup.name, 'Polievka', 0.50, JSON.stringify(parseAllergens(day.soup.allergens)), 'standard']
           );
         } else {
           await query(
             `INSERT OR REPLACE INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
              VALUES (?, ?, ?, ?, ?, ?, 1)`,
-            [soupId, day.soup.name, 'Polievka', 2.50, JSON.stringify(parseAllergens(day.soup.allergens)), 'standard']
+            [soupId, day.soup.name, 'Polievka', 0.50, JSON.stringify(parseAllergens(day.soup.allergens)), 'standard']
           );
         }
         createdMenuItems.add(soupId);
@@ -158,6 +158,58 @@ const syncMenuData = async () => {
       dailyMenuCount++;
     }
 
+    // Process daily extra (compote/salad)
+    if (day.daily_extra && day.daily_extra.name) {
+      const extraId = generateId('mi', day.daily_extra.name);
+      if (!createdMenuItems.has(extraId)) {
+        const extraPrice = parseFloat(day.daily_extra.price?.replace(',', '.')?.replace(/[^0-9.]/g, '') || '0.50');
+        if (isPostgres) {
+          await query(
+            `INSERT INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
+             VALUES ($1, $2, $3, $4, $5, $6, 1)
+             ON CONFLICT(id) DO UPDATE SET
+               name = EXCLUDED.name,
+               description = EXCLUDED.description,
+               price = EXCLUDED.price,
+               allergens = EXCLUDED.allergens,
+               deadline_type = EXCLUDED.deadline_type,
+               is_active = 1,
+               updated_at = NOW()`,
+            [extraId, day.daily_extra.name, day.daily_extra.weight || 'Príloha', extraPrice, '[]', 'standard']
+          );
+        } else {
+          await query(
+            `INSERT OR REPLACE INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
+             VALUES (?, ?, ?, ?, ?, ?, 1)`,
+            [extraId, day.daily_extra.name, day.daily_extra.weight || 'Príloha', extraPrice, '[]', 'standard']
+          );
+        }
+        createdMenuItems.add(extraId);
+        menuItemsCount++;
+      }
+
+      const dailyExtraId = generateId('dm', date, 'extra', extraId);
+      if (isPostgres) {
+        await query(
+          `INSERT INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
+           VALUES ($1, $2, $3, $4, $5)
+           ON CONFLICT(id) DO UPDATE SET
+             date = EXCLUDED.date,
+             menu_item_id = EXCLUDED.menu_item_id,
+             menu_slot = EXCLUDED.menu_slot,
+             deadline_timestamp = EXCLUDED.deadline_timestamp`,
+          [dailyExtraId, date, extraId, 'Extra', deadlineStr]
+        );
+      } else {
+        await query(
+          `INSERT OR REPLACE INTO daily_menu (id, date, menu_item_id, menu_slot, deadline_timestamp)
+           VALUES (?, ?, ?, ?, ?)`,
+          [dailyExtraId, date, extraId, 'Extra', deadlineStr]
+        );
+      }
+      dailyMenuCount++;
+    }
+
     // Process meals
     for (const meal of day.meals) {
       const mealId = generateId('mi', meal.name);
@@ -175,13 +227,13 @@ const syncMenuData = async () => {
                deadline_type = EXCLUDED.deadline_type,
                is_active = 1,
                updated_at = NOW()`,
-            [mealId, meal.name, description || null, 6.50, JSON.stringify(parseAllergens(meal.allergens)), 'standard']
+            [mealId, meal.name, description || null, 5.00, JSON.stringify(parseAllergens(meal.allergens)), 'standard']
           );
         } else {
           await query(
             `INSERT OR REPLACE INTO menu_items (id, name, description, price, allergens, deadline_type, is_active)
              VALUES (?, ?, ?, ?, ?, ?, 1)`,
-            [mealId, meal.name, description || null, 6.50, JSON.stringify(parseAllergens(meal.allergens)), 'standard']
+            [mealId, meal.name, description || null, 5.00, JSON.stringify(parseAllergens(meal.allergens)), 'standard']
           );
         }
         createdMenuItems.add(mealId);

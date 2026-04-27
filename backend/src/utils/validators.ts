@@ -20,6 +20,7 @@ export const createMenuItemSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   description: z.string().optional(),
   price: z.number().positive('Price must be positive'),
+  seniorPrice: z.number().positive('Senior price must be positive').optional().nullable(),
   allergens: z.array(z.string()).optional(),
   deadlineType: z.enum(['standard', 'express']).optional(),
 });
@@ -30,7 +31,7 @@ export const updateMenuItemSchema = createMenuItemSchema.partial();
 export const createDailyMenuSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),
   menuItemId: z.string().min(1, 'Invalid menu item ID'),
-  menuSlot: z.enum(['MenuA', 'MenuB', 'Soup', 'Special']),
+  menuSlot: z.enum(['MenuA', 'MenuB', 'Soup', 'Special', 'Extra']),
   maxQuantity: z.number().int().positive().optional(),
   deadlineTimestamp: z.string().optional(), // explicitný čas uzávierky
 });

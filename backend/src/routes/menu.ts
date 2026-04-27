@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { query } from '../db';
-import { authenticate, authorize } from '../middleware/auth';
+import { authenticate, authorize, optionalAuthenticate } from '../middleware/auth';
 import { createMenuItemSchema, updateMenuItemSchema, createDailyMenuSchema } from '../utils/validators';
 import { NotFoundError } from '../utils/errors';
 import { ApiResponse, MenuItem, DailyMenu, DailyMenuWithSelection } from '../types';
@@ -14,14 +14,22 @@ const router = Router();
 // GET /api/menu/items - Všetky jedlá z knižnice
 router.get('/items', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await query<MenuItem>(
-      'SELECT * FROM menu_items WHERE is_active = 1 ORDER BY name'
+    const result = await query<any>(
+      'SELECT id, name, description, price, senior_price, allergens, deadline_type, is_active, created_at, updated_at FROM menu_items WHERE is_active = 1 ORDER BY name'
     );
 
-    // Parse allergens JSON
-    const items = result.rows.map(item => ({
-      ...item,
-      allergens: JSON.parse(item.allergens as unknown as string || '[]'),
+    // Parse allergens JSON and map fields
+    const items = result.rows.map((row: any) => ({
+      id: row.id,
+      name: row.name,
+      description: row.description,
+      price: row.price,
+      seniorPrice: row.senior_price,
+      allergens: JSON.parse(row.allergens || '[]'),
+      deadlineType: row.deadline_type,
+      isActive: row.is_active === 1,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
     }));
 
     const response: ApiResponse<MenuItem[]> = {
@@ -38,8 +46,8 @@ router.get('/items', async (req: Request, res: Response, next: NextFunction) => 
 // GET /api/menu/items/:id - Detail jedla
 router.get('/items/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result = await query<MenuItem>(
-      'SELECT * FROM menu_items WHERE id = $1',
+    const result = await query<any>(
+      'SELECT id, name, description, price, senior_price, allergens, deadline_type, is_active, created_at, updated_at FROM menu_items WHERE id = $1',
       [req.params.id]
     );
 
@@ -47,9 +55,18 @@ router.get('/items/:id', async (req: Request, res: Response, next: NextFunction)
       throw new NotFoundError('Menu item');
     }
 
+    const row = result.rows[0];
     const item = {
-      ...result.rows[0],
-      allergens: JSON.parse(result.rows[0].allergens as unknown as string || '[]'),
+      id: row.id,
+      name: row.name,
+      description: row.description,
+      price: row.price,
+      seniorPrice: row.senior_price,
+      allergens: JSON.parse(row.allergens || '[]'),
+      deadlineType: row.deadline_type,
+      isActive: row.is_active === 1,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
     };
 
     const response: ApiResponse<MenuItem> = {
@@ -69,16 +86,25 @@ router.post('/items', authenticate, authorize('admin'), async (req: Request, res
     const validated = createMenuItemSchema.parse(req.body);
 
     const itemId = `mi-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    const result = await query<MenuItem>(
-      `INSERT INTO menu_items (id, name, description, price, allergens, deadline_type)
-       VALUES ($1, $2, $3, $4, $5, $6)
+    const result = await query<any>(
+      `INSERT INTO menu_items (id, name, description, price, senior_price, allergens, deadline_type)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING *`,
-      [itemId, validated.name, validated.description, validated.price, JSON.stringify(validated.allergens || []), validated.deadlineType || 'standard']
+      [itemId, validated.name, validated.description, validated.price, validated.seniorPrice ?? null, JSON.stringify(validated.allergens || []), validated.deadlineType || 'standard']
     );
 
+    const row = result.rows[0];
     const item = {
-      ...result.rows[0],
-      allergens: JSON.parse(result.rows[0].allergens as unknown as string || '[]'),
+      id: row.id,
+      name: row.name,
+      description: row.description,
+      price: row.price,
+      seniorPrice: row.senior_price,
+      allergens: JSON.parse(row.allergens || '[]'),
+      deadlineType: row.deadline_type,
+      isActive: row.is_active === 1,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
     };
 
     const response: ApiResponse<MenuItem> = {
@@ -97,25 +123,35 @@ router.put('/items/:id', authenticate, authorize('admin'), async (req: Request, 
   try {
     const validated = updateMenuItemSchema.parse(req.body);
 
-    const result = await query<MenuItem>(
-      `UPDATE menu_items 
+    const result = await query<any>(
+      `UPDATE menu_items
        SET name = COALESCE($1, name),
            description = COALESCE($2, description),
            price = COALESCE($3, price),
-           allergens = COALESCE($4, allergens),
-           deadline_type = COALESCE($5, deadline_type)
-       WHERE id = $6
+           senior_price = COALESCE($4, senior_price),
+           allergens = COALESCE($5, allergens),
+           deadline_type = COALESCE($6, deadline_type)
+       WHERE id = $7
        RETURNING *`,
-      [validated.name, validated.description, validated.price, validated.allergens ? JSON.stringify(validated.allergens) : undefined, validated.deadlineType, req.params.id]
+      [validated.name, validated.description, validated.price, validated.seniorPrice !== undefined ? validated.seniorPrice : undefined, validated.allergens ? JSON.stringify(validated.allergens) : undefined, validated.deadlineType, req.params.id]
     );
 
     if (result.rows.length === 0) {
       throw new NotFoundError('Menu item');
     }
 
+    const row = result.rows[0];
     const item = {
-      ...result.rows[0],
-      allergens: JSON.parse(result.rows[0].allergens as unknown as string || '[]'),
+      id: row.id,
+      name: row.name,
+      description: row.description,
+      price: row.price,
+      seniorPrice: row.senior_price,
+      allergens: JSON.parse(row.allergens || '[]'),
+      deadlineType: row.deadline_type,
+      isActive: row.is_active === 1,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
     };
 
     const response: ApiResponse<MenuItem> = {
@@ -156,15 +192,15 @@ router.delete('/items/:id', authenticate, authorize('admin'), async (req: Reques
 // DENNÁ PONUKA (Daily Menu)
 // ============================================
 
-// GET /api/menu/plan - Živý jedálny lístok s používateľskými výbermi
-router.get('/plan', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+// GET /api/menu/plan - Živý jedálny lístok s používateľskými výbermi (aj pre neprihlásených)
+router.get('/plan', optionalAuthenticate, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = req.user!.id;
+    const userId = req.user?.id || null;
     const days = parseInt(req.query.days as string) || 14;
 
     // Get daily menu with user's selections - SQLite compatible
     const result = await query<any>(
-      `SELECT 
+      `SELECT
          dm.id,
          dm.date,
          dm.menu_item_id,
@@ -178,6 +214,7 @@ router.get('/plan', authenticate, async (req: Request, res: Response, next: Next
          mi.name as mi_name,
          mi.description as mi_description,
          mi.price as mi_price,
+         mi.senior_price as mi_senior_price,
          mi.allergens as mi_allergens,
          mi.deadline_type as mi_deadline_type,
          mi.is_active as mi_is_active,
@@ -187,16 +224,16 @@ router.get('/plan', authenticate, async (req: Request, res: Response, next: Next
          CASE WHEN dm.deadline_timestamp > datetime('now') THEN 1 ELSE 0 END as is_editable
        FROM daily_menu dm
        JOIN menu_items mi ON dm.menu_item_id = mi.id
-       LEFT JOIN delivery_plan_items dpi ON dm.id = dpi.daily_menu_id AND dpi.user_id = $1
-       WHERE dm.date >= date('now') 
+       LEFT JOIN delivery_plan_items dpi ON dm.id = dpi.daily_menu_id AND dpi.user_id = COALESCE($1, '')
+       WHERE dm.date >= date('now')
          AND dm.date <= date('now', '+' || $2 || ' days')
          AND mi.is_active = 1
-       ORDER BY dm.date, 
-         CASE dm.menu_slot 
-           WHEN 'Soup' THEN 1 
-           WHEN 'MenuA' THEN 2 
-           WHEN 'MenuB' THEN 3 
-           WHEN 'Special' THEN 4 
+       ORDER BY dm.date,
+         CASE dm.menu_slot
+           WHEN 'Soup' THEN 1
+           WHEN 'MenuA' THEN 2
+           WHEN 'MenuB' THEN 3
+           WHEN 'Special' THEN 4
          END`,
       [userId, days]
     );
@@ -217,6 +254,7 @@ router.get('/plan', authenticate, async (req: Request, res: Response, next: Next
         name: row.mi_name,
         description: row.mi_description,
         price: row.mi_price,
+        seniorPrice: row.mi_senior_price,
         allergens: JSON.parse(row.mi_allergens || '[]'),
         deadlineType: row.mi_deadline_type,
         isActive: row.mi_is_active === 1,
@@ -265,6 +303,7 @@ router.get('/daily', authenticate, authorize('admin'), async (req: Request, res:
          mi.name as mi_name,
          mi.description as mi_description,
          mi.price as mi_price,
+         mi.senior_price as mi_senior_price,
          mi.allergens as mi_allergens,
          mi.deadline_type as mi_deadline_type,
          mi.is_active as mi_is_active,
@@ -295,6 +334,7 @@ router.get('/daily', authenticate, authorize('admin'), async (req: Request, res:
         name: row.mi_name,
         description: row.mi_description,
         price: row.mi_price,
+        seniorPrice: row.mi_senior_price,
         allergens: JSON.parse(row.mi_allergens || '[]'),
         deadlineType: row.mi_deadline_type,
         isActive: row.mi_is_active === 1,

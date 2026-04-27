@@ -101,7 +101,10 @@ export const planApi = {
 
   applyDefaultAddressForDay: (date: string) =>
     api.post<ApiResponse<{ updatedCount: number }>>(`/plan/day/${date}/apply-default-address`),
-  
+
+  updatePlanOptions: (planId: string, options: { includeSoup?: boolean; includeExtra?: boolean }) =>
+    api.put<ApiResponse<DeliveryPlanItem>>(`/plan/item/${planId}/options`, options),
+
   // Môj plán
   getMyPlan: (from?: string) =>
     api.get<ApiResponse<MyPlan>>('/plan/my', { params: { from } }),

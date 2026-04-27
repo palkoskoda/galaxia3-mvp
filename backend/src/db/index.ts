@@ -130,11 +130,13 @@ const createPostgresTables = async () => {
         phone TEXT,
         address TEXT,
         role TEXT DEFAULT 'customer' CHECK (role IN ('customer', 'admin', 'staff')),
+        is_senior INTEGER DEFAULT 0,
         is_active INTEGER DEFAULT 1,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+    await client.query('ALTER TABLE users ADD COLUMN IF NOT EXISTS is_senior INTEGER DEFAULT 0');
 
     // Menu items table
     await client.query(`
@@ -143,6 +145,7 @@ const createPostgresTables = async () => {
         name TEXT NOT NULL,
         description TEXT,
         price REAL NOT NULL CHECK (price >= 0),
+        senior_price REAL CHECK (senior_price >= 0),
         allergens TEXT DEFAULT '[]',
         deadline_type TEXT DEFAULT 'standard' CHECK (deadline_type IN ('standard', 'express')),
         is_active INTEGER DEFAULT 1,
@@ -150,6 +153,7 @@ const createPostgresTables = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
+    await client.query('ALTER TABLE menu_items ADD COLUMN IF NOT EXISTS senior_price REAL');
 
     // Daily menu table
     await client.query(`
@@ -157,7 +161,7 @@ const createPostgresTables = async () => {
         id TEXT PRIMARY KEY,
         date TEXT NOT NULL,
         menu_item_id TEXT NOT NULL REFERENCES menu_items(id) ON DELETE CASCADE,
-        menu_slot TEXT NOT NULL CHECK (menu_slot IN ('MenuA', 'MenuB', 'Soup', 'Special')),
+        menu_slot TEXT NOT NULL CHECK (menu_slot IN ('MenuA', 'MenuB', 'Soup', 'Special', 'Extra')),
         deadline_timestamp TIMESTAMP NOT NULL,
         max_quantity INTEGER,
         is_locked INTEGER DEFAULT 0,
@@ -166,6 +170,8 @@ const createPostgresTables = async () => {
         UNIQUE(date, menu_item_id)
       )
     `);
+    await client.query(`ALTER TABLE daily_menu DROP CONSTRAINT IF EXISTS daily_menu_menu_slot_check`);
+    await client.query(`ALTER TABLE daily_menu ADD CONSTRAINT daily_menu_menu_slot_check CHECK (menu_slot IN ('MenuA', 'MenuB', 'Soup', 'Special', 'Extra'))`);
 
     // Delivery plan items table
     await client.query(`
@@ -175,11 +181,15 @@ const createPostgresTables = async () => {
         daily_menu_id TEXT NOT NULL REFERENCES daily_menu(id) ON DELETE CASCADE,
         quantity INTEGER NOT NULL CHECK (quantity > 0),
         delivery_address TEXT,
+        include_soup INTEGER DEFAULT 1,
+        include_extra INTEGER DEFAULT 0,
         last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE(user_id, daily_menu_id)
       )
     `);
     await client.query('ALTER TABLE delivery_plan_items ADD COLUMN IF NOT EXISTS delivery_address TEXT');
+    await client.query('ALTER TABLE delivery_plan_items ADD COLUMN IF NOT EXISTS include_soup INTEGER DEFAULT 1');
+    await client.query('ALTER TABLE delivery_plan_items ADD COLUMN IF NOT EXISTS include_extra INTEGER DEFAULT 0');
 
     // Order history table
     await client.query(`
@@ -371,11 +381,19 @@ const createSQLiteTables = async () => {
       phone TEXT,
       address TEXT,
       role TEXT DEFAULT 'customer' CHECK (role IN ('customer', 'admin', 'staff')),
+      is_senior INTEGER DEFAULT 0,
       is_active INTEGER DEFAULT 1,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+  try {
+    await sqliteDb.run('ALTER TABLE users ADD COLUMN is_senior INTEGER DEFAULT 0');
+  } catch (error: any) {
+    if (!String(error?.message || error).includes('duplicate column name')) {
+      throw error;
+    }
+  }
 
   // Menu items table
   await sqliteDb.run(`
@@ -384,6 +402,7 @@ const createSQLiteTables = async () => {
       name TEXT NOT NULL,
       description TEXT,
       price REAL NOT NULL CHECK (price >= 0),
+      senior_price REAL CHECK (senior_price >= 0),
       allergens TEXT DEFAULT '[]',
       deadline_type TEXT DEFAULT 'standard' CHECK (deadline_type IN ('standard', 'express')),
       is_active INTEGER DEFAULT 1,
@@ -391,14 +410,46 @@ const createSQLiteTables = async () => {
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+  try {
+    await sqliteDb.run('ALTER TABLE menu_items ADD COLUMN senior_price REAL');
+  } catch (error: any) {
+    if (!String(error?.message || error).includes('duplicate column name')) {
+      throw error;
+    }
+  }
 
-  // Daily menu table
+  // Daily menu table - with reconstruction for CHECK constraint update
+  const dailyMenuExists = await sqliteDb.get(`SELECT name FROM sqlite_master WHERE type='table' AND name='daily_menu'`);
+  if (dailyMenuExists) {
+    const hasExtraSlot = await sqliteDb.get(`SELECT sql FROM sqlite_master WHERE type='table' AND name='daily_menu'`);
+    if (hasExtraSlot && !hasExtraSlot.sql.includes('Extra')) {
+      await sqliteDb.run('PRAGMA foreign_keys = OFF');
+      await sqliteDb.run(`
+        CREATE TABLE daily_menu_new (
+          id TEXT PRIMARY KEY,
+          date TEXT NOT NULL,
+          menu_item_id TEXT NOT NULL REFERENCES menu_items(id) ON DELETE CASCADE,
+          menu_slot TEXT NOT NULL CHECK (menu_slot IN ('MenuA', 'MenuB', 'Soup', 'Special', 'Extra')),
+          deadline_timestamp DATETIME NOT NULL,
+          max_quantity INTEGER,
+          is_locked INTEGER DEFAULT 0,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE(date, menu_item_id)
+        )
+      `);
+      await sqliteDb.run(`INSERT INTO daily_menu_new SELECT * FROM daily_menu`);
+      await sqliteDb.run(`DROP TABLE daily_menu`);
+      await sqliteDb.run(`ALTER TABLE daily_menu_new RENAME TO daily_menu`);
+      await sqliteDb.run('PRAGMA foreign_keys = ON');
+    }
+  }
   await sqliteDb.run(`
     CREATE TABLE IF NOT EXISTS daily_menu (
       id TEXT PRIMARY KEY,
       date TEXT NOT NULL,
       menu_item_id TEXT NOT NULL REFERENCES menu_items(id) ON DELETE CASCADE,
-      menu_slot TEXT NOT NULL CHECK (menu_slot IN ('MenuA', 'MenuB', 'Soup', 'Special')),
+      menu_slot TEXT NOT NULL CHECK (menu_slot IN ('MenuA', 'MenuB', 'Soup', 'Special', 'Extra')),
       deadline_timestamp DATETIME NOT NULL,
       max_quantity INTEGER,
       is_locked INTEGER DEFAULT 0,
@@ -416,12 +467,28 @@ const createSQLiteTables = async () => {
       daily_menu_id TEXT NOT NULL REFERENCES daily_menu(id) ON DELETE CASCADE,
       quantity INTEGER NOT NULL CHECK (quantity > 0),
       delivery_address TEXT,
+      include_soup INTEGER DEFAULT 1,
+      include_extra INTEGER DEFAULT 0,
       last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
       UNIQUE(user_id, daily_menu_id)
     )
   `);
   try {
     await sqliteDb.run('ALTER TABLE delivery_plan_items ADD COLUMN delivery_address TEXT');
+  } catch (error: any) {
+    if (!String(error?.message || error).includes('duplicate column name')) {
+      throw error;
+    }
+  }
+  try {
+    await sqliteDb.run('ALTER TABLE delivery_plan_items ADD COLUMN include_soup INTEGER DEFAULT 1');
+  } catch (error: any) {
+    if (!String(error?.message || error).includes('duplicate column name')) {
+      throw error;
+    }
+  }
+  try {
+    await sqliteDb.run('ALTER TABLE delivery_plan_items ADD COLUMN include_extra INTEGER DEFAULT 0');
   } catch (error: any) {
     if (!String(error?.message || error).includes('duplicate column name')) {
       throw error;

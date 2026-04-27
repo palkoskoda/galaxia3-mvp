@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { adminApi, customerServiceApi, menuApi } from '../../services/api'
 import { Search, Users, UserCheck, UserX, Eye, Plus, Save, X, Trash2, Lock, Unlock, Edit2 } from 'lucide-react'
 import LoadingSpinner from '../../components/LoadingSpinner'
+import toast from 'react-hot-toast'
 import type { User, DailyMenu } from '../../types'
 
 interface CustomerDetail {
@@ -13,6 +14,8 @@ interface CustomerDetail {
     phone: string
     address: string
     role: string
+    is_senior: number
+    isSenior: boolean
     is_active: number
     isActive: boolean
   }
@@ -74,6 +77,16 @@ export default function AdminUsers() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     loadUsers()
+  }
+
+  const handleToggleSenior = async (userId: string, currentValue: boolean) => {
+    try {
+      await adminApi.updateUser(userId, { isSenior: !currentValue })
+      toast.success(!currentValue ? 'Používateľ označený ako dôchodca' : 'Označenie dôchodca odstránené')
+      loadUsers()
+    } catch (error: any) {
+      toast.error('Nepodarilo sa upraviť stav')
+    }
   }
 
   const handleViewDetail = async (userId: string) => {
@@ -262,6 +275,7 @@ export default function AdminUsers() {
                       <th className="text-left py-3 text-sm font-medium text-gray-500">Telefón</th>
                       <th className="text-left py-3 text-sm font-medium text-gray-500">Adresa</th>
                       <th className="text-center py-3 text-sm font-medium text-gray-500">Rola</th>
+                      <th className="text-center py-3 text-sm font-medium text-gray-500">Dôchodca</th>
                       <th className="text-center py-3 text-sm font-medium text-gray-500">Stav</th>
                       <th className="text-right py-3 text-sm font-medium text-gray-500">Akcie</th>
                     </tr>
@@ -279,6 +293,13 @@ export default function AdminUsers() {
                         <td className="py-3 text-gray-600 max-w-xs truncate">{user.address || '-'}</td>
                         <td className="py-3 text-center">{getRoleBadge(user.role)}</td>
                         <td className="py-3 text-center">
+                          {user.isSenior ? (
+                            <span className="badge-yellow text-xs">Dôchodca</span>
+                          ) : (
+                            <span className="text-gray-400">-</span>
+                          )}
+                        </td>
+                        <td className="py-3 text-center">
                           {user.isActive ? (
                             <span className="flex items-center justify-center text-green-600">
                               <UserCheck className="w-4 h-4 mr-1" />
@@ -292,9 +313,16 @@ export default function AdminUsers() {
                           )}
                         </td>
                         <td className="py-3 text-right">
-                          <button 
+                          <button
+                            onClick={() => handleToggleSenior(user.id, user.isSenior)}
+                            className={`mr-2 px-2 py-0.5 rounded text-xs font-bold ${user.isSenior ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+                            title={user.isSenior ? 'Odstrániť označenie dôchodca' : 'Označiť ako dôchodca'}
+                          >
+                            D
+                          </button>
+                          <button
                             onClick={() => handleViewDetail(user.id)}
-                            className="text-blue-600 hover:text-blue-800 mr-2"
+                            className="text-blue-600 hover:text-blue-800"
                             title="Zobraziť detail"
                           >
                             <Eye className="w-4 h-4" />
@@ -324,9 +352,14 @@ export default function AdminUsers() {
             <div className="p-6 border-b border-gray-200">
               <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">
-                    {selectedUser.user.first_name} {selectedUser.user.last_name}
-                  </h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-xl font-bold text-gray-900">
+                      {selectedUser.user.first_name} {selectedUser.user.last_name}
+                    </h2>
+                    {selectedUser.user.isSenior && (
+                      <span className="badge-yellow text-xs">Dôchodca</span>
+                    )}
+                  </div>
                   <p className="text-gray-600">{selectedUser.user.email}</p>
                   <p className="text-gray-600">{selectedUser.user.phone}</p>
                   <p className="text-gray-600">{selectedUser.user.address}</p>

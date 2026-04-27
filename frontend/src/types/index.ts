@@ -11,6 +11,7 @@ export interface User {
   phone?: string;
   address?: string;
   role: 'customer' | 'admin' | 'staff';
+  isSenior: boolean;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -22,6 +23,7 @@ export interface MenuItem {
   name: string;
   description?: string;
   price: number;
+  seniorPrice?: number;
   allergens: string[];
   category?: string;
   deadlineType: 'standard' | 'express';
@@ -36,7 +38,7 @@ export interface DailyMenu {
   date: string;
   menuItemId: string;
   menuItem: MenuItem;
-  menuSlot: 'MenuA' | 'MenuB' | 'Soup' | 'Special';
+  menuSlot: 'MenuA' | 'MenuB' | 'Soup' | 'Special' | 'Extra';
   deadlineTimestamp: string;
   maxQuantity?: number;
   isLocked: boolean;
@@ -57,6 +59,9 @@ export interface DeliveryPlanItem {
   dailyMenu: DailyMenu;
   quantity: number;
   deliveryAddress?: string;
+  includeSoup: boolean;
+  includeExtra: boolean;
+  unitPrice: number;
   lastUpdated: string;
 }
 
