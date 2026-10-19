@@ -1,71 +1,22 @@
-# Render Deploy Poznámky
+# Render: pokračovanie existujúceho nasadenia
 
-## Čo sa pokazilo (38 pokusov)
-
-1. **Npm workspaces** - Render inštaluje závislosti inak ako lokálne. Workspaces spôsobili že TypeScript nenachádzal typy.
-2. **NODE_ENV=production** - Render používa production mode, čo znamená že sa neinštalujú devDependencies (typescript, @types/*).
-3. **Build vs Start Command** - Render dashboard má vlastné nastavenia, ktoré prepíšu `render.yaml`.
-4. **Lock files** - `package-lock.json` musí byť vždy v sync s `package.json`.
-5. **Frontend dependencies** - `date-fns` chýbal vo `frontend/package.json`.
-
-## Ako to vyriešiť
-
-### 1. Lokálny test pred deployom
-
-```bash
-# Simuluj Render build
-NODE_ENV=production npm install --legacy-peer-deps
-NODE_ENV=production npm run build
-
-# Skontroluj či appka štartuje
-NODE_ENV=production PORT=10000 npm start
-
-# Test health endpoint
-curl http://localhost:10000/health
-```
-
-### 2. Build Command v Render dashboarde
-
-```bash
-npm install --legacy-peer-deps && npm run build
-```
-
-### 3. Start Command v Render dashboarde
-
-```bash
-npm start
-```
-
-### 4. Dôležité súbory
-
-- `backend/package.json` - musí mať `@types/node` v `dependencies` (nie `devDependencies`)
-- `backend/tsconfig.json` - `moduleResolution: "NodeNext"`, `types: ["node"]`
-- `frontend/package.json` - všetky runtime dependencies musia byť tu
-- `package.json` root - `render:build` script pre jednotný build
-
-### 5. Čo kontrolovať pred deployom
-
-- [ ] `npm run build` prejde lokálne
-- [ ] `npm start` funguje lokálne
-- [ ] `/health` endpoint odpovedá
-- [ ] Všetky `package-lock.json` sú commitnuté
-- [ ] Render dashboard má správny Build/Start Command
-- [ ] GitHub CI prešlo
-
-## Render nastavenia
+Použiť existujúcu službu pre `palkoskoda/galaxia3-mvp`, vetvu `master`. Netreba vytvárať ďalší účet na hostingu ani databázu.
 
 | Nastavenie | Hodnota |
-|-----------|---------|
-| Language | Node |
-| Build Command | `npm install --legacy-peer-deps && npm run build` |
-| Start Command | `npm start` |
-| Node Version | 20.11.0 (cez `.node-version`) |
+| --- | --- |
+| Runtime | Node (alebo existujúci Docker) |
+| Build | `npm install --legacy-peer-deps && npm run build` |
+| Start | `npm start` |
+| Health check | `/health` |
+| Auto-deploy | Po úspešných GitHub kontrolách |
+| Port | Hodnota `PORT` od Renderu, štandardne 10000 |
 
-## GitHub Actions
+Pôvodná adresa uvedená v konfigurácii: https://galaxia3-mvp.onrender.com . Reálny stav a prepojenie služby treba potvrdiť v Render dashboarde; súbory v GitHube samy nepotvrdzujú aktívne nasadenie.
 
-CI už kontroluje:
-- TypeScript build
-- Production start
-- Health check
+Aktívny server `server/index.cjs` používa iba vstavané Node moduly. Spúšťa `/health`, verejné `/api/menu` a obsluhu buildu Reactu. Nepripája sa k PostgreSQL/SQLite a nepotrebuje `DATABASE_URL`, `JWT_SECRET` ani žiadny e-mailový token. Staré serverové premenné môžu ostať nepoužité. Existujúcu vzdialenú databázu táto zmena nemaže.
 
-Ak CI failne, NEdeployovať na Render.
+Pri blueprint synchronizácii si osobitne skontrolovať, ktoré existujúce zdroje sa menia. Konfigurácia jednoduchého webu nevyžaduje nový databázový zdroj.
+
+Používateľov výber je v localStorage na konkrétnej doméne a v konkrétnom prehliadači. Údaje zo skúšobného chatgpt.site sa do Render domény neprenesú automaticky.
+
+Pred pushom: `build-check.ps1`, Docker build a kontrola `/health` aj hlavnej stránky v kontajneri. CI používa rovnaký aktívny build. Žiadny test neposiela e-mail.

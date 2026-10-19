@@ -1,3 +1,9 @@
+# Current default: personal ordering helper
+
+The active app is now a database-free personal menu selector. Root `npm start` runs `server/index.cjs`; root `npm run build` builds only the personal React UI. Drafts live in browser localStorage and the user sends a prepared message in Gmail. Automatic sending is deferred. Keep the existing GitHub → Render deployment; see README.md and RENDER-DEPLOY.md. Legacy backend, database and admin pages are retained but inactive by default. Never activate demo-account seeding for the personal app.
+
+The following is historical context for the original restaurant system.
+
 # Galaxia Obedy 3.0 — Project Context
 
 ## Overview

@@ -1,138 +1,44 @@
-# Galaxia Obedy 3.0
+# Moje obedy · Galaxia
 
-Inteligentný systém pre plánovanie dodávok obedov so **stavovým modelom**.
+Jednoduchý osobný pomocník pre objednávanie obedov z Galaxie. Menu sa načíta priamo z [galaxia-krupina.sk](https://galaxia-krupina.sk/), používateľ si vyberie porcie A–D a otvorí pripravenú objednávku vo vlastnom Gmaile. Odoslanie potvrdí v Gmaile sám. Aplikácia je nezávislá od reštaurácie.
 
-## 🎯 Kľúčové vlastnosti
+## Aktuálna jednoduchá verzia
 
-- **Žiadny košík** - Priame plánovanie v jedálnom lístku
-- **Živý plán** - Každá zmena sa okamžite ukladá
-- **Uzávierky** - Automatické uzamykanie po deadlinoch
-- **Denná súpiska** - Prehľad pre kuchyňu a rozvoz
+- Bez registrácie, databázy a hesiel k e-mailu.
+- Meno, adresa, poznámka a výber sa automaticky ukladajú iba v aktuálnom prehliadači cez localStorage. Dáta sa nesynchronizujú medzi zariadeniami; vymazanie dát prehliadača odstráni aj uložený výber.
+- Server načítava iba verejný jedálny lístok. Menu má 15-minútovú pamäťovú cache; pri výpadku sa starší lístok označí ako neaktuálny. Dátumy sa neposúvajú ani nevymýšľajú.
+- Gmail otvorí upraviteľnú správu pre `galaxia.obedy@gmail.com` s počtami jedál podľa dní a malou poznámkou o pôvode. Otvorenie Gmailu nie je potvrdením odoslania ani prijatia objednávky.
+- Platby, rozvoz, správa reštaurácie a automatické odosielanie majú stav **Pripravuje sa**.
 
-## 🏗️ Architektúra
+## Lokálne spustenie
 
-### Stavový model (State Model)
+Node.js 20+, npm:
 
-Namiesto klasického e-commerce flow (košík → checkout → objednávka) používame priamy stavový model:
-
-```
-Zákazník ↔ Databáza (DeliveryPlanItems)
-     ↑
-   +/- (okamžitý zápis)
-```
-
-### Tech Stack
-
-- **Backend**: Node.js + Express + TypeScript + PostgreSQL
-- **Frontend**: React + TypeScript + Vite + Tailwind CSS
-- **State Management**: Zustand
-- **API**: REST s JWT autentifikáciou
-
-## 🚀 Inštalácia
-
-### 1. Klonovanie a inštalácia
-
-```bash
-git clone <repo-url>
-cd galaxia3
-npm run install:all
+```sh
+npm ci
+npm run build
+npm start
 ```
 
-### 2. Databáza
+Web beží na porte 3000; v produkcii používa `PORT` dodaný hostingom. `npm run dev` spustí server a Vite. Vite posiela `/api` na port 3000.
 
-```bash
-# Vytvorte PostgreSQL databázu
-createdb galaxia3
+`npm test` overí čítanie menu, cache, limity zdroja, bezpečné servovanie súborov a lokálne uloženie výberu. `npm run typecheck` kontroluje aktívnu osobnú aplikáciu. `build-check.ps1` vykoná lokálnu kontrolu pred pushom.
 
-# Nastavte .env
-cp .env.example .env
-# Upravte DATABASE_URL
+## Pôvodné nasadenie cez GitHub → Render
 
-# Spustite migrácie
-npm run db:migrate
+Zachované príkazy hostingu:
 
-# Naplňte dáta
-npm run db:seed
-```
+- Build: `npm install --legacy-peer-deps && npm run build`
+- Start: `npm start`
+- Health check: `/health`
+- Vetva: `master`
 
-### 3. Spustenie
+Predošlá konfigurovaná adresa je `https://galaxia3-mvp.onrender.com`. Aktívne nastavenie služby v Render dashboarde treba overiť, pretože môže prepisovať `render.yaml`. Súbor teraz popisuje web bez databázy; táto úprava sama osebe neodstraňuje existujúce vzdialené databázy ani nemení ich údaje. Staré databázové premenné služba nepoužíva.
 
-```bash
-# Vývojový režim (backend + frontend)
-npm run dev
+GitHub Actions kontroluje build, testy a štart. Render môže používať automatické nasadenie po úspešných kontrolách. Pri bezplatnom uspávaní môže prvé otvorenie trvať dlhšie; pre ručne potvrdený e-mail to nevyžaduje trvalý plánovač.
 
-# Backend: http://localhost:3000
-# Frontend: http://localhost:5173
-```
+Docker: `docker build -t galaxia-personal .`, potom `docker run --rm -p 3010:10000 galaxia-personal`.
 
-## 📋 Testovacie účty
+## Pôvodný systém reštaurácie
 
-Po seed-e sú k dispozícii:
-
-| Email | Heslo | Rola |
-|-------|-------|------|
-| admin@galaxia.sk | password123 | Admin |
-| kuchar@galaxia.sk | password123 | Staff |
-| rozvoz@galaxia.sk | password123 | Staff |
-| klient1@example.com | password123 | Customer |
-| klient2@example.com | password123 | Customer |
-| klient3@example.com | password123 | Customer |
-
-## 📁 Štruktúra projektu
-
-```
-galaxia3/
-├── backend/              # Node.js API
-│   ├── src/
-│   │   ├── routes/       # API endpoints
-│   │   ├── middleware/   # Auth, error handling
-│   │   ├── types/        # TypeScript types
-│   │   └── db/           # Database connection
-│   └── package.json
-├── frontend/             # React aplikácia
-│   ├── src/
-│   │   ├── pages/        # Stránky
-│   │   ├── components/   # Komponenty
-│   │   ├── stores/       # Zustand stores
-│   │   └── services/     # API calls
-│   └── package.json
-├── database/
-│   ├── schema.sql        # Databázová schéma
-│   └── seed.sql          # Testovacie dáta
-└── package.json
-```
-
-## 🔌 API Endpoints
-
-### Auth
-- `POST /api/auth/login` - Prihlásenie
-- `POST /api/auth/register` - Registrácia
-- `GET /api/auth/me` - Aktuálny používateľ
-
-### Menu
-- `GET /api/menu/plan` - Živý jedálny lístok s výbermi
-- `GET /api/menu/items` - Knižnica jedál
-- `GET /api/menu/daily` - Denná ponuka (admin)
-
-### Plan (HLAVNÉ)
-- `PUT /api/plan/selection` - **Nastaviť počet kusov**
-- `GET /api/plan/my` - Môj plán
-
-### Admin
-- `GET /api/admin/dashboard` - Štatistiky
-- `GET /api/admin/daily-summary/:date` - Denná súpiska
-- `POST /api/admin/archive-day/:date` - Archivovať deň
-
-## 🗄️ Dátový model
-
-### Kľúčové tabuľky
-
-1. **users** - Používatelia
-2. **menu_items** - Knižnica jedál
-3. **daily_menu** - Denná ponuka s uzávierkami
-4. **delivery_plan_items** - **Živý plán** (užívateľ × deň × jedlo)
-5. **order_history** - Archív dodávok
-
-## 📝 Licencia
-
-MIT
+Starší databázový backend a stránky ostali v `backend/` a `frontend/src/pages/` ako podklad pre budúce rozšírenie. Aktívne `npm start` ich nepoužíva a nespúšťa seed testovacích účtov. Staršie dokumenty popisujú pôvodný rozsah aplikácie; aktuálne nasadenie sa riadi týmto README a `RENDER-DEPLOY.md`.

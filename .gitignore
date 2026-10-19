@@ -34,3 +34,7 @@ lerna-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Local verification artifacts
+/outputs/
+/.task-runtime/
