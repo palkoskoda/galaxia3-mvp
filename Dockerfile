@@ -12,6 +12,7 @@ ENV NODE_ENV=production
 ENV PORT=10000
 COPY --from=builder /app/frontend/dist ./frontend/dist
 COPY server ./server
+COPY data/menus ./data/menus
 COPY package.json ./package.json
 EXPOSE 10000
 CMD ["node", "server/index.cjs"]

@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, Check, CheckCheck, Clock3, ExternalLink, Mail, MapPin, Minus, Plus, RefreshCw, Settings2, Soup, Utensils, ArrowUpRight, HelpCircle, LayoutGrid, Truck, CreditCard, X, AlertCircle, Save, FileText } from 'lucide-react';
 import type { MenuDay } from './personal/menu-parser.mjs';
 import { formatOrderEmail } from './personal/order-domain.mjs';
+import { preferredWeek } from './personal/menu-weeks.mjs';
 import { blankProfile, readState, storeDraft } from './personal/storage';
 import type { Draft, Profile, LocalOrder as Order } from './personal/storage';
 type Code = 'A'|'B'|'C'|'D';
-type Menu = {days:MenuDay[];fetchedAt:string|null;stale:boolean;error?:string};
+type WeekSource = {weekStart:string|null;kind:'website'|'email-pdf';label:string;stale:boolean;importedAt?:string;receivedAt?:string;pdfUrl?:string};
+type Menu = {days:MenuDay[];fetchedAt:string|null;stale:boolean;error?:string;weekSources?:WeekSource[]};
 const CODES:Code[] = ['A','B','C','D'];
 const DAYS = ['Nedeľa','Pondelok','Utorok','Streda','Štvrtok','Piatok','Sobota'];
 const emptyMenu:Menu = {days:[],fetchedAt:null,stale:false};
@@ -45,6 +47,8 @@ export default function PersonalOrderApp() {
   const busy=false,locked=false;
   const account={name:draft.profile.name||'Môj výber',email:draft.profile.email||'Údaje doručenia'};
   const days=menu.days.filter(d=>monday(d.date)===week);
+  const source=menu.weekSources?.find(item=>item.weekStart===week);
+  const activeStale=source?.stale??menu.stale;
   const total=Object.values(draft.selections).reduce((sum,day)=>sum+Object.values(day).reduce((n,q)=>n+(q??0),0),0);
   const selectedDays=Object.values(draft.selections).filter(d=>Object.values(d).some(n=>(n??0)>0)).length;
   const profileValid=!!(draft.profile.name.trim()&&draft.profile.address.trim()&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(draft.profile.email));
@@ -71,9 +75,7 @@ export default function PersonalOrderApp() {
     void fetchMenu().then(result=>{
       if(!active)return;
       setMenu(result);
-      const nextWeek=addDays(monday(todaySK()),7);
-      const target=result.days.some(d=>monday(d.date)===nextWeek)?nextWeek:result.days.length?monday(result.days[result.days.length-1].date):nextWeek;
-      selectWeek(target,all,profile);
+      selectWeek(preferredWeek(result.days,todaySK()),all,profile);
     }).catch(()=>{if(active){selectWeek(addDays(monday(todaySK()),7),all,profile);setNotice('Jedálny lístok sa nepodarilo načítať. Skús Obnoviť lístok.');}}).finally(()=>{if(active)setLoading(false);});
     return()=>{active=false;};
   // Initial storage/menu load only. User edits are saved separately below.
@@ -98,11 +100,19 @@ export default function PersonalOrderApp() {
     window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn);
   },[dirty]);
   async function changeWeek(next:string){if(dirty&&!(await saveDraft()))return;selectWeek(next);}
-  async function refresh(){setRefreshing(true);try{const result=await fetchMenu(true);setMenu(result);setNotice(result.error??'Jedálny lístok je aktuálny.');}catch(e){setNotice((e as Error).message);}finally{setRefreshing(false);}}
+  async function refresh(){
+    if(dirty&&!(await saveDraft()))return;
+    setRefreshing(true);
+    try{
+      const result=await fetchMenu(true);setMenu(result);
+      if(week&&addDays(week,4)<todaySK())selectWeek(preferredWeek(result.days,todaySK()));
+      setNotice(result.weekSources?.some(item=>item.kind==='email-pdf')?'Menu z e-mailových PDF je načítané.':result.error??'Jedálny lístok je načítaný.');
+    }catch(e){setNotice((e as Error).message);}finally{setRefreshing(false);}
+  }
   function quantity(date:string,code:Code,delta:number){const count=Math.max(0,Math.min(20,(draft.selections[date]?.[code]??0)+delta));edit({selections:{...draft.selections,[date]:{...draft.selections[date],[code]:count}}});}
   function openGmail(){
     if(!profileValid){setModal('profile');return;}
-    if(menu.stale){setNotice('Pred prípravou e-mailu obnov jedálny lístok.');return;}
+    if(activeStale){setNotice('Pred prípravou e-mailu obnov jedálny lístok.');return;}
     for(const [date,meals] of Object.entries(draft.selections))for(const code of CODES){
       if((meals[code]??0)>0&&(!canSelect(date,code)||!menu.days.some(day=>day.date===date))){setNotice(`Skontroluj výber na ${dateText(date)}. Jedlo ${code} už nemožno objednať alebo nie je v aktuálnom lístku.`);return;}
     }
@@ -130,9 +140,9 @@ export default function PersonalOrderApp() {
         {notice&&<div className="notice" role="status"><AlertCircle size={18}/><span>{notice}</span><button className="icon-button" aria-label="Zavrieť oznámenie" onClick={()=>setNotice('')}><X size={17}/></button></div>}
         {['menu','order'].includes(view)?<>
           <div className="week-toolbar"><div className="week-picker"><span className="calendar-square"><CalendarDays size={20}/></span><div><span className="small-label">TÝŽDENNÉ MENU</span><strong>{week?`${dateText(week)} – ${dateText(addDays(week,4),true)}`:'Načítavam…'}</strong></div><div className="week-arrows"><button disabled={!week||busy} aria-label="Predchádzajúci týždeň" onClick={()=>void changeWeek(addDays(week,-7))}><ChevronLeft size={19}/></button><button disabled={!week||busy} aria-label="Ďalší týždeň" onClick={()=>void changeWeek(addDays(week,7))}><ChevronRight size={19}/></button></div></div><button className="refresh-button" onClick={()=>void refresh()} disabled={refreshing}><RefreshCw size={16} className={refreshing?'spinning':''}/><span>{refreshing?'Načítavam…':'Obnoviť lístok'}</span></button></div>
-          {menu.stale&&<div className="warning-banner"><AlertCircle size={18}/>{menu.error} Pred odoslaním bude potrebné overenie aktuálneho lístka.</div>}
+          {activeStale&&<div className="warning-banner"><AlertCircle size={18}/>{menu.error} Pred odoslaním bude potrebné overenie aktuálneho lístka.</div>}
           <div className="content-grid"><section className="menu-column" aria-label="Jedálny lístok">
-            {loading?<div className="empty-card"><RefreshCw className="spinning"/><h2>Načítavam čerstvé menu…</h2><p>Priamo zo stránky Galaxie.</p></div>:view==='order'?<div className="order-details panel"><span className="small-label">REKAPITULÁCIA OBJEDNÁVKY</span><h2>{total?`${total} ${total===1?'obed':total<5?'obedy':'obedov'} na ${selectedDays} ${selectedDays===1?'deň':selectedDays<5?'dni':'dní'}`:'Zatiaľ tu nie je žiadny obed.'}</h2>{Object.keys(draft.selections).sort().filter(date=>Object.values(draft.selections[date]).some(q=>(q??0)>0)).map(date=><div className="recap-day" key={date}><h3>{labelDay(date)} <span>{dateText(date)}</span></h3>{CODES.filter(c=>(draft.selections[date][c]??0)>0).map(c=><div className="recap-meal" key={c}><b>{draft.selections[date][c]}× {c}</b><span>{menu.days.find(d=>d.date===date)?.meals.find(m=>m.code===c)?.name??'Názov jedla už nie je v aktuálnom lístku'}</span></div>)}</div>)}<button className="secondary-button" onClick={()=>setView('menu')}>Upraviť výber <ArrowUpRight size={16}/></button></div>:days.length?days.map(day=>{
+            {loading?<div className="empty-card"><RefreshCw className="spinning"/><h2>Načítavam čerstvé menu…</h2><p>Z overených PDF a webu Galaxie.</p></div>:view==='order'?<div className="order-details panel"><span className="small-label">REKAPITULÁCIA OBJEDNÁVKY</span><h2>{total?`${total} ${total===1?'obed':total<5?'obedy':'obedov'} na ${selectedDays} ${selectedDays===1?'deň':selectedDays<5?'dni':'dní'}`:'Zatiaľ tu nie je žiadny obed.'}</h2>{Object.keys(draft.selections).sort().filter(date=>Object.values(draft.selections[date]).some(q=>(q??0)>0)).map(date=><div className="recap-day" key={date}><h3>{labelDay(date)} <span>{dateText(date)}</span></h3>{CODES.filter(c=>(draft.selections[date][c]??0)>0).map(c=><div className="recap-meal" key={c}><b>{draft.selections[date][c]}× {c}</b><span>{menu.days.find(d=>d.date===date)?.meals.find(m=>m.code===c)?.name??'Názov jedla už nie je v aktuálnom lístku'}</span></div>)}</div>)}<button className="secondary-button" onClick={()=>setView('menu')}>Upraviť výber <ArrowUpRight size={16}/></button></div>:days.length?days.map(day=>{
               const count=Object.values(draft.selections[day.date]??{}).reduce((n,q)=>n+(q??0),0);
               return <article className={'day-card'+(day.date<todaySK()?' past-day':'')} key={day.date}>
                 <div className="day-heading"><div className="day-date"><span className="day-number">{new Date(day.date+'T12:00:00Z').getUTCDate()}</span><span><h2>{labelDay(day.date)}</h2><small>{new Intl.DateTimeFormat('sk-SK',{month:'long'}).format(new Date(day.date+'T12:00:00Z'))}</small></span></div>{count?<span className="selected-badge"><Check size={13}/>{count} {count===1?'obed':count<5?'obedy':'obedov'}</span>:<span className="day-hint">{day.date<todaySK()?'Ukončené':'Vyber si z ponuky'}</span>}</div>
@@ -143,8 +153,8 @@ export default function PersonalOrderApp() {
                 })}</div>
                 {day.extra&&<div className="extra-row"><span>Príloha navyše</span>{day.extra.name}<small>{day.extra.price??''} · objednaj v poznámke</small></div>}
               </article>;
-            }):<div className="empty-card"><CalendarDays size={37}/><span className="small-label">EŠTE CHVÍĽU STRPENIA</span><h2>Na tento týždeň menu ešte nie je.</h2><p>Hneď ako ho Galaxia zverejní, načíta sa sem. Zatiaľ si môžeš pozrieť posledný dostupný lístok.</p><button className="secondary-button" onClick={()=>{if(menu.days.length)void changeWeek(monday(menu.days[menu.days.length-1].date));else void refresh();}}>{menu.days.length?'Posledné dostupné menu':'Skúsiť načítať znova'}<ArrowUpRight size={16}/></button></div>}
-            <div className="source-footer"><span><span className="source-dot"/>Zdroj: <a href="https://galaxia-krupina.sk/" target="_blank" rel="noreferrer">galaxia-krupina.sk <ExternalLink size={11}/></a>{menu.fetchedAt&&<small> · načítané {stamp(menu.fetchedAt)}</small>}</span><p>A–C deň vopred do 14:30 · D v deň rozvozu do 8:00</p></div>
+            }):<div className="empty-card"><CalendarDays size={37}/><span className="small-label">EŠTE CHVÍĽU STRPENIA</span><h2>Na tento týždeň menu ešte nie je.</h2><p>Menu pridáme z e-mailového PDF Galaxie alebo načítame z jej webu. Zatiaľ si môžeš pozrieť posledný dostupný lístok.</p><button className="secondary-button" onClick={()=>{if(menu.days.length)void changeWeek(monday(menu.days[menu.days.length-1].date));else void refresh();}}>{menu.days.length?'Posledné dostupné menu':'Skúsiť načítať znova'}<ArrowUpRight size={16}/></button></div>}
+            <div className="source-footer"><span><span className="source-dot"/>Zdroj: <a href={source?.pdfUrl??'https://galaxia-krupina.sk/'} target="_blank" rel="noreferrer">{source?.kind==='email-pdf'?'PDF z e-mailu Galaxie':'galaxia-krupina.sk'} <ExternalLink size={11}/></a>{(source?.importedAt??menu.fetchedAt)&&<small> · {source?.kind==='email-pdf'?'pridané':'načítané'} {stamp((source?.importedAt??menu.fetchedAt)!)}</small>}</span><p>A–C deň vopred do 14:30 · D v deň rozvozu do 8:00</p></div>
           </section><aside className="summary-column" aria-label="Súhrn objednávky"><div className="summary panel"><div className="summary-heading"><h2>Moja objednávka</h2><span className="summary-icon"><Utensils size={18}/></span></div><div className="summary-period">{week&&`${dateText(week)} – ${dateText(addDays(week,4),true)}`}</div>
               <div className="summary-stats"><div><strong>{total.toString().padStart(2,'0')}</strong><span>OBEDOV</span></div><div className="stat-line"/><div><strong>{selectedDays.toString().padStart(2,'0')}</strong><span>DNÍ S OBEDOM</span></div></div>
               <div className="summary-days">{[0,1,2,3,4].map(offset=>{const date=week?addDays(week,offset):'';const picks=CODES.filter(c=>(draft.selections[date]?.[c]??0)>0);return <div key={offset}><span>{['Pondelok','Utorok','Streda','Štvrtok','Piatok'][offset]}</span><strong className={picks.length?'picked':''}>{picks.length?picks.map(c=>`${draft.selections[date][c]}× ${c}`).join(', '):'—'}</strong></div>;})}</div>

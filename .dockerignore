@@ -21,3 +21,6 @@ test-before-push.ps1
 docker-compose.yml
 Dockerfile
 README.md
+outputs
+.task-runtime
+tmp

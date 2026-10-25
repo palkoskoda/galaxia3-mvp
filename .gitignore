@@ -38,3 +38,4 @@ Thumbs.db
 # Local verification artifacts
 /outputs/
 /.task-runtime/
+/tmp/

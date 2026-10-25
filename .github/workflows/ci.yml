@@ -19,6 +19,7 @@ jobs:
         run: |
           npm ci
           npm run build
+          npm run menu:validate
       - name: Test menu reader and server
         run: npm test
       - name: Test production start

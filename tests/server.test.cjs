@@ -22,7 +22,7 @@ async function setup(t, options = {}) {
   await fs.writeFile(path.join(directory, 'private.txt'), 'must never leave the server');
   let calls = 0;
   const fetchImpl = options.fetchImpl || (async () => { calls++; return htmlResponse(await fixturePromise); });
-  const server = http.createServer(createHandler({ staticPath: publicRoot, ...options, fetchImpl }));
+  const server = http.createServer(createHandler({ staticPath: publicRoot, publishedMenuPath: path.join(directory, 'published'), ...options, fetchImpl }));
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   const origin = `http://127.0.0.1:${server.address().port}`;
   t.after(async () => {

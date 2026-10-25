@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { pipeline } = require('node:stream/promises');
 const { parseMenuHtml } = require('./menu-parser.cjs');
+const { readPublishedMenus, combineMenus } = require('./published-menu.cjs');
 
 const MENU_SOURCE = 'https://galaxia-krupina.sk/';
 const MENU_HOSTS = new Set(['galaxia-krupina.sk', 'www.galaxia-krupina.sk']);
@@ -137,9 +138,12 @@ function withinRoot(root, candidate) {
 }
 
 /** Testable, dependency-free public handler. Personal drafts never reach this server. */
-function createHandler({ fetchImpl = globalThis.fetch, now = Date.now, staticPath = path.join(__dirname, '../frontend/dist') } = {}) {
+function createHandler({ fetchImpl = globalThis.fetch, now = Date.now, staticPath = path.join(__dirname, '../frontend/dist'), publishedMenuPath = path.join(__dirname, '../data/menus') } = {}) {
   const staticRoot = path.resolve(staticPath);
   const loadMenu = createMenuLoader({ fetchImpl, now });
+  // Published PDF imports are deliberately read once at startup. A malformed
+  // import must be fixed before serving traffic rather than silently ignored.
+  const publishedMenus = readPublishedMenus(publishedMenuPath);
   async function serveFile(request, response, pathname) {
     const filePath = path.resolve(staticRoot, '.' + pathname);
     if (!withinRoot(staticRoot, filePath)) return sendJson(request, response, 403, { error: 'Táto cesta nie je povolená.' });
@@ -183,7 +187,7 @@ function createHandler({ fetchImpl = globalThis.fetch, now = Date.now, staticPat
       if (pathname === '/health') return sendJson(request, response, 200, { status: 'ok', version: 'personal-v1' });
       if (pathname === '/api/menu') {
         const query = new URL(request.url, 'http://localhost').searchParams;
-        const menu = await loadMenu(query.get('refresh') === '1');
+        const menu = combineMenus(await loadMenu(query.get('refresh') === '1'), publishedMenus);
         return sendJson(request, response, menu.days.length ? 200 : 503, menu);
       }
       if (pathname === '/api' || pathname.startsWith('/api/')) return sendJson(request, response, 404, { error: 'Táto API adresa neexistuje.' });

@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "weekStart": "2026-10-26",
+  "importedAt": "2026-10-25T12:26:06.000Z",
+  "source": {
+    "kind": "email-pdf",
+    "label": "PDF z e-mailu Galaxie",
+    "receivedAt": "2026-10-20T14:52:49.000Z"
+  },
+  "days": [
+    {
+      "date": "2026-10-26",
+      "label": "Pondelok 26. 10. 2026",
+      "soup": {
+        "name": "Zeleninová s cestovinou",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Ľahký cestovinový šalát s pórom a grilovanou bravčovou panenkou",
+          "weight": "350 g"
+        },
+        {
+          "code": "B",
+          "name": "Zbojnícke mäso so syrom, ryža",
+          "weight": "130/200 g"
+        },
+        {
+          "code": "C",
+          "name": "Domáci kysnutý marhuľovo-slivkový koláč s maslovou drobenkou",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Vyprážaný bravčový rezeň, zemiaková kaša",
+          "weight": "120/240 g"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-27",
+      "label": "Utorok 27. 10. 2026",
+      "soup": {
+        "name": "Hŕstková",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Morčacie soté na mrkve, basmati ryža",
+          "weight": "130/230 g"
+        },
+        {
+          "code": "B",
+          "name": "Bravčový perkelt, cestovina",
+          "weight": "130/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Domáce palacinky s karamelom",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Prírodný bravčový plátok, nivová omáčka, ryža",
+          "weight": "120/200 g"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-28",
+      "label": "Streda 28. 10. 2026",
+      "soup": {
+        "name": "Hovädzí vývar s rezancami",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Pravé talianske rizoto",
+          "weight": "350 g"
+        },
+        {
+          "code": "B",
+          "name": "Pečený bravčový bôčik, jaternica, pučené maslové zemiaky",
+          "weight": "230/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Domáce dukátové buchtičky s vanilkovým krémom",
+          "weight": "450 g"
+        },
+        {
+          "code": "D",
+          "name": "Grilované kuracie stehno, ryža",
+          "weight": "240/200 g"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-29",
+      "label": "Štvrtok 29. 10. 2026",
+      "soup": {
+        "name": "Gulášová",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Kuracie soté s pórom, ryža",
+          "weight": "120/230 g"
+        },
+        {
+          "code": "B",
+          "name": "Čevabčiči, varené zemiaky, horčica, cibuľa",
+          "weight": "150/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Bryndzové halušky so slaninkou",
+          "weight": "440 g"
+        },
+        {
+          "code": "D",
+          "name": "Hovársky kurací plátok, ryža",
+          "weight": "120/200 g"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-30",
+      "label": "Piatok 30. 10. 2026",
+      "soup": {
+        "name": "Hríbová s mrveničkou",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Pečené rybie filé s brokolicou a syrom, pečené zemiaky",
+          "weight": "120/230 g"
+        },
+        {
+          "code": "B",
+          "name": "Vyprážaný syr so šunkou, varené zemiaky, tatárska omáčka",
+          "weight": "130/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Zemiakové pirohy",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Maďarský guľáš, domáca parená knedľa",
+          "weight": "130/180 g"
+        }
+      ]
+    }
+  ]
+}

@@ -23,6 +23,8 @@
     "dev:server": "node --watch server/index.cjs",
     "install:personal": "npm install --prefix frontend --legacy-peer-deps --include=dev --no-audit --no-fund",
     "test": "node --test tests/*.test.cjs",
+    "menu:import": "node scripts/import-menu.cjs",
+    "menu:validate": "node scripts/validate-menus.cjs",
     "start:legacy": "cd backend && npm start",
     "build:legacy": "npm run install:subapps && npm run build:backend && npm run build:frontend"
   },

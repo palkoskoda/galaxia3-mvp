@@ -2,6 +2,8 @@
 
 The active app is now a database-free personal menu selector. Root `npm start` runs `server/index.cjs`; root `npm run build` builds only the personal React UI. Drafts live in browser localStorage and the user sends a prepared message in Gmail. Automatic sending is deferred. Keep the existing GitHub → Render deployment; see README.md and RENDER-DEPLOY.md. Legacy backend, database and admin pages are retained but inactive by default. Never activate demo-account seeding for the personal app.
 
+Verified menu PDFs from Gmail are imported weekly into `data/menus/` and `frontend/public/menus/` using `npm run menu:import`. They take priority over the restaurant website and work during website outages. Follow `docs/MENU-IMPORT.md`; recurring imports may publish only the menu JSON/PDF, never private email data.
+
 The following is historical context for the original restaurant system.
 
 # Galaxia Obedy 3.0 — Project Context
