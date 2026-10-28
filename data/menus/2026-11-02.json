@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "weekStart": "2026-11-02",
+  "importedAt": "2026-10-28T05:59:10.000Z",
+  "source": {
+    "kind": "email-pdf",
+    "label": "PDF z e-mailu Galaxie",
+    "receivedAt": "2026-10-27T11:26:39.000Z"
+  },
+  "days": [
+    {
+      "date": "2026-11-02",
+      "label": "Pondelok 2. 11. 2026",
+      "soup": {
+        "name": "Rascová s vajíčkom",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Kuracie soté na zelenine, ryža",
+          "weight": "130/220 g"
+        },
+        {
+          "code": "B",
+          "name": "Putimské bravčové rezančeky, ryža (šamp., kápia, uhorka)",
+          "weight": "130/200 g"
+        },
+        {
+          "code": "C",
+          "name": "Domáca viedenská parená buchta",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Vyprážaný kurací rezeň so syrom, zemiaková kaša",
+          "weight": "120/240 g"
+        }
+      ],
+      "extra": {
+        "name": "Čalamáda",
+        "weight": "",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-03",
+      "label": "Utorok 3. 11. 2026",
+      "soup": {
+        "name": "Fazuľová sladká",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Zapekané rybie filé so syrom a paradajkou, batátovo-zemiakové pyré",
+          "weight": "120/230 g"
+        },
+        {
+          "code": "B",
+          "name": "Jemne pikantné br. soté, pučené maslové zemiaky",
+          "weight": "130/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Rezance s makom",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Gazdovské kuracie stehno, ryža (kysla kapusta, slanina)",
+          "weight": "240/200 g"
+        }
+      ],
+      "extra": {
+        "name": "Kyslá uhorka",
+        "weight": "",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-04",
+      "label": "Streda 4. 11. 2026",
+      "soup": {
+        "name": "Slepačí vývar s rezancami",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Pečená bravčová panenka na bylinkách, zeleninový kuskus",
+          "weight": "120/230 g"
+        },
+        {
+          "code": "B",
+          "name": "Mexické kuracie soté, ryža",
+          "weight": "130/200 g"
+        },
+        {
+          "code": "C",
+          "name": "Tagliatelle s hubovo-nivovou omáčkou",
+          "weight": "400 g"
+        },
+        {
+          "code": "D",
+          "name": "Moskovský bravčový rezeň, pučené maslové zemiaky",
+          "weight": "120/240 g"
+        }
+      ],
+      "extra": {
+        "name": "Miešaný zeleninový šalát",
+        "weight": "",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-05",
+      "label": "Štvrtok 5. 11. 2026",
+      "soup": {
+        "name": "Kulajda s hubami",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Kuracie rizoto so šampiňónmi a zeleninou",
+          "weight": "350 g"
+        },
+        {
+          "code": "B",
+          "name": "Dusené hovädzie rezančeky na červenom víne, tarhoňa",
+          "weight": "130/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Tekvicový prívarok, volské oko, špekačka, chlieb",
+          "weight": "440 g"
+        },
+        {
+          "code": "D",
+          "name": "Mletý rezeň so syrom, zemiaková kaša",
+          "weight": "120/240 g"
+        }
+      ],
+      "extra": {
+        "name": "Slivkový kompót",
+        "weight": "",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-06",
+      "label": "Piatok 6. 11. 2026",
+      "soup": {
+        "name": "Francúzska",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Morčacie stehno na kari, ryža",
+          "weight": "130/220 g"
+        },
+        {
+          "code": "B",
+          "name": "Vyprážaný syr, varené zemiaky, tatárska omáčka",
+          "weight": "110/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Zemiakové šúľance s makom",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Segedínsky guľáš, domáca parená knedľa",
+          "weight": "130/180 g"
+        }
+      ],
+      "extra": {
+        "name": "Červená repa",
+        "weight": "",
+        "price": "1.00 €"
+      }
+    }
+  ]
+}
