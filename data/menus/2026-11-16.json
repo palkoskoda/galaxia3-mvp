@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "weekStart": "2026-11-16",
+  "importedAt": "2026-11-11T06:00:58.000Z",
+  "source": {
+    "kind": "email-pdf",
+    "label": "PDF z e-mailu Galaxie",
+    "receivedAt": "2026-11-10T11:37:01.000Z"
+  },
+  "days": [
+    {
+      "date": "2026-11-16",
+      "label": "Pondelok 16. 11. 2026",
+      "soup": {
+        "name": "Jarná s cestovinou",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Tuniakové rizoto",
+          "weight": "350 g"
+        },
+        {
+          "code": "B",
+          "name": "Námornícke bravčové soté, ryža (šunka, vajce)",
+          "weight": "130/200 g"
+        },
+        {
+          "code": "C",
+          "name": "Domáce pečené buchty plnené slivkovým lekvárom",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Vyprážaný kurací rezeň v sézame, zemiaková kaša",
+          "weight": "120/240 g"
+        }
+      ],
+      "extra": {
+        "name": "Cvikla",
+        "weight": "120 g",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-17",
+      "label": "Utorok 17. 11. 2026",
+      "soup": {
+        "name": "Fazuľová sladká",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Rybie filé a La Charlie, ryža (paradajky, feferóny)",
+          "weight": "120/200 g"
+        },
+        {
+          "code": "B",
+          "name": "Bravčový guláš, cestovina",
+          "weight": "130/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Domáce langoše (kečup, syr)",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Pečená bravčová krkovička, strapačky s kyslou kapustou",
+          "weight": "120/240 g"
+        }
+      ],
+      "extra": {
+        "name": "Kyslá uhorka",
+        "weight": "120 g",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-18",
+      "label": "Streda 18. 11. 2026",
+      "soup": {
+        "name": "Slepačí vývar s rezancami",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Vege špagety bolognese so šošovicou",
+          "weight": "350 g"
+        },
+        {
+          "code": "B",
+          "name": "Kurací stroganov, ryža (smotana, šampiňóny, uhorky)",
+          "weight": "130/200 g"
+        },
+        {
+          "code": "C",
+          "name": "Domáce palacinky s nutellou, preliate horúcim lesným ovocím",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Zapekaný bravčový rezeň, varené maslové zemiaky (šamp., lečo, feferony, syr",
+          "weight": "120/240 g"
+        }
+      ],
+      "extra": {
+        "name": "Miešaný zeleninový šalát",
+        "weight": "120 g",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-19",
+      "label": "Štvrtok 19. 11. 2026",
+      "soup": {
+        "name": "Frankfurtská s párkom",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Morčacie kúsky na bylinkách, ryža",
+          "weight": "130/200 g"
+        },
+        {
+          "code": "B",
+          "name": "Bravčové rizoto",
+          "weight": "350 g"
+        },
+        {
+          "code": "C",
+          "name": "Fazuľový prívarok s údeným mäskom, chlieb",
+          "weight": "400 g"
+        },
+        {
+          "code": "D",
+          "name": "Kurací rezeň ,,naopak\", zemiaková kaša",
+          "weight": "120/240 g"
+        }
+      ],
+      "extra": {
+        "name": "Ovocný kompót",
+        "weight": "120 g",
+        "price": "1.00 €"
+      }
+    },
+    {
+      "date": "2026-11-20",
+      "label": "Piatok 20. 11. 2026",
+      "soup": {
+        "name": "Krúpová so zeleninou",
+        "weight": ""
+      },
+      "meals": [
+        {
+          "code": "A",
+          "name": "Kura na paprike, cestovina",
+          "weight": "130/230 g"
+        },
+        {
+          "code": "B",
+          "name": "Vyprážaný syr so šunkou, varené zemiaky, tatárska omáčka",
+          "weight": "130/240 g"
+        },
+        {
+          "code": "C",
+          "name": "Zemiakové slivkové pirohy s makom",
+          "weight": "350 g"
+        },
+        {
+          "code": "D",
+          "name": "Sviečková na smotane, domáca parená knedľa",
+          "weight": "120/180 g"
+        }
+      ],
+      "extra": {
+        "name": "Čalamáda",
+        "weight": "120 g",
+        "price": "1.00 €"
+      }
+    }
+  ]
+}
